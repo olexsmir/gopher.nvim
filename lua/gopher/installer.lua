@@ -11,7 +11,7 @@ local function install(pkg)
       command = "go",
       args = { "install", url },
       on_exit = function(_, ret_val)
-        if ret_val ~= nil then
+        if ret_val ~= 0 then
           print("command exited with code " .. ret_val)
           return
         end
