@@ -1,6 +1,8 @@
 local Job = require "plenary.job"
 local M = {
-  urls = {},
+  urls = {
+    gomodifytags = "github.com/fatih/gomodifytags",
+  },
 }
 
 local function install(pkg)
