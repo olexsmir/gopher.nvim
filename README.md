@@ -2,36 +2,47 @@
 
 Minimalistic plugin for Go development in Neovim written in Lua.
 
-It's not an LSP tool, the main goal of this plugin add go tooling support in neovim
+It's not an LSP tool, the main goal of this plugin add go tooling support in neovim.
 
 ## Install
+
 Pre-dependency: [go](https://github.com/golang/go) (tested on 1.17 and 1.18)
 
 ```lua
 use {
-    "olexsmir/gopher.nvim",
-    requires = {
-        "nvim-lua/plenary.nvim", -- dependencie
-        "nvim-treesitter/nvim-treesitter", -- dependencie
-    },
+  "olexsmir/gopher.nvim",
+  requires = {
+    "nvim-lua/plenary.nvim", -- dependencie
+    "nvim-treesitter/nvim-treesitter", -- dependencie
+  },
 }
 ```
 
 Also, run `TSInstall go` if install the `go` parser if not installed yet.
 
 ## Features
+
 1. Install requires go tools:
-```lua
-require"gopher".install_deps()
+
+```viml
+:GoInstallDeps
 ```
 
-1. Modify struct tags by:
-`json` default tag for add & remove
+1. Modify struct tags:
+By default be added/removed `json` tag, if not set.
 
-```lua
-require"gopher".tags_add("json") -- add json tag
-require"gopher".tags_rm("json")  -- remove json tag
+```viml
+:GoTagAdd json " For add json tag
+:GoTagRm yaml " For remove yaml tag
 ```
 
-## Thanks:
+1. Run `go mod` command
+
+```viml
+:GoMod tidy " Runs `go mod tidy`
+:GoMod init asdf " Runs `go mod init asdf`
+```
+
+## Thanks
+
 - [go.nvim](https://github.com/ray-x/go.nvim)
