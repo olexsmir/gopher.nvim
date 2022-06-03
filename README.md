@@ -11,6 +11,7 @@ Pre-dependency: [go](https://github.com/golang/go) (tested on 1.17 and 1.18)
 use {
     "olexsmir/gopher.nvim",
     requires = {
+        "nvim-lua/plenary.nvim", -- dependencie
         "nvim-treesitter/nvim-treesitter", -- dependencie
     },
 }
@@ -31,3 +32,6 @@ require"gopher".install_deps()
 require"gopher".tags_add("json") -- add json tag
 require"gopher".tags_rm("json")  -- remove json tag
 ```
+
+## Thanks:
+- [go.nvim](https://github.com/ray-x/go.nvim)
