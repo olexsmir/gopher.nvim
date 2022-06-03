@@ -12,8 +12,10 @@ return function(...)
         if retval ~= 0 then
           print("command exited with code " .. retval)
           return
+        else
+          print "command runs successfully"
         end
       end,
     })
-    :sync()
+    :start()
 end
