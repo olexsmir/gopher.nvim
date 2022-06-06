@@ -43,6 +43,15 @@ By default be added/removed `json` tag, if not set.
 :GoMod init asdf " Runs `go mod init asdf`
 ```
 
+1. Run `go get` command
+Link can has a `http` or `https` prefix.
+
+You can provide more that one package url.
+
+```viml
+:GoGet github.com/gorilla/mux
+```
+
 ## Thanks
 
 - [go.nvim](https://github.com/ray-x/go.nvim)
