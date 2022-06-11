@@ -11,9 +11,9 @@ Pre-dependency: [go](https://github.com/golang/go) (tested on 1.17 and 1.18)
 ```lua
 use {
   "olexsmir/gopher.nvim",
-  requires = {
-    "nvim-lua/plenary.nvim", -- dependencie
-    "nvim-treesitter/nvim-treesitter", -- dependencie
+  requires = { -- dependencies
+    "nvim-lua/plenary.nvim",
+    "nvim-treesitter/nvim-treesitter",
   },
 }
 ```
@@ -23,12 +23,15 @@ Also, run `TSInstall go` if install the `go` parser if not installed yet.
 ## Features
 
 1. Install requires go tools:
+This will install next tools:
+
+- [gomodifytags](https://github.com/fatih/gomodifytags)
 
 ```viml
 :GoInstallDeps
 ```
 
-1. Modify struct tags:
+2. Modify struct tags:
 By default be added/removed `json` tag, if not set.
 
 ```viml
@@ -36,14 +39,15 @@ By default be added/removed `json` tag, if not set.
 :GoTagRm yaml " For remove yaml tag
 ```
 
-1. Run `go mod` command
+3. Run `go mod` command
 
 ```viml
 :GoMod tidy " Runs `go mod tidy`
 :GoMod init asdf " Runs `go mod init asdf`
 ```
 
-1. Run `go get` command
+4. Run `go get` command
+
 Link can has a `http` or `https` prefix.
 
 You can provide more that one package url.
