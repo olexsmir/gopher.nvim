@@ -23,25 +23,27 @@ Also, run `TSInstall go` if install the `go` parser if not installed yet.
 ## Features
 
 1. Install requires go tools:
+
+```vim
+:GoInstallDeps
+```
+
 This will install next tools:
 
 - [gomodifytags](https://github.com/fatih/gomodifytags)
-
-```viml
-:GoInstallDeps
-```
+- [impl](https://github.com/josharian/impl)
 
 2. Modify struct tags:
 By default be added/removed `json` tag, if not set.
 
-```viml
+```vim
 :GoTagAdd json " For add json tag
 :GoTagRm yaml " For remove yaml tag
 ```
 
 3. Run `go mod` command
 
-```viml
+```vim
 :GoMod tidy " Runs `go mod tidy`
 :GoMod init asdf " Runs `go mod init asdf`
 ```
@@ -52,8 +54,26 @@ Link can has a `http` or `https` prefix.
 
 You can provide more that one package url.
 
-```viml
+```vim
 :GoGet github.com/gorilla/mux
+```
+
+5. Interface implementation
+
+Command syntax:
+```vim
+:GoImpl [receiver] [interface]
+
+" Also you can put cursor on the struct and run:
+:GoImpl [interface]
+```
+
+Example of usage:
+```vim
+" Example
+:GoImpl r Read io.Reader
+" or simply put your cursor in the struct and run:
+:GoImpl io.Reader
 ```
 
 ## Thanks

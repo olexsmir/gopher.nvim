@@ -2,6 +2,7 @@ local Job = require "plenary.job"
 local M = {
   urls = {
     gomodifytags = "github.com/fatih/gomodifytags",
+    impl = "github.com/josharian/impl",
   },
 }
 
