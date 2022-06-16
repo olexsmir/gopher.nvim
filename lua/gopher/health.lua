@@ -8,6 +8,7 @@ local M = {
     binarys = {
       { bin = "go", help = "required for GoMod command" },
       { bin = "gomodifytags", help = "required for modify struct tags" },
+      { bin = "impl", help = "required for interface implementing" },
     },
   },
 }
