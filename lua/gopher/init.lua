@@ -1,7 +1,7 @@
 local tags = require "gopher.struct_tags"
 local gopher = {}
 
-gopher.install_deps = require("gopher.installer").install_all
+gopher.install_deps = require "gopher.installer"
 gopher.tags_add = tags.add
 gopher.tags_rm = tags.remove
 gopher.mod = require "gopher.gomod"

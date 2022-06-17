@@ -1,13 +1,11 @@
 local Job = require "plenary.job"
-local M = {
-  urls = {
-    gomodifytags = "github.com/fatih/gomodifytags",
-    impl = "github.com/josharian/impl",
-  },
+local urls = {
+  gomodifytags = "github.com/fatih/gomodifytags",
+  impl = "github.com/josharian/impl",
 }
 
 local function install(pkg)
-  local url = M.urls[pkg] .. "@latest"
+  local url = urls[pkg] .. "@latest"
 
   Job
     :new({
@@ -26,10 +24,8 @@ local function install(pkg)
 end
 
 ---Install required go deps
-function M.install_all()
-  for pkg, _ in pairs(M.urls) do
+return function()
+  for pkg, _ in pairs(urls) do
     install(pkg)
   end
 end
-
-return M
