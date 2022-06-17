@@ -6,7 +6,7 @@ repos:
     language: rust
     entry: stylua
     types: [lua]
-    args: ["-"]
+    args: ["--check", "-"]
   - id: selene
     name: Selene
     language: rust
