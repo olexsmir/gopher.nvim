@@ -45,4 +45,13 @@ function M.func_test(parallel)
   add_test(cmd_args)
 end
 
+function M.all_tests(parallel)
+  local cmd_args = { "-all" }
+  if parallel then
+    table.insert(cmd_args, "-parallel")
+  end
+
+  add_test(cmd_args)
+end
+
 return M
