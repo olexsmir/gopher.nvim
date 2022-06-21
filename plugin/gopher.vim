@@ -1,5 +1,6 @@
 command! -nargs=* GoTagAdd :lua require"gopher".tags_add(<f-args>)
 command! -nargs=* GoTagRm :lua require"gopher".tags_rm(<f-args>)
+command! -nargs=* GoTestAdd :lua require"gopher".test_add(<f-args>)
 command! -nargs=* GoMod :lua require"gopher".mod(<f-args>)
 command! -nargs=* GoGet :lua require"gopher".get(<f-args>)
 command! -nargs=* GoImpl :lua require"gopher".impl(<f-args>)

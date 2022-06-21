@@ -3,7 +3,6 @@
 Minimalistic plugin for Go development in Neovim written in Lua.
 
 It's not an LSP tool, the main goal of this plugin add go tooling support in neovim.
-
 ## Install
 
 Pre-dependency: [go](https://github.com/golang/go) (tested on 1.17 and 1.18)
@@ -32,6 +31,7 @@ This will install next tools:
 
 - [gomodifytags](https://github.com/fatih/gomodifytags)
 - [impl](https://github.com/josharian/impl)
+- [gotests](https://github.com/cweill/gotests)
 
 2. Modify struct tags:
 By default be added/removed `json` tag, if not set.
@@ -78,7 +78,15 @@ Example of usage:
 :GoImpl io.Reader
 ```
 
-5. Run `go generate` command
+6. Generate tests with [gotests](https://github.com/cweill/gotests)
+
+Generate one test for spesific function/method
+
+```vim
+:GoTestAdd
+```
+
+7. Run `go generate` command
 
 ```vim
 " Run `go generate` in cwd path
