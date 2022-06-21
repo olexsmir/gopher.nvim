@@ -61,6 +61,7 @@ You can provide more that one package url.
 5. Interface implementation
 
 Command syntax:
+
 ```vim
 :GoImpl [receiver] [interface]
 
@@ -69,11 +70,22 @@ Command syntax:
 ```
 
 Example of usage:
+
 ```vim
 " Example
 :GoImpl r Read io.Reader
 " or simply put your cursor in the struct and run:
 :GoImpl io.Reader
+```
+
+5. Run `go generate` command
+
+```vim
+" Run `go generate` in cwd path
+:GoGenerate
+
+" Run `go generate` for current file
+:GoGenerate %
 ```
 
 ## Thanks
