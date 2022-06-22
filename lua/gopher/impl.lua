@@ -1,6 +1,7 @@
 local Job = require "plenary.job"
 local ts_utils = require "gopher._utils.ts"
 
+---@return string
 local function get_struct()
   local ns = ts_utils.get_struct_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil then
@@ -68,7 +69,4 @@ return function(...)
   local pos = vim.fn.getcurpos()[2]
   table.insert(res_data, 1, "")
   vim.fn.append(pos, res_data)
-
-  -- table.insert(res_data, 1, "")
-  -- vim.fn.append(vim.fn.getcurpos()[2], res_data)
 end

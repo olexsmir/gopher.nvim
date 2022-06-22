@@ -45,6 +45,8 @@ function M.func_test(parallel)
   add_test(cmd_args)
 end
 
+---generate unit tests for all functions in current file
+---@param parallel boolean
 function M.all_tests(parallel)
   local cmd_args = { "-all" }
   if parallel then

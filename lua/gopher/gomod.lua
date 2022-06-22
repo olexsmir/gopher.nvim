@@ -1,5 +1,6 @@
 local Job = require "plenary.job"
 
+---run "go mod"
 return function(...)
   local args = { ... }
   local cmd_args = vim.list_extend({ "mod" }, args)

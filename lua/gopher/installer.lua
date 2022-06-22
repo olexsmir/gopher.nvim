@@ -5,6 +5,7 @@ local urls = {
   gotests = "github.com/cweill/gotests",
 }
 
+---@param pkg string
 local function install(pkg)
   local url = urls[pkg] .. "@latest"
 

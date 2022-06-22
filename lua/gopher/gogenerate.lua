@@ -1,5 +1,6 @@
 local Job = require "plenary.job"
 
+---run "go generate"
 return function(...)
   local args = { ... }
   if #args == 1 and args[1] == "%" then

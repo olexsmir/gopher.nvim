@@ -18,9 +18,9 @@ local function get_name_defaults()
   }
 end
 
----@param row any
----@param col any
----@param bufnr any
+---@param row string
+---@param col string
+---@param bufnr string
 ---@return table|nil
 function M.get_struct_node_at_pos(row, col, bufnr)
   local query = M.querys.struct_block .. " " .. M.querys.em_struct_block
@@ -33,6 +33,10 @@ function M.get_struct_node_at_pos(row, col, bufnr)
   end
 end
 
+---@param row string
+---@param col string
+---@param bufnr string
+---@return table|nil
 function M.get_func_method_node_at_pos(row, col, bufnr)
   local query = M.querys.func .. " " .. M.querys.method_name
   local bufn = bufnr or vim.api.nvim_get_current_buf()

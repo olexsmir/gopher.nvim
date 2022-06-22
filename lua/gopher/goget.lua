@@ -1,5 +1,6 @@
 local Job = require "plenary.job"
 
+---run "go get"
 return function(...)
   local args = { ... }
   for i, arg in ipairs(args) do
