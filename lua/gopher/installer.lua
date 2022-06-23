@@ -22,7 +22,7 @@ local function install(pkg)
         print("install " .. url .. " finished")
       end,
     })
-    :sync()
+    :start()
 end
 
 ---Install required go deps
