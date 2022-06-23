@@ -56,4 +56,16 @@ function M.all_tests(parallel)
   add_test(cmd_args)
 end
 
+---generate unit tests for all exported functions
+---@param parallel boolean
+function M.all_exported_tests(parallel)
+  local cmd_args = {}
+  if parallel then
+    table.insert(cmd_args, "-parallel")
+  end
+
+  table.insert(cmd_args, "-exported")
+  add_test(cmd_args)
+end
+
 return M

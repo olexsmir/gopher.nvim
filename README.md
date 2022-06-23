@@ -93,6 +93,12 @@ Generate all tests for all functions/methods in current file
 :GoTestsAll
 ```
 
+Generate tests only for exported functions/methods in current file
+
+```vim
+:GoTestsExp
+```
+
 7. Run `go generate` command
 
 ```vim
