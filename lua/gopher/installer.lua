@@ -2,7 +2,7 @@ local Job = require "plenary.job"
 local urls = {
   gomodifytags = "github.com/fatih/gomodifytags",
   impl = "github.com/josharian/impl",
-  gotests = "github.com/cweill/gotests",
+  gotests = "github.com/cweill/gotests/...",
 }
 
 ---@param pkg string
