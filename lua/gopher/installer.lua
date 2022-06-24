@@ -1,4 +1,5 @@
 local Job = require "plenary.job"
+local u = require "gopher._utils"
 local urls = {
   gomodifytags = "github.com/fatih/gomodifytags",
   impl = "github.com/josharian/impl",
@@ -13,13 +14,13 @@ local function install(pkg)
     :new({
       command = "go",
       args = { "install", url },
-      on_exit = function(_, ret_val)
-        if ret_val ~= 0 then
-          print("command exited with code " .. ret_val)
+      on_exit = function(_, retval)
+        if retval ~= 0 then
+          u.notify("command 'go install " .. url .. "' exited with code " .. retval, "error")
           return
         end
 
-        print("install " .. url .. " finished")
+        u.notify("install " .. url .. " finished", "info ")
       end,
     })
     :start()

@@ -1,4 +1,5 @@
 local Job = require "plenary.job"
+local u = require "gopher._utils"
 
 ---run "go get"
 return function(...)
@@ -17,11 +18,11 @@ return function(...)
       args = cmd_args,
       on_exit = function(_, retval)
         if retval ~= 0 then
-          print("command exited with code " .. retval)
+          u.notify("command 'go " .. unpack(cmd_args) .. "' exited with code " .. retval, "error")
           return
-        else
-          print "command runs successfully"
         end
+
+        u.notify("go get was success runned", "info")
       end,
     })
     :start()

@@ -1,11 +1,12 @@
 local Job = require "plenary.job"
 local ts_utils = require "gopher._utils.ts"
+local u = require "gopher._utils"
 
 ---@return string
 local function get_struct()
   local ns = ts_utils.get_struct_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil then
-    print "put cursor on struct or specify a receiver"
+    u.notify("put cursor on a struct or specify a receiver", "info")
     return ""
   end
 
@@ -26,7 +27,8 @@ return function(...)
     iface = vim.fn.input "impl: generating method stubs for interface: "
     vim.cmd "redeaw!"
     if iface == "" then
-      print "usage: GoImpl f *File io.Reader"
+      u.notify("usage: GoImpl f *File io.Reader", "info")
+      return
     end
   elseif #args == 1 then -- :GoImpl io.Reader
     recv = string.lower(recv) .. " *" .. recv
@@ -57,7 +59,7 @@ return function(...)
       args = cmd_args,
       on_exit = function(data, retval)
         if retval ~= 0 then
-          print("command exited with code " .. retval)
+          u.notify("command 'impl " .. unpack(cmd_args) .. "' exited with code " .. retval, "error")
           return
         end
 

@@ -1,6 +1,6 @@
 local Job = require "plenary.job"
 local ts_utils = require "gopher._utils.ts"
-local utils = require "gopher._utils"
+local u = require "gopher._utils"
 local M = {}
 
 local function modify(...)
@@ -46,7 +46,10 @@ local function modify(...)
       args = cmd_args,
       on_exit = function(data, retval)
         if retval ~= 0 then
-          print("command exited with code " .. retval)
+          u.notify(
+            "command 'gomodifytags " .. unpack(cmd_args) .. "' exited with code " .. retval,
+            "error"
+          )
           return
         end
 
@@ -63,11 +66,11 @@ local function modify(...)
     or tagged["start"] == nil
     or tagged["start"] == 0
   then
-    print("failed to set tags " .. vim.inspect(tagged))
+    u.notify("failed to set tags " .. vim.inspect(tagged), "error")
   end
 
   for i, v in ipairs(tagged.lines) do
-    tagged.lines[i] = utils.rtrim(v)
+    tagged.lines[i] = u.rtrim(v)
   end
 
   -- write goted tags

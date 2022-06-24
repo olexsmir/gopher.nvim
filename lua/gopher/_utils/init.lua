@@ -36,4 +36,12 @@ return {
 
     return false
   end,
+
+  ---@param msg string
+  ---@param lvl string
+  notify = function(msg, lvl)
+    vim.defer_fn(function()
+      vim.notify(msg, lvl)
+    end, 0)
+  end,
 }

@@ -1,5 +1,6 @@
 local Job = require "plenary.job"
 local ts_utils = require "gopher._utils.ts"
+local u = require "gopher._utils"
 local M = {}
 
 ---@param cmd_args table
@@ -10,11 +11,11 @@ local function run(cmd_args)
       args = cmd_args,
       on_exit = function(_, retval)
         if retval ~= 0 then
-          print("command exited with code " .. retval)
+          u.notify("command 'go " .. unpack(cmd_args) .. "' exited with code " .. retval, "error")
           return
         end
 
-        print "unit test(s) generated"
+        u.notify("unit test(s) generated", "info")
       end,
     })
     :start()
