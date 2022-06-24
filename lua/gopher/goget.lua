@@ -4,6 +4,11 @@ local u = require "gopher._utils"
 ---run "go get"
 return function(...)
   local args = { ... }
+  if #args == 0 then
+    u.notify("please provide a package url to get", "error")
+    return
+  end
+
   for i, arg in ipairs(args) do
     local m = string.match(arg, "^https://(.*)$") or string.match(arg, "^http://(.*)$") or arg
     table.remove(args, i)

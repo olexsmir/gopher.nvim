@@ -4,6 +4,11 @@ local u = require "gopher._utils"
 ---run "go mod"
 return function(...)
   local args = { ... }
+  if #args == 0 then
+    u.notify("please provide any mod command", "error")
+    return
+  end
+
   local cmd_args = vim.list_extend({ "mod" }, args)
 
   Job
