@@ -1,6 +1,7 @@
 local ts_query = require "nvim-treesitter.query"
 local parsers = require "nvim-treesitter.parsers"
 local locals = require "nvim-treesitter.locals"
+local u = require "gopher._utils"
 local M = {}
 
 local function intersects(row, col, sRow, sCol, eRow, eCol)
@@ -120,13 +121,13 @@ function M.nodes_at_cursor(query, default, bufnr, row, col)
 
   local nodes = M.get_all_nodes(query, ft, default, bufnr, row, col)
   if nodes == nil then
-    print "Unable to find any nodes. place your cursor on a go symbol and try again"
+    u.notify("Unable to find any nodes. Place your cursor on a go symbol and try again", "debug")
     return nil
   end
 
   nodes = M.sort_nodes(M.intersect_nodes(nodes, row, col))
   if nodes == nil or #nodes == 0 then
-    print("Unable to find any nodes at pos. " .. tostring(row) .. ":" .. tostring(col))
+    u.notify("Unable to find any nodes at pos. " .. tostring(row) .. ":" .. tostring(col), "debug")
     return nil
   end
 

@@ -1,4 +1,5 @@
 local nodes = require "gopher._utils.ts.nodes"
+local u = require "gopher._utils"
 local M = {
   querys = {
     struct_block = [[((type_declaration (type_spec name:(type_identifier) @struct.name type: (struct_type)))@struct.declaration)]],
@@ -27,7 +28,7 @@ function M.get_struct_node_at_pos(row, col, bufnr)
   local bufn = bufnr or vim.api.nvim_get_current_buf()
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
-    print "struct not found"
+    u.notify("struct not found", "warn")
   else
     return ns[#ns]
   end
@@ -42,7 +43,7 @@ function M.get_func_method_node_at_pos(row, col, bufnr)
   local bufn = bufnr or vim.api.nvim_get_current_buf()
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
-    print "func not found"
+    u.notify("function not found", "warn")
   else
     return ns[#ns]
   end
