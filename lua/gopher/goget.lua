@@ -1,4 +1,5 @@
 local Job = require "plenary.job"
+local c = require("gopher.config").config.commands
 local u = require "gopher._utils"
 
 ---run "go get"
@@ -19,7 +20,7 @@ return function(...)
 
   Job
     :new({
-      command = "go",
+      command = c.go,
       args = cmd_args,
       on_exit = function(_, retval)
         if retval ~= 0 then

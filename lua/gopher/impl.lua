@@ -1,5 +1,6 @@
 local Job = require "plenary.job"
 local ts_utils = require "gopher._utils.ts"
+local c = require("gopher.config").config.commands
 local u = require "gopher._utils"
 
 ---@return string
@@ -55,7 +56,7 @@ return function(...)
   local res_data
   Job
     :new({
-      command = "impl",
+      command = c.impl,
       args = cmd_args,
       on_exit = function(data, retval)
         if retval ~= 0 then

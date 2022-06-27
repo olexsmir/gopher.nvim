@@ -1,5 +1,6 @@
 local Job = require "plenary.job"
 local ts_utils = require "gopher._utils.ts"
+local c = require("gopher.config").config.commands
 local u = require "gopher._utils"
 local M = {}
 
@@ -7,7 +8,7 @@ local M = {}
 local function run(cmd_args)
   Job
     :new({
-      command = "gotests",
+      command = c.gotests,
       args = cmd_args,
       on_exit = function(_, retval)
         if retval ~= 0 then

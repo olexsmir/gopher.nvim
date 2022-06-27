@@ -1,4 +1,5 @@
 local utils = require "gopher._utils"
+local c = require("gopher.config").config.commands
 local M = {
   _required = {
     plugins = {
@@ -6,10 +7,10 @@ local M = {
       { lib = "nvim-treesitter" },
     },
     binarys = {
-      { bin = "go", help = "required for GoMod, GoGet, GoGenerate command" },
-      { bin = "gomodifytags", help = "required for modify struct tags" },
-      { bin = "impl", help = "required for interface implementing" },
-      { bin = "gotests", help = "required for test(s) generation" },
+      { bin = c.go, help = "required for GoMod, GoGet, GoGenerate command" },
+      { bin = c.gomodifytags, help = "required for modify struct tags" },
+      { bin = c.impl, help = "required for interface implementing" },
+      { bin = c.gotests, help = "required for test(s) generation" },
     },
   },
 }

@@ -1,6 +1,7 @@
 local Job = require "plenary.job"
 local ts_utils = require "gopher._utils.ts"
 local u = require "gopher._utils"
+local c = require("gopher.config").config.commands
 local M = {}
 
 local function modify(...)
@@ -42,7 +43,7 @@ local function modify(...)
   local res_data
   Job
     :new({
-      command = "gomodifytags",
+      command = c.gomodifytags,
       args = cmd_args,
       on_exit = function(data, retval)
         if retval ~= 0 then
