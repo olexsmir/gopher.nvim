@@ -20,6 +20,25 @@ use {
 
 Also, run `TSInstall go` if install the `go` parser if not installed yet.
 
+## Config
+
+By `.setup` function you can configure the plugin.
+
+Note:
+
+- Installer does not install the tool in user set path
+
+```lua
+require("gopher").setup {
+  commands = {
+    go = "go",
+    gomodifytags = "gomodifytags",
+    gotests = "~/go/bin/gotests", -- also you can set custom command path
+    impl = "impl",
+  },
+}
+```
+
 ## Features
 
 1. Install requires go tools:
