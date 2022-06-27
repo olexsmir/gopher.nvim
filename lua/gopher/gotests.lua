@@ -34,7 +34,7 @@ end
 function M.func_test(parallel)
   local ns = ts_utils.get_func_method_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil or ns.name == nil then
-    print "cursor on func/method and execute the command again"
+    u.notify("cursor on func/method and execute the command again", "info")
     return
   end
 
