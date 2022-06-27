@@ -10,7 +10,7 @@ local M = {
   },
 }
 
----PLugin setup function
+---Plugin setup function
 ---@param opts table user options
 function M.setup(opts)
   M.config = vim.tbl_deep_extend("force", M.config, opts)
