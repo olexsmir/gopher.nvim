@@ -5,6 +5,7 @@ local M = {
     struct_block = [[((type_declaration (type_spec name:(type_identifier) @struct.name type: (struct_type)))@struct.declaration)]],
     em_struct_block = [[(field_declaration name:(field_identifier)@struct.name type: (struct_type)) @struct.declaration]],
     package = [[(package_clause (package_identifier)@package.name)@package.clause]],
+    interface = [[((type_declaration (type_spec name:(type_identifier) @interface.name type:(interface_type)))@interface.declaration)]],
     method_name = [[((method_declaration receiver: (parameter_list)@method.receiver name: (field_identifier)@method.name body:(block))@method.declaration)]],
     func = [[((function_declaration name: (identifier)@function.name) @function.declaration)]],
   },
@@ -63,6 +64,21 @@ function M.get_package_node_at_pos(row, col, bufnr)
   if ns == nil then
     u.notify("package not found", "warn")
     return nil
+  else
+    return ns[#ns]
+  end
+end
+
+---@param row string
+---@param col string
+---@param bufnr string
+---@return table|nil
+function M.get_interface_node_at_pos(row, col, bufnr)
+  local query = M.querys.interface
+  local bufn = bufnr or vim.api.nvim_get_current_buf()
+  local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
+  if ns == nil then
+    u.notify("interface not found", "warn")
   else
     return ns[#ns]
   end
