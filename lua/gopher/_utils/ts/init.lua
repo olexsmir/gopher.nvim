@@ -23,7 +23,7 @@ end
 
 ---@param row string
 ---@param col string
----@param bufnr string
+---@param bufnr string|nil
 ---@return table|nil
 function M.get_struct_node_at_pos(row, col, bufnr)
   local query = M.querys.struct_block .. " " .. M.querys.em_struct_block
@@ -38,7 +38,7 @@ end
 
 ---@param row string
 ---@param col string
----@param bufnr string
+---@param bufnr string|nil
 ---@return table|nil
 function M.get_func_method_node_at_pos(row, col, bufnr)
   local query = M.querys.func .. " " .. M.querys.method_name
@@ -53,7 +53,7 @@ end
 
 ---@param row string
 ---@param col string
----@param bufnr string
+---@param bufnr string|nil
 ---@return table|nil
 function M.get_package_node_at_pos(row, col, bufnr)
   -- stylua: ignore
@@ -71,7 +71,7 @@ end
 
 ---@param row string
 ---@param col string
----@param bufnr string
+---@param bufnr string|nil
 ---@return table|nil
 function M.get_interface_node_at_pos(row, col, bufnr)
   local query = M.querys.interface
