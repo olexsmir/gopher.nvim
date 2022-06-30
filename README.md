@@ -128,6 +128,14 @@ Generate tests only for exported functions/methods in current file
 :GoGenerate %
 ```
 
+8. Generate doc comment
+
+First set a cursor on **public** package/function/interface/struct and execure:
+
+```vim
+:GoCmt
+```
+
 ## Thanks
 
 - [go.nvim](https://github.com/ray-x/go.nvim)
