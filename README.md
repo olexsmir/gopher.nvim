@@ -70,9 +70,9 @@ By default `json` tag will be added/removed, if not set:
 
 4. Run `go get` command
 
-Link has a `http` or `https` prefix.
+Link can have a `http` or `https` prefix.
 
-You can provide more that one package url:
+You can provide more than one package url:
 
 ```vim
 :GoGet github.com/gorilla/mux
