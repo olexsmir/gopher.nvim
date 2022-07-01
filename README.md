@@ -68,7 +68,7 @@ By default `json` tag will be added/removed, if not set:
 :GoMod init asdf " Runs `go mod init asdf`
 ```
 
-4. Run `go get`command
+4. Run `go get` command
 
 Link has a `http` or `https` prefix.
 
