@@ -2,7 +2,7 @@
 
 Minimalistic plugin for Go development in Neovim written in Lua.
 
-It's not an LSP tool, the main goal of this plugin add go tooling support in neovim.
+It's not an LSP tool, the main goal of this plugin is add go tooling support in Neovim.
 
 ## Install
 
@@ -18,7 +18,7 @@ use {
 }
 ```
 
-Also, run `TSInstall go` if install the `go` parser if not installed yet.
+Also, run `TSInstall go` if `go` parser if isn't installed yet.
 
 ## Config
 
@@ -41,38 +41,38 @@ require("gopher").setup {
 
 ## Features
 
-1. Install requires go tools:
+1. Installation requires this go tool:
 
 ```vim
 :GoInstallDeps
 ```
 
-This will install next tools:
+It will install next tools:
 
 - [gomodifytags](https://github.com/fatih/gomodifytags)
 - [impl](https://github.com/josharian/impl)
 - [gotests](https://github.com/cweill/gotests)
 
 2. Modify struct tags:
-By default be added/removed `json` tag, if not set.
+By default `json` tag will be added/removed, if not set:
 
 ```vim
 :GoTagAdd json " For add json tag
 :GoTagRm yaml " For remove yaml tag
 ```
 
-3. Run `go mod` command
+3. Run `go mod` command:
 
 ```vim
 :GoMod tidy " Runs `go mod tidy`
 :GoMod init asdf " Runs `go mod init asdf`
 ```
 
-4. Run `go get` command
+4. Run `go get`command
 
-Link can has a `http` or `https` prefix.
+Link has a `http` or `https` prefix.
 
-You can provide more that one package url.
+You can provide more that one package url:
 
 ```vim
 :GoGet github.com/gorilla/mux
@@ -100,25 +100,25 @@ Example of usage:
 
 6. Generate tests with [gotests](https://github.com/cweill/gotests)
 
-Generate one test for spesific function/method
+Generate one test for spesific function/method:
 
 ```vim
 :GoTestAdd
 ```
 
-Generate all tests for all functions/methods in current file
+Generate all tests for all functions/methods in current file:
 
 ```vim
 :GoTestsAll
 ```
 
-Generate tests only for exported functions/methods in current file
+Generate tests only for exported functions/methods in current file:
 
 ```vim
 :GoTestsExp
 ```
 
-7. Run `go generate` command
+7. Run `go generate` command;
 
 ```vim
 " Run `go generate` in cwd path
@@ -136,6 +136,6 @@ First set a cursor on **public** package/function/interface/struct and execure:
 :GoCmt
 ```
 
-## Thanks
+## Thanks:
 
 - [go.nvim](https://github.com/ray-x/go.nvim)
