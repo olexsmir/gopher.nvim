@@ -1,5 +1,7 @@
+local health = vim.health or require "health"
 local utils = require "gopher._utils"
 local c = require("gopher.config").config.commands
+
 local M = {
   _required = {
     plugins = {
@@ -16,21 +18,21 @@ local M = {
 }
 
 function M.check()
-  vim.health.report_start "Required plugins"
+  health.report_start "Required plugins"
   for _, plugin in ipairs(M._required.plugins) do
     if utils.lualib_is_found(plugin.lib) then
-      vim.health.report_ok(plugin.lib .. " installed.")
+      health.report_ok(plugin.lib .. " installed.")
     else
-      vim.health.report_error(plugin.lib .. " not found. Gopher.nvim will not work without it!")
+      health.report_error(plugin.lib .. " not found. Gopher.nvim will not work without it!")
     end
   end
 
-  vim.health.report_start "Required go tools"
+  health.report_start "Required go tools"
   for _, binary in ipairs(M._required.binarys) do
     if utils.binary_is_found(binary.bin) then
-      vim.health.report_ok(binary.bin .. " installed")
+      health.report_ok(binary.bin .. " installed")
     else
-      vim.health.report_warn(binary.bin .. " is not installed but " .. binary.help)
+      health.report_warn(binary.bin .. " is not installed but " .. binary.help)
     end
   end
 end
