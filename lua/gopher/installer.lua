@@ -4,6 +4,7 @@ local urls = {
   gomodifytags = "github.com/fatih/gomodifytags",
   impl = "github.com/josharian/impl",
   gotests = "github.com/cweill/gotests/...",
+  iferr = "github.com/koron/iferr",
 }
 
 ---@param pkg string
