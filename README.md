@@ -130,12 +130,20 @@ Generate tests only for exported functions/methods in current file:
 
 8. Generate doc comment
 
-First set a cursor on **public** package/function/interface/struct and execure:
+First set a cursor on **public** package/function/interface/struct and execute:
 
 ```vim
 :GoCmt
 ```
 
-## Thanks:
+9. Generate `if err`
+
+Set cursor on the line with **err** and execute:
+
+```vim
+:GoIfErr
+```
+
+## Thanks
 
 - [go.nvim](https://github.com/ray-x/go.nvim)
