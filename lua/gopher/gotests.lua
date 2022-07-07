@@ -6,20 +6,18 @@ local M = {}
 
 ---@param cmd_args table
 local function run(cmd_args)
-  Job
-    :new({
-      command = c.gotests,
-      args = cmd_args,
-      on_exit = function(_, retval)
-        if retval ~= 0 then
-          u.notify("command 'go " .. unpack(cmd_args) .. "' exited with code " .. retval, "error")
-          return
-        end
+  Job:new({
+    command = c.gotests,
+    args = cmd_args,
+    on_exit = function(_, retval)
+      if retval ~= 0 then
+        u.notify("command 'go " .. unpack(cmd_args) .. "' exited with code " .. retval, "error")
+        return
+      end
 
-        u.notify("unit test(s) generated", "info")
-      end,
-    })
-    :start()
+      u.notify("unit test(s) generated", "info")
+    end,
+  }):start()
 end
 
 ---@param args table

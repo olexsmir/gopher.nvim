@@ -54,20 +54,18 @@ return function(...)
   }
 
   local res_data
-  Job
-    :new({
-      command = c.impl,
-      args = cmd_args,
-      on_exit = function(data, retval)
-        if retval ~= 0 then
-          u.notify("command 'impl " .. unpack(cmd_args) .. "' exited with code " .. retval, "error")
-          return
-        end
+  Job:new({
+    command = c.impl,
+    args = cmd_args,
+    on_exit = function(data, retval)
+      if retval ~= 0 then
+        u.notify("command 'impl " .. unpack(cmd_args) .. "' exited with code " .. retval, "error")
+        return
+      end
 
-        res_data = data:result()
-      end,
-    })
-    :sync()
+      res_data = data:result()
+    end,
+  }):sync()
 
   local pos = vim.fn.getcurpos()[2]
   table.insert(res_data, 1, "")

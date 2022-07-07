@@ -41,23 +41,21 @@ local function modify(...)
 
   -- get result of "gomodifytags" works
   local res_data
-  Job
-    :new({
-      command = c.gomodifytags,
-      args = cmd_args,
-      on_exit = function(data, retval)
-        if retval ~= 0 then
-          u.notify(
-            "command 'gomodifytags " .. unpack(cmd_args) .. "' exited with code " .. retval,
-            "error"
-          )
-          return
-        end
+  Job:new({
+    command = c.gomodifytags,
+    args = cmd_args,
+    on_exit = function(data, retval)
+      if retval ~= 0 then
+        u.notify(
+          "command 'gomodifytags " .. unpack(cmd_args) .. "' exited with code " .. retval,
+          "error"
+        )
+        return
+      end
 
-        res_data = data:result()
-      end,
-    })
-    :sync()
+      res_data = data:result()
+    end,
+  }):sync()
 
   -- decode goted value
   local tagged = vim.json.decode(table.concat(res_data))

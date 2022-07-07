@@ -18,18 +18,16 @@ return function(...)
 
   local cmd_args = vim.list_extend({ "get" }, args)
 
-  Job
-    :new({
-      command = c.go,
-      args = cmd_args,
-      on_exit = function(_, retval)
-        if retval ~= 0 then
-          u.notify("command 'go " .. unpack(cmd_args) .. "' exited with code " .. retval, "error")
-          return
-        end
+  Job:new({
+    command = c.go,
+    args = cmd_args,
+    on_exit = function(_, retval)
+      if retval ~= 0 then
+        u.notify("command 'go " .. unpack(cmd_args) .. "' exited with code " .. retval, "error")
+        return
+      end
 
-        u.notify("go get was success runned", "info")
-      end,
-    })
-    :start()
+      u.notify("go get was success runned", "info")
+    end,
+  }):start()
 end

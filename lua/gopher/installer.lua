@@ -10,20 +10,18 @@ local urls = {
 local function install(pkg)
   local url = urls[pkg] .. "@latest"
 
-  Job
-    :new({
-      command = "go",
-      args = { "install", url },
-      on_exit = function(_, retval)
-        if retval ~= 0 then
-          u.notify("command 'go install " .. url .. "' exited with code " .. retval, "error")
-          return
-        end
+  Job:new({
+    command = "go",
+    args = { "install", url },
+    on_exit = function(_, retval)
+      if retval ~= 0 then
+        u.notify("command 'go install " .. url .. "' exited with code " .. retval, "error")
+        return
+      end
 
-        u.notify("install " .. url .. " finished", "info ")
-      end,
-    })
-    :start()
+      u.notify("install " .. url .. " finished", "info ")
+    end,
+  }):start()
 end
 
 ---Install required go deps
