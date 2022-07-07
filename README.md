@@ -35,6 +35,7 @@ require("gopher").setup {
     gomodifytags = "gomodifytags",
     gotests = "~/go/bin/gotests", -- also you can set custom command path
     impl = "impl",
+    iferr = "iferr",
   },
 }
 ```
@@ -52,6 +53,7 @@ It will install next tools:
 - [gomodifytags](https://github.com/fatih/gomodifytags)
 - [impl](https://github.com/josharian/impl)
 - [gotests](https://github.com/cweill/gotests)
+- [iferr](https://github.com/koron/iferr)
 
 2. Modify struct tags:
 By default `json` tag will be added/removed, if not set:
