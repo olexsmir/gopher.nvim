@@ -146,6 +146,9 @@ Set cursor on the line with **err** and execute:
 :GoIfErr
 ```
 
+## Contributing
+PRs are always welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md)
+
 ## Thanks
 
 - [go.nvim](https://github.com/ray-x/go.nvim)
