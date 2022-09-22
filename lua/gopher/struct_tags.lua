@@ -7,7 +7,7 @@ local M = {}
 local function modify(...)
   local fpath = vim.fn.expand "%" ---@diagnostic disable-line: missing-parameter
   local ns = ts_utils.get_struct_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
-  if ns == nil or ns == {} then
+  if ns == nil then
     return
   end
 
