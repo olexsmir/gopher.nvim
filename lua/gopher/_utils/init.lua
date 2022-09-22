@@ -53,4 +53,12 @@ return {
       vim.notify(msg, l)
     end, 0)
   end,
+
+  ---safe require
+  ---@param name string module name
+  sreq = function(name)
+    local ok, m = pcall(require, name)
+    assert(ok, string.format("gopher.nvim dependency error: %s not installed", name))
+    return m
+  end,
 }
