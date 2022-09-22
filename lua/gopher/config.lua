@@ -7,6 +7,7 @@ local M = {
       gotests = "gotests",
       impl = "impl",
       iferr = "iferr",
+      dlv = "dlv",
     },
   },
 }

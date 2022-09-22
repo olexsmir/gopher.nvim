@@ -15,6 +15,7 @@ local M = {
       { bin = c.gomodifytags, help = "required for modify struct tags" },
       { bin = c.impl, help = "required for interface implementing" },
       { bin = c.gotests, help = "required for test(s) generation" },
+      { bin = c.dlv, help = "required for debugger(nvim-dap)" },
     },
   },
 }
