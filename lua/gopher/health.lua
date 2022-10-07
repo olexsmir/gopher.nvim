@@ -1,5 +1,5 @@
 local health = vim.health or require "health"
-local utils = require "gopher._utils"
+local utils = require "gopher._utils._health"
 local c = require("gopher.config").config.commands
 
 local requried = "Gopher.nvim will not work without it!"

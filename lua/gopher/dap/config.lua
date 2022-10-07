@@ -1,19 +1,19 @@
+---@diagnostic disable: param-type-mismatch
 local function get_arguments()
+  local function get()
+    vim.ui.input({ prompt = "Args: " }, function(input)
+      return vim.split(input or "", " ") ---@diagnostic disable-line: missing-parameter
+    end)
+  end
+
   local co = coroutine.running()
   if co then
     return coroutine.create(function()
-      local args = {}
-      vim.ui.input({ prompt = "Args: " }, function(input)
-        args = vim.split(input or "", " ")
-      end)
+      local args = get()
       coroutine.resume(co, args)
     end)
   else
-    local args = {}
-    vim.ui.input({ prompt = "Args: " }, function(input)
-      args = vim.split(input or "", " ")
-    end)
-    return args
+    return get()
   end
 end
 
