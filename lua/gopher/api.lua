@@ -22,5 +22,8 @@ end
 API.generate = function(...)
   cmd("generate", ...)
 end
+API.work = function(...)
+  cmd("work", ...)
+end
 
 return API
