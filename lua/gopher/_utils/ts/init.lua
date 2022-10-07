@@ -1,3 +1,4 @@
+---@diagnostic disable: param-type-mismatch
 local nodes = require "gopher._utils.ts.nodes"
 local u = require "gopher._utils"
 local M = {

@@ -1,3 +1,4 @@
+---@diagnostic disable: param-type-mismatch
 return {
   ---@param t table
   ---@return boolean
