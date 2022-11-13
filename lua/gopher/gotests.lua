@@ -1,11 +1,11 @@
-local Job = require "plenary.job"
-local ts_utils = require "gopher._utils.ts"
-local c = require("gopher.config").config.commands
 local u = require "gopher._utils"
 local M = {}
 
 ---@param cmd_args table
 local function run(cmd_args)
+  local Job = require "plenary.job"
+  local c = require("gopher.config").config.commands
+
   Job:new({
     command = c.gotests,
     args = cmd_args,
@@ -31,6 +31,8 @@ end
 ---generate unit test for one function
 ---@param parallel boolean
 function M.func_test(parallel)
+  local ts_utils = require "gopher._utils.ts"
+
   local ns = ts_utils.get_func_method_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil or ns.name == nil then
     u.notify("cursor on func/method and execute the command again", "info")
