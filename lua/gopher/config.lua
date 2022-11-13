@@ -1,4 +1,16 @@
+---@class Config
+---@field commands ConfigCommands
+
+---@class ConfigCommands
+---@field go string
+---@field gomodifytags string
+---@field gotests string
+---@field impl string
+---@field iferr string
+---@field dlv string
+
 local M = {
+  ---@type Config
   config = {
     ---set custom commands for tools
     commands = {
@@ -13,7 +25,7 @@ local M = {
 }
 
 ---Plugin setup function
----@param opts table user options
+---@param opts Config user config
 function M.setup(opts)
   M.config = vim.tbl_deep_extend("force", M.config, opts or {})
 end
