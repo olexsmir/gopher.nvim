@@ -1,5 +1,3 @@
-local Job = require "plenary.job"
-local u = require "gopher._utils"
 local urls = {
   gomodifytags = "github.com/fatih/gomodifytags",
   impl = "github.com/josharian/impl",
@@ -10,6 +8,9 @@ local urls = {
 
 ---@param pkg string
 local function install(pkg)
+  local Job = require "plenary.job"
+  local u = require "gopher._utils"
+
   local url = urls[pkg] .. "@latest"
 
   Job:new({
