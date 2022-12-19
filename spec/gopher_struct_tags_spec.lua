@@ -6,47 +6,44 @@ describe("gopher.struct_tags", function()
   end)
 
   it("can add json tag to struct", function()
-    local add = require("gopher.struct_tags").add
-    local name = vim.fn.tempname() .. ".go"
+    local tag = require "gopher.struct_tags"
+    local temp_file = vim.fn.tempname() .. ".go"
     local input_file = vim.fn.readfile(cur_dir .. "/spec/fixtures/tags/add_input.go")
     local output_file =
       vim.fn.join(vim.fn.readfile(cur_dir .. "/spec/fixtures/tags/add_output.go"), "\n")
 
-    vim.fn.writefile(input_file, name)
-    vim.cmd("silent exe 'e " .. name .. "'")
-
-    local bufn = vim.fn.bufnr ""
+    vim.fn.writefile(input_file, temp_file)
+    vim.cmd("silent exe 'e " .. temp_file .. "'")
     vim.bo.filetype = "go"
+
+    local bufn = vim.fn.bufnr(0)
     vim.fn.setpos(".", { bufn, 3, 6, 0 })
-    add()
+    tag.add()
 
-    vim.wait(100, function() end)
-    local fmt = vim.fn.join(vim.fn.readfile(name), "\n")
-    assert.are.same(output_file, fmt)
+    vim.wait(100)
+    assert.are.same(output_file, vim.fn.join(vim.fn.readfile(temp_file), "\n"))
 
-    vim.cmd("bd! " .. name)
+    vim.cmd("bd! " .. temp_file)
   end)
 
   it("can remove json tag from struct", function()
-    local remove = require("gopher.struct_tags").remove
-    local name = vim.fn.tempname() .. ".go"
+    local tag = require "gopher.struct_tags"
+    local temp_file = vim.fn.tempname() .. ".go"
     local input_file = vim.fn.readfile(cur_dir .. "/spec/fixtures/tags/remove_input.go")
     local output_file =
       vim.fn.join(vim.fn.readfile(cur_dir .. "/spec/fixtures/tags/remove_output.go"), "\n")
 
-    vim.fn.writefile(input_file, name)
-    vim.cmd("silent exe 'e " .. name .. "'")
-
-    local bufn = vim.fn.bufnr ""
+    vim.fn.writefile(input_file, temp_file)
+    vim.cmd("silent exe 'e " .. temp_file .. "'")
     vim.bo.filetype = "go"
+
+    local bufn = vim.fn.bufnr()
     vim.fn.setpos(".", { bufn, 3, 6, 0 })
-    remove()
+    tag.remove()
 
-    vim.wait(100, function() end)
+    vim.wait(100)
+    assert.are.same(output_file, vim.fn.join(vim.fn.readfile(temp_file), "\n"))
 
-    local fmt = vim.fn.join(vim.fn.readfile(name), "\n")
-    assert.are.same(output_file, fmt)
-
-    vim.cmd("bd! " .. name)
+    vim.cmd("bd! " .. temp_file)
   end)
 end)
