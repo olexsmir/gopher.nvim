@@ -1,11 +1,11 @@
-local Job = require "plenary.job"
-local c = require("gopher.config").config.commands
-local u = require "gopher._utils"
-
 ---Run any go commands like `go generate`, `go get`, `go mod`
 ---@param cmd string
 ---@param ... string|string[]
 return function(cmd, ...)
+  local Job = require "plenary.job"
+  local c = require("gopher.config").config.commands
+  local u = require "gopher._utils"
+
   local args = { ... }
   if #args == 0 then
     u.notify("please provice any arguments", "error")

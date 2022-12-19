@@ -1,10 +1,9 @@
-local Job = require "plenary.job"
-local ts_utils = require "gopher._utils.ts"
-local c = require("gopher.config").config.commands
 local u = require "gopher._utils"
 
 ---@return string
 local function get_struct()
+  local ts_utils = require "gopher._utils.ts"
+
   local ns = ts_utils.get_struct_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil then
     u.notify("put cursor on a struct or specify a receiver", "info")
@@ -20,6 +19,9 @@ local function get_struct()
 end
 
 return function(...)
+  local c = require("gopher.config").config.commands
+  local Job = require "plenary.job"
+
   local args = { ... }
   local iface, recv_name = "", ""
   local recv = get_struct()
