@@ -28,7 +28,7 @@ return function(...)
 
   if #args == 0 then
     iface = vim.fn.input "impl: generating method stubs for interface: "
-    vim.cmd "redeaw!"
+    vim.cmd "redraw!"
     if iface == "" then
       u.notify("usage: GoImpl f *File io.Reader", "info")
       return
