@@ -9,8 +9,7 @@ describe("gopher.struct_tags", function()
     local tag = require "gopher.struct_tags"
     local temp_file = vim.fn.tempname() .. ".go"
     local input_file = vim.fn.readfile(cur_dir .. "/spec/fixtures/tags/add_input.go")
-    local output_file =
-      vim.fn.join(vim.fn.readfile(cur_dir .. "/spec/fixtures/tags/add_output.go"), "\n")
+    local output_file = vim.fn.join(vim.fn.readfile(cur_dir .. "/spec/fixtures/tags/add_output.go"), "\n")
 
     vim.fn.writefile(input_file, temp_file)
     vim.cmd("silent exe 'e " .. temp_file .. "'")
@@ -30,8 +29,7 @@ describe("gopher.struct_tags", function()
     local tag = require "gopher.struct_tags"
     local temp_file = vim.fn.tempname() .. ".go"
     local input_file = vim.fn.readfile(cur_dir .. "/spec/fixtures/tags/remove_input.go")
-    local output_file =
-      vim.fn.join(vim.fn.readfile(cur_dir .. "/spec/fixtures/tags/remove_output.go"), "\n")
+    local output_file = vim.fn.join(vim.fn.readfile(cur_dir .. "/spec/fixtures/tags/remove_output.go"), "\n")
 
     vim.fn.writefile(input_file, temp_file)
     vim.cmd("silent exe 'e " .. temp_file .. "'")

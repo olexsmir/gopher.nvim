@@ -47,10 +47,7 @@ local function modify(...)
     args = cmd_args,
     on_exit = function(data, retval)
       if retval ~= 0 then
-        u.notify(
-          "command 'gomodifytags " .. unpack(cmd_args) .. "' exited with code " .. retval,
-          "error"
-        )
+        u.notify("command 'gomodifytags " .. unpack(cmd_args) .. "' exited with code " .. retval, "error")
         return
       end
 
@@ -60,12 +57,7 @@ local function modify(...)
 
   -- decode goted value
   local tagged = vim.json.decode(table.concat(res_data))
-  if
-    tagged.errors ~= nil
-    or tagged.lines == nil
-    or tagged["start"] == nil
-    or tagged["start"] == 0
-  then
+  if tagged.errors ~= nil or tagged.lines == nil or tagged["start"] == nil or tagged["start"] == 0 then
     u.notify("failed to set tags " .. vim.inspect(tagged), "error")
   end
 
@@ -74,13 +66,7 @@ local function modify(...)
   end
 
   -- write goted tags
-  vim.api.nvim_buf_set_lines(
-    0,
-    tagged.start - 1,
-    tagged.start - 1 + #tagged.lines,
-    false,
-    tagged.lines
-  )
+  vim.api.nvim_buf_set_lines(0, tagged.start - 1, tagged.start - 1 + #tagged.lines, false, tagged.lines)
   vim.cmd "write"
 end
 
