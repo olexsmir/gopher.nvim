@@ -1,7 +1,7 @@
----@class Config
----@field commands ConfigCommands
+---@class gopher.Config
+---@field commands gopher.ConfigCommands
 
----@class ConfigCommands
+---@class gopher.ConfigCommands
 ---@field go string
 ---@field gomodifytags string
 ---@field gotests string
@@ -10,7 +10,7 @@
 ---@field dlv string
 
 local M = {
-  ---@type Config
+  ---@type gopher.Config
   config = {
     ---set custom commands for tools
     commands = {
@@ -25,7 +25,7 @@ local M = {
 }
 
 ---Plugin setup function
----@param opts Config user config
+---@param opts gopher.Config user config
 function M.setup(opts)
   M.config = vim.tbl_deep_extend("force", M.config, opts or {})
 end
