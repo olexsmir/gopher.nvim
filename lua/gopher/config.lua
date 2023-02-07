@@ -9,7 +9,7 @@
 ---@field iferr string
 ---@field dlv string
 
-local M = {
+local config = {
   ---@type gopher.Config
   config = {
     ---set custom commands for tools
@@ -26,8 +26,8 @@ local M = {
 
 ---Plugin setup function
 ---@param opts gopher.Config user config
-function M.setup(opts)
-  M.config = vim.tbl_deep_extend("force", M.config, opts or {})
+function config.setup(opts)
+  config.config = vim.tbl_deep_extend("force", config.config, opts or {})
 end
 
-return M
+return config
