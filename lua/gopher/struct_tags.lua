@@ -1,12 +1,11 @@
-local M = {}
+local ts_utils = require "gopher._utils.ts"
+local Job = require "plenary.job"
+local c = require("gopher.config").config.commands
+local u = require "gopher._utils"
+local struct_tags = {}
 
 local function modify(...)
-  local ts_utils = require "gopher._utils.ts"
-  local Job = require "plenary.job"
-  local c = require("gopher.config").config.commands
-  local u = require "gopher._utils"
-
-  local fpath = vim.fn.expand "%" ---@diagnostic disable-line: missing-parameter
+  ---@diagnostic disable-next-line: param-type-mismatch
   local ns = ts_utils.get_struct_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil then
     return
@@ -15,7 +14,7 @@ local function modify(...)
   -- stylua: ignore
   local cmd_args = {
     "-format", "json",
-    "-file", fpath,
+    "-file", vim.fn.expand "%",
     "-w"
   }
 
@@ -47,7 +46,7 @@ local function modify(...)
     args = cmd_args,
     on_exit = function(data, retval)
       if retval ~= 0 then
-        u.notify("command 'gomodifytags " .. unpack(cmd_args) .. "' exited with code " .. retval, "error")
+        error("gomodifytags failed: " .. retval)
         return
       end
 
@@ -57,8 +56,12 @@ local function modify(...)
 
   -- decode goted value
   local tagged = vim.json.decode(table.concat(res_data))
+  if tagged == nil then
+    error "faild to get tags"
+  end
+
   if tagged.errors ~= nil or tagged.lines == nil or tagged["start"] == nil or tagged["start"] == 0 then
-    u.notify("failed to set tags " .. vim.inspect(tagged), "error")
+    error("failed to set tags " .. vim.inspect(tagged))
   end
 
   for i, v in ipairs(tagged.lines) do
@@ -72,7 +75,7 @@ end
 
 ---add tags to struct under cursor
 ---@param ... unknown
-function M.add(...)
+function struct_tags.add(...)
   local arg = { ... }
   if #arg == nil or arg == "" then
     arg = { "json" }
@@ -88,7 +91,7 @@ end
 
 ---remove tags to struct under cursor
 ---@param ... unknown
-function M.remove(...)
+function struct_tags.remove(...)
   local arg = { ... }
   if #arg == nil or arg == "" then
     arg = { "json" }
@@ -102,4 +105,4 @@ function M.remove(...)
   modify(unpack(cmd_args))
 end
 
-return M
+return struct_tags
