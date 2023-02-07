@@ -1,11 +1,11 @@
+local Job = require "plenary.job"
+local ts_utils = require "gopher._utils.ts"
+local c = require("gopher.config").config.commands
 local u = require "gopher._utils"
-local M = {}
+local tests = {}
 
 ---@param cmd_args table
 local function run(cmd_args)
-  local Job = require "plenary.job"
-  local c = require("gopher.config").config.commands
-
   Job:new({
     command = c.gotests,
     args = cmd_args,
@@ -30,9 +30,7 @@ end
 
 ---generate unit test for one function
 ---@param parallel boolean
-function M.func_test(parallel)
-  local ts_utils = require "gopher._utils.ts"
-
+function tests.func_test(parallel)
   local ns = ts_utils.get_func_method_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil or ns.name == nil then
     u.notify("cursor on func/method and execute the command again", "info")
@@ -49,7 +47,7 @@ end
 
 ---generate unit tests for all functions in current file
 ---@param parallel boolean
-function M.all_tests(parallel)
+function tests.all_tests(parallel)
   local cmd_args = { "-all" }
   if parallel then
     table.insert(cmd_args, "-parallel")
@@ -60,7 +58,7 @@ end
 
 ---generate unit tests for all exported functions
 ---@param parallel boolean
-function M.all_exported_tests(parallel)
+function tests.all_exported_tests(parallel)
   local cmd_args = {}
   if parallel then
     table.insert(cmd_args, "-parallel")
@@ -70,4 +68,4 @@ function M.all_exported_tests(parallel)
   add_test(cmd_args)
 end
 
-return M
+return tests

@@ -1,5 +1,6 @@
+local ts_utils = require "gopher._utils.ts"
+
 local function generate(row, col)
-  local ts_utils = require "gopher._utils.ts"
   local comment, ns = nil, nil
 
   ns = ts_utils.get_package_node_at_pos(row, col, nil, false)
