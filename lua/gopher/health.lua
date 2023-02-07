@@ -1,44 +1,51 @@
 local c = require("gopher.config").config.commands
+local h = vim.health or require "health"
+local health = {}
 
-local requried_for_work_msg = "Gopher.nvim will not work without it!"
-local M = {
-  _required = {
-    plugins = {
-      { lib = "plenary", help = requried_for_work_msg },
-      { lib = "nvim-treesitter", help = requried_for_work_msg },
-      { lib = "dap", help = "Required for set upping debugger" },
-    },
-    binarys = {
-      { bin = c.go, help = "required for GoMod, GoGet, GoGenerate command" },
-      { bin = c.gomodifytags, help = "required for modify struct tags" },
-      { bin = c.impl, help = "required for interface implementing" },
-      { bin = c.gotests, help = "required for test(s) generation" },
-      { bin = c.dlv, help = "required for debugger(nvim-dap)" },
-    },
-  },
+local function is_lualib_found(lib)
+  local is_found, _ = pcall(require, lib)
+  return is_found
+end
+
+local function is_bin_found(bin)
+  if vim.fn.executable(bin) == 1 then
+    return true
+  end
+  return false
+end
+
+local lua_deps = {
+  { lib = "plenary", msg = "Required for running commands" },
+  { lib = "nvim-treesitter", msg = "For getting data from AST" },
+  { lib = "dap", msg = "Uses only for configuring DAP(gopher.dap)" },
 }
 
-function M.check()
-  local health = vim.health or require "health"
-  local u = require "gopher._utils._health"
+local bin_deps = {
+  { bin = c.go, msg = "uses by :GoMod, :GoGet, :GoGenerate" },
+  { bin = c.gomodifytags, msg = "uses by :GoTagAdd, :GoTagRm" },
+  { bin = c.impl, msg = "uses by :GoImpl" },
+  { bin = c.gotests, msg = "uses by :GoTestAdd, :GoTestsAll, :GoTestsExp" },
+  { bin = c.dlv, msg = "uses by debugger" },
+}
 
-  health.report_start "Required plugins"
-  for _, plugin in ipairs(M._required.plugins) do
-    if u.lualib_is_found(plugin.lib) then
-      health.report_ok(plugin.lib .. " installed.")
+function health.check()
+  h.report_start "Checking for Lua deps"
+  for _, lib in ipairs(lua_deps) do
+    if is_lualib_found(lib.lib) then
+      h.report_ok(lib.lib .. " is installed")
     else
-      health.report_error(plugin.lib .. " not found. " .. plugin.help)
+      h.report_error(lib.lib .. " is not found but " .. lib.msg)
     end
   end
 
-  health.report_start "Required go tools"
-  for _, binary in ipairs(M._required.binarys) do
-    if u.binary_is_found(binary.bin) then
-      health.report_ok(binary.bin .. " installed")
+  h.report_start "Checking for external deps"
+  for _, bin in ipairs(bin_deps) do
+    if is_bin_found(bin.bin) then
+      h.report_ok(bin.bin .. " is installed")
     else
-      health.report_warn(binary.bin .. " is not installed but " .. binary.help)
+      h.report_warn(bin.bin .. " is not found but " .. bin.msg)
     end
   end
 end
 
-return M
+return health
