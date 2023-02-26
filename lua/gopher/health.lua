@@ -26,6 +26,7 @@ local bin_deps = {
   { bin = c.impl, msg = "uses by :GoImpl" },
   { bin = c.gotests, msg = "uses by :GoTestAdd, :GoTestsAll, :GoTestsExp" },
   { bin = c.dlv, msg = "uses by debugger" },
+  { bin = c.iferr, msg = "uses to generate `if err` blocks" },
 }
 
 function health.check()
