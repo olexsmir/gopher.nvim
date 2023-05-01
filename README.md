@@ -1,5 +1,7 @@
 # gopher.nvim
 
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-single.svg)](https://stand-with-ukraine.pp.ua)
+
 Minimalistic plugin for Go development in Neovim written in Lua.
 
 It's not an LSP tool, the main goal of this plugin is add go tooling support in Neovim.
@@ -26,7 +28,7 @@ By `.setup` function you can configure the plugin.
 
 Note:
 
-- Installer does not install the tool in user set path
+- `installer` does not install the tool in user set path
 
 ```lua
 require("gopher").setup {
