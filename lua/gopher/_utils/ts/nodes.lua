@@ -81,7 +81,7 @@ function M.get_all_nodes(query, lang, _, bufnr, pos_row, _)
       type = string.sub(path, 1, idx - 1)
 
       if op == "name" then
-        name = vim.treesitter.query.get_node_text(node, bufnr)
+        name = vim.treesitter.get_node_text(node, bufnr)
       elseif op == "declaration" or op == "clause" then
         declaration_node = node
         sRow, sCol, eRow, eCol = node:range()
