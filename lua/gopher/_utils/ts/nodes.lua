@@ -61,7 +61,7 @@ function M.get_all_nodes(query, lang, _, bufnr, pos_row, _)
   pos_row = pos_row or 30000
 
   local ok, parsed_query = pcall(function()
-    return vim.treesitter.parse(lang, query)
+    return vim.treesitter.query.parse(lang, query)
   end)
   if not ok then
     return nil
