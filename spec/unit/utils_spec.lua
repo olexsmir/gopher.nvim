@@ -1,8 +1,4 @@
 describe("gopher._utils", function()
-  it("can be requried", function()
-    require "gopher._utils"
-  end)
-
   describe(".empty()", function()
     local empty = require("gopher._utils").empty
 

@@ -1,10 +1,6 @@
 local cur_dir = vim.fn.expand "%:p:h"
 
 describe("gopher.struct_tags", function()
-  it("can be required", function()
-    require "gopher.struct_tags"
-  end)
-
   it("can add json tag to struct", function()
     local tag = require "gopher.struct_tags"
     local temp_file = vim.fn.tempname() .. ".go"

@@ -1,10 +1,6 @@
 local cur_dir = vim.fn.expand "%:p:h"
 
 describe("gopher.iferr", function()
-  it("can be required", function()
-    require "gopher.iferr"
-  end)
-
   it("should be able to add iferr", function()
     local temp_file = vim.fn.tempname() .. ".go"
     local input_file = vim.fn.readfile(cur_dir .. "/spec/fixtures/iferr/input.go")

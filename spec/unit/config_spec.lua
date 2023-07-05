@@ -1,8 +1,4 @@
 describe("unit.gopher.config", function()
-  it("can be required", function()
-    require "gopher.config"
-  end)
-
   describe(".setup()", function()
     local c = require "gopher.config"
 
