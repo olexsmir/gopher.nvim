@@ -23,6 +23,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: MunifTanjim/setup-neovim-action@v1
+      - uses: actions/setup-go@v4
+
+      - name: Install deps
+        run: make install-deps
 
       - name: Run tests
         run: make test

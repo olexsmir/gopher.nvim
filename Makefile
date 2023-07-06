@@ -9,3 +9,6 @@ lint:
 
 test:
 	nvim --headless -u ./spec/minimal_init.lua -c "PlenaryBustedDirectory spec {minimal_init='./spec/minimal_init.lua'}"
+
+install-deps:
+	nvim --cmd 'set rtp+="." | :GoInstallDeps'
