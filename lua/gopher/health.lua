@@ -1,6 +1,6 @@
 local health = {}
 local cmd = require("gopher.config").config.commands
-local u = require "gopher._utils._health"
+local u = require "gopher._utils.health"
 
 local _h = vim.health or require "health"
 local start = _h.start or _h.report_start
