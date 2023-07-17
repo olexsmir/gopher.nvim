@@ -3,11 +3,13 @@ local cmd = require("gopher.config").config.commands
 local u = require "gopher._utils.health"
 
 local _h = vim.health or require "health"
-local start = _h.start or _h.report_start
-local ok = _h.ok or _h.report_ok
-local warn = _h.warn or _h.report_warn
-local error = _h.error or _h.report_error
-local info = _h.info or _h.report_info
+local h = {
+  start = _h.start or _h.report_start,
+  ok = _h.ok or _h.report_ok,
+  warn = _h.warn or _h.report_warn,
+  error = _h.error or _h.report_error,
+  info = _h.info or _h.report_info,
+}
 
 local deps = {
   plugin = {
@@ -34,29 +36,29 @@ local deps = {
 }
 
 function health.check()
-  start "required plugins"
+  h.start "required plugins"
   for _, plugin in ipairs(deps.plugin) do
     if u.lualib_is_found(plugin.lib) then
-      ok(plugin.lib .. " installed")
+      h.ok(plugin.lib .. " installed")
     else
       if plugin.optional then
-        warn(plugin.lib .. " not found, " .. plugin.msg)
+        h.warn(plugin.lib .. " not found, " .. plugin.msg)
       else
-        error(plugin.lib .. " not found, " .. plugin.msg)
+        h.error(plugin.lib .. " not found, " .. plugin.msg)
       end
     end
   end
 
-  start "required binaries"
-  info "all those binaries can be installed by `:GoInstallDeps`"
+  h.start "required binaries"
+  h.info "all those binaries can be installed by `:GoInstallDeps`"
   for _, bin in ipairs(deps.bin) do
     if u.binary_is_found(bin.bin) then
-      ok(bin.bin .. " installed")
+      h.ok(bin.bin .. " installed")
     else
       if bin.optional then
-        warn(bin.bin .. " not found, " .. bin.msg)
+        h.warn(bin.bin .. " not found, " .. bin.msg)
       else
-        error(bin.bin .. " not found, " .. bin.msg)
+        h.error(bin.bin .. " not found, " .. bin.msg)
       end
     end
   end
