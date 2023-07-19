@@ -23,7 +23,7 @@ tasks:
     cmds:
       - |
         nvim --headless \
-          -u ./spec/minimal_init.vim\
+          -u ./spec/minimal_init.lua\
           -c "PlenaryBustedDirectory spec \
               {minimal_init='./spec/minimal_init.lua'\
               ,sequential=true}"
