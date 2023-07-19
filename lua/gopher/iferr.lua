@@ -1,10 +1,9 @@
----Add iferr declaration
----That's Lua of vimscript implementation of:
----github.com/koron/iferr
-return function()
-  local c = require("gopher.config").config.commands
-  local u = require "gopher._utils"
+local c = require("gopher.config").commands
+local u = require "gopher._utils"
+local iferr = {}
 
+-- That's Lua of vimscript implementation of: github.com/koron/iferr
+iferr.iferr = function()
   local boff = vim.fn.wordcount().cursor_bytes
   local cmd = (c.iferr .. " -pos " .. boff)
   local data = vim.fn.systemlist(cmd, vim.fn.bufnr "%")
@@ -19,3 +18,5 @@ return function()
   vim.cmd [[silent normal! j=2j]]
   vim.fn.setpos(".", pos)
 end
+
+return iferr

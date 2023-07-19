@@ -6,7 +6,7 @@ local gopher = {}
 gopher.setup = require("gopher.config").setup
 gopher.install_deps = require "gopher.installer"
 gopher.impl = require "gopher.impl"
-gopher.iferr = require "gopher.iferr"
+gopher.iferr = require("gopher.iferr").iferr
 gopher.comment = require "gopher.comment"
 
 gopher.tags_add = tags.add
