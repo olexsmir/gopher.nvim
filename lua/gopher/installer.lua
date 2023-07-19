@@ -20,7 +20,10 @@ local function install(pkg)
     args = { "install", url },
     on_exit = function(_, retval)
       if retval ~= 0 then
-        u.deferred_notify("command 'go install " .. url .. "' exited with code " .. retval, vim.log.levels.ERROR)
+        u.deferred_notify(
+          "command 'go install " .. url .. "' exited with code " .. retval,
+          vim.log.levels.ERROR
+        )
         return
       end
 

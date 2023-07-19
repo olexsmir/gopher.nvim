@@ -9,7 +9,10 @@ iferr.iferr = function()
   local data = vim.fn.systemlist(cmd, vim.fn.bufnr "%")
 
   if vim.v.shell_error ~= 0 then
-    u.deferred_notify("command " .. cmd .. " exited with code " .. vim.v.shell_error, vim.log.levels.ERROR)
+    u.deferred_notify(
+      "command " .. cmd .. " exited with code " .. vim.v.shell_error,
+      vim.log.levels.ERROR
+    )
     return
   end
 
