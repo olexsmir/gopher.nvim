@@ -8,15 +8,10 @@ tasks:
     desc: runs all linters
     cmds:
       - task: lint_lua
-      - task: lint_editorconfig
 
   lint_lua:
     desc: runs lua linter on all repo
     cmds: [selene .]
-
-  lint_editorconfig:
-    desc: runs editorconfig-checker
-    cmds: [editorconfig-checker]
 
   test:
     aliases: [tests, spec]

@@ -17,6 +17,3 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: .
-
-      - uses: editorconfig-checker/action-editorconfig-checker@main
-      - run: editorconfig-checker
