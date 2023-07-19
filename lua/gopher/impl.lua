@@ -8,7 +8,7 @@ local impl = {}
 local function get_struct()
   local ns = ts_utils.get_struct_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil then
-    u.notify("put cursor on a struct or specify a receiver", "info")
+    u.deferred_notify("put cursor on a struct or specify a receiver", vim.log.levels.INFO)
     return ""
   end
 
@@ -29,7 +29,7 @@ function impl.impl(...)
     iface = vim.fn.input "impl: generating method stubs for interface: "
     vim.cmd "redraw!"
     if iface == "" then
-      u.notify("usage: GoImpl f *File io.Reader", "info")
+      u.deferred_notify("usage: GoImpl f *File io.Reader", vim.log.levels.INFO)
       return
     end
   elseif #args == 1 then -- :GoImpl io.Reader
@@ -60,9 +60,9 @@ function impl.impl(...)
     args = cmd_args,
     on_exit = function(data, retval)
       if retval ~= 0 then
-        u.notify(
+        u.deferred_notify(
           "command '" .. c.impl .. " " .. unpack(cmd_args) .. "' exited with code " .. retval,
-          "error"
+          vim.log.levels.ERROR
         )
         return
       end

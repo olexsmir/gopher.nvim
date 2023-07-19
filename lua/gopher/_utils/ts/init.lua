@@ -34,7 +34,7 @@ function M.get_struct_node_at_pos(row, col, bufnr, do_notify)
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
     if notify then
-      u.notify("struct not found", "warn")
+      u.deferred_notify("struct not found", vim.log.levels.WARN)
     end
   else
     return ns[#ns]
@@ -53,7 +53,7 @@ function M.get_func_method_node_at_pos(row, col, bufnr, do_notify)
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
     if notify then
-      u.notify("function not found", "warn")
+      u.deferred_notify("function not found", vim.log.levels.WARN)
     end
   else
     return ns[#ns]
@@ -74,7 +74,7 @@ function M.get_package_node_at_pos(row, col, bufnr, do_notify)
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
     if notify then
-      u.notify("package not found", "warn")
+      u.deferred_notify("package not found", vim.log.levels.WARN)
       return nil
     end
   else
@@ -94,7 +94,7 @@ function M.get_interface_node_at_pos(row, col, bufnr, do_notify)
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
     if notify then
-      u.notify("interface not found", "warn")
+      u.deferred_notify("interface not found", vim.log.levels.WARN)
     end
   else
     return ns[#ns]

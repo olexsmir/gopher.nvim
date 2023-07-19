@@ -46,14 +46,14 @@ local function modify(...)
     args = cmd_args,
     on_exit = function(data, retval)
       if retval ~= 0 then
-        u.notify(
+        u.deferred_notify(
           "command '"
             .. c.gomodifytags
             .. " "
             .. unpack(cmd_args)
             .. "' exited with code "
             .. retval,
-          "error"
+          vim.log.levels.ERROR
         )
         return
       end
@@ -70,7 +70,7 @@ local function modify(...)
     or tagged["start"] == nil
     or tagged["start"] == 0
   then
-    u.notify("failed to set tags " .. vim.inspect(tagged), "error")
+    u.deferred_notify("failed to set tags " .. vim.inspect(tagged), vim.log.levels.ERROR)
   end
 
   for i, v in ipairs(tagged.lines) do

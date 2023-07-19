@@ -11,14 +11,14 @@ local function run(cmd_args)
     args = cmd_args,
     on_exit = function(_, retval)
       if retval ~= 0 then
-        u.notify(
+        u.deferred_notify(
           "command '" .. c.gotests .. " " .. unpack(cmd_args) .. "' exited with code " .. retval,
-          "error"
+          vim.log.levels.ERROR
         )
         return
       end
 
-      u.notify("unit test(s) generated", "info")
+      u.deferred_notify("unit test(s) generated", vim.log.levels.INFO)
     end,
   }):start()
 end
@@ -36,7 +36,7 @@ end
 function gotests.func_test(parallel)
   local ns = ts_utils.get_func_method_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil or ns.name == nil then
-    u.notify("cursor on func/method and execute the command again", "info")
+    u.deferred_notify("cursor on func/method and execute the command again", vim.log.levels.INFO)
     return
   end
 
