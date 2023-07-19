@@ -1,7 +1,7 @@
 ---@diagnostic disable: param-type-mismatch
 local nodes = require "gopher._utils.ts.nodes"
 local u = require "gopher._utils"
-local M = {
+local ts = {
   querys = {
     struct_block = [[((type_declaration (type_spec name:(type_identifier) @struct.name type: (struct_type)))@struct.declaration)]],
     em_struct_block = [[(field_declaration name:(field_identifier)@struct.name type: (struct_type)) @struct.declaration]],
@@ -27,14 +27,14 @@ end
 ---@param bufnr string|nil
 ---@param do_notify boolean|nil
 ---@return table|nil
-function M.get_struct_node_at_pos(row, col, bufnr, do_notify)
+function ts.get_struct_node_at_pos(row, col, bufnr, do_notify)
   local notify = do_notify or true
-  local query = M.querys.struct_block .. " " .. M.querys.em_struct_block
+  local query = ts.querys.struct_block .. " " .. ts.querys.em_struct_block
   local bufn = bufnr or vim.api.nvim_get_current_buf()
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
     if notify then
-      u.notify("struct not found", "warn")
+      u.deferred_notify("struct not found", vim.log.levels.WARN)
     end
   else
     return ns[#ns]
@@ -46,14 +46,14 @@ end
 ---@param bufnr string|nil
 ---@param do_notify boolean|nil
 ---@return table|nil
-function M.get_func_method_node_at_pos(row, col, bufnr, do_notify)
+function ts.get_func_method_node_at_pos(row, col, bufnr, do_notify)
   local notify = do_notify or true
-  local query = M.querys.func .. " " .. M.querys.method_name
+  local query = ts.querys.func .. " " .. ts.querys.method_name
   local bufn = bufnr or vim.api.nvim_get_current_buf()
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
     if notify then
-      u.notify("function not found", "warn")
+      u.deferred_notify("function not found", vim.log.levels.WARN)
     end
   else
     return ns[#ns]
@@ -65,16 +65,16 @@ end
 ---@param bufnr string|nil
 ---@param do_notify boolean|nil
 ---@return table|nil
-function M.get_package_node_at_pos(row, col, bufnr, do_notify)
+function ts.get_package_node_at_pos(row, col, bufnr, do_notify)
   local notify = do_notify or true
   -- stylua: ignore
   if row > 10 then return end
-  local query = M.querys.package
+  local query = ts.querys.package
   local bufn = bufnr or vim.api.nvim_get_current_buf()
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
     if notify then
-      u.notify("package not found", "warn")
+      u.deferred_notify("package not found", vim.log.levels.WARN)
       return nil
     end
   else
@@ -87,18 +87,18 @@ end
 ---@param bufnr string|nil
 ---@param do_notify boolean|nil
 ---@return table|nil
-function M.get_interface_node_at_pos(row, col, bufnr, do_notify)
+function ts.get_interface_node_at_pos(row, col, bufnr, do_notify)
   local notify = do_notify or true
-  local query = M.querys.interface
+  local query = ts.querys.interface
   local bufn = bufnr or vim.api.nvim_get_current_buf()
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
     if notify then
-      u.notify("interface not found", "warn")
+      u.deferred_notify("interface not found", vim.log.levels.WARN)
     end
   else
     return ns[#ns]
   end
 end
 
-return M
+return ts

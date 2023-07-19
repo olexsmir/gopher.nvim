@@ -1,21 +1,24 @@
+local c = require("gopher.config").commands
 local u = require "gopher._utils"
-local M = {}
+local ts_utils = require "gopher._utils.ts"
+local Job = require "plenary.job"
+local gotests = {}
 
 ---@param cmd_args table
 local function run(cmd_args)
-  local Job = require "plenary.job"
-  local c = require("gopher.config").config.commands
-
   Job:new({
     command = c.gotests,
     args = cmd_args,
     on_exit = function(_, retval)
       if retval ~= 0 then
-        u.notify("command 'go " .. unpack(cmd_args) .. "' exited with code " .. retval, "error")
+        u.deferred_notify(
+          "command '" .. c.gotests .. " " .. unpack(cmd_args) .. "' exited with code " .. retval,
+          vim.log.levels.ERROR
+        )
         return
       end
 
-      u.notify("unit test(s) generated", "info")
+      u.deferred_notify("unit test(s) generated", vim.log.levels.INFO)
     end,
   }):start()
 end
@@ -30,12 +33,10 @@ end
 
 ---generate unit test for one function
 ---@param parallel boolean
-function M.func_test(parallel)
-  local ts_utils = require "gopher._utils.ts"
-
+function gotests.func_test(parallel)
   local ns = ts_utils.get_func_method_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil or ns.name == nil then
-    u.notify("cursor on func/method and execute the command again", "info")
+    u.deferred_notify("cursor on func/method and execute the command again", vim.log.levels.INFO)
     return
   end
 
@@ -49,7 +50,7 @@ end
 
 ---generate unit tests for all functions in current file
 ---@param parallel boolean
-function M.all_tests(parallel)
+function gotests.all_tests(parallel)
   local cmd_args = { "-all" }
   if parallel then
     table.insert(cmd_args, "-parallel")
@@ -60,7 +61,7 @@ end
 
 ---generate unit tests for all exported functions
 ---@param parallel boolean
-function M.all_exported_tests(parallel)
+function gotests.all_exported_tests(parallel)
   local cmd_args = {}
   if parallel then
     table.insert(cmd_args, "-parallel")
@@ -70,4 +71,4 @@ function M.all_exported_tests(parallel)
   add_test(cmd_args)
 end
 
-return M
+return gotests

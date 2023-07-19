@@ -1,14 +1,14 @@
+local Job = require "plenary.job"
+local c = require("gopher.config").commands
+local u = require "gopher._utils"
+
 ---Run any go commands like `go generate`, `go get`, `go mod`
 ---@param cmd string
 ---@param ... string|string[]
 return function(cmd, ...)
-  local Job = require "plenary.job"
-  local c = require("gopher.config").config.commands
-  local u = require "gopher._utils"
-
   local args = { ... }
   if #args == 0 then
-    u.notify("please provice any arguments", "error")
+    u.deferred_notify("please provice any arguments", vim.log.levels.ERROR)
     return
   end
 
@@ -29,12 +29,15 @@ return function(cmd, ...)
     args = cmd_args,
     on_exit = function(_, retval)
       if retval ~= 0 then
-        u.notify("command 'go " .. unpack(cmd_args) .. "' exited with code " .. retval, "error")
-        u.notify(cmd .. " " .. unpack(cmd_args), "debug")
+        u.deferred_notify(
+          "command 'go " .. unpack(cmd_args) .. "' exited with code " .. retval,
+          vim.log.levels.ERROR
+        )
+        u.deferred_notify(cmd .. " " .. unpack(cmd_args), vim.log.levels.DEBUG)
         return
       end
 
-      u.notify("go " .. cmd .. " was success runned", "info")
+      u.deferred_notify("go " .. cmd .. " was success runned", vim.log.levels.INFO)
     end,
   }):start()
 end

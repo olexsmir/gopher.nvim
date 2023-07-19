@@ -1,3 +1,8 @@
+local Job = require "plenary.job"
+local c = require("gopher.config").commands
+local u = require "gopher._utils"
+local installer = {}
+
 local urls = {
   gomodifytags = "github.com/fatih/gomodifytags",
   impl = "github.com/josharian/impl",
@@ -8,28 +13,30 @@ local urls = {
 
 ---@param pkg string
 local function install(pkg)
-  local Job = require "plenary.job"
-  local u = require "gopher._utils"
-
   local url = urls[pkg] .. "@latest"
 
   Job:new({
-    command = "go",
+    command = c.go,
     args = { "install", url },
     on_exit = function(_, retval)
       if retval ~= 0 then
-        u.notify("command 'go install " .. url .. "' exited with code " .. retval, "error")
+        u.deferred_notify(
+          "command 'go install " .. url .. "' exited with code " .. retval,
+          vim.log.levels.ERROR
+        )
         return
       end
 
-      u.notify("install " .. url .. " finished", "info ")
+      u.deferred_notify("install " .. url .. " finished", vim.log.levels.INFO)
     end,
   }):start()
 end
 
 ---Install required go deps
-return function()
+function installer.install_deps()
   for pkg, _ in pairs(urls) do
     install(pkg)
   end
 end
+
+return installer

@@ -1,33 +1,27 @@
----@class Config
----@field commands ConfigCommands
+---@class gopher.Config
+local config = {}
 
----@class ConfigCommands
----@field go string
----@field gomodifytags string
----@field gotests string
----@field impl string
----@field iferr string
----@field dlv string
-
-local M = {
-  ---@type Config
-  config = {
-    ---set custom commands for tools
-    commands = {
-      go = "go",
-      gomodifytags = "gomodifytags",
-      gotests = "gotests",
-      impl = "impl",
-      iferr = "iferr",
-      dlv = "dlv",
-    },
+---@class gopher.Config
+---@field commands gopher.ConfigCommands
+local default_config = {
+  ---@class gopher.ConfigCommands
+  commands = {
+    go = "go",
+    gomodifytags = "gomodifytags",
+    gotests = "gotests",
+    impl = "impl",
+    iferr = "iferr",
+    dlv = "dlv",
   },
 }
 
----Plugin setup function
----@param opts Config user config
-function M.setup(opts)
-  M.config = vim.tbl_deep_extend("force", M.config, opts or {})
+---@param user_config gopher.Config|nil
+function config.setup(user_config)
+  config = vim.tbl_deep_extend("force", {}, default_config, user_config or {})
 end
 
-return M
+-- setup ifself, needs for ability to get
+-- default config without calling .setup()
+config.setup()
+
+return config
