@@ -1,9 +1,11 @@
+local c = require("gopher.config").commands
+local Job = require "plenary.job"
+local ts_utils = require "gopher._utils.ts"
 local u = require "gopher._utils"
+local impl = {}
 
 ---@return string
 local function get_struct()
-  local ts_utils = require "gopher._utils.ts"
-
   local ns = ts_utils.get_struct_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil then
     u.notify("put cursor on a struct or specify a receiver", "info")
@@ -18,10 +20,7 @@ local function get_struct()
   return ns.name
 end
 
-return function(...)
-  local c = require("gopher.config").config.commands
-  local Job = require "plenary.job"
-
+function impl.impl(...)
   local args = { ... }
   local iface, recv_name = "", ""
   local recv = get_struct()
@@ -61,7 +60,10 @@ return function(...)
     args = cmd_args,
     on_exit = function(data, retval)
       if retval ~= 0 then
-        u.notify("command 'impl " .. unpack(cmd_args) .. "' exited with code " .. retval, "error")
+        u.notify(
+          "command '" .. c.impl .. " " .. unpack(cmd_args) .. "' exited with code " .. retval,
+          "error"
+        )
         return
       end
 
@@ -73,3 +75,5 @@ return function(...)
   table.insert(res_data, 1, "")
   vim.fn.append(pos, res_data)
 end
+
+return impl
