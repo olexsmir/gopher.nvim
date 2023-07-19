@@ -2,7 +2,7 @@ local ts_utils = require "gopher._utils.ts"
 local Job = require "plenary.job"
 local c = require("gopher.config").commands
 local u = require "gopher._utils"
-local M = {}
+local struct_tags = {}
 
 local function modify(...)
   local fpath = vim.fn.expand "%" ---@diagnostic disable-line: missing-parameter
@@ -85,7 +85,7 @@ end
 
 ---add tags to struct under cursor
 ---@param ... unknown
-function M.add(...)
+function struct_tags.add(...)
   local arg = { ... }
   if #arg == nil or arg == "" then
     arg = { "json" }
@@ -101,7 +101,7 @@ end
 
 ---remove tags to struct under cursor
 ---@param ... unknown
-function M.remove(...)
+function struct_tags.remove(...)
   local arg = { ... }
   if #arg == nil or arg == "" then
     arg = { "json" }
@@ -115,4 +115,4 @@ function M.remove(...)
   modify(unpack(cmd_args))
 end
 
-return M
+return struct_tags
