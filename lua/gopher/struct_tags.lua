@@ -47,7 +47,12 @@ local function modify(...)
     on_exit = function(data, retval)
       if retval ~= 0 then
         u.notify(
-          "command 'gomodifytags " .. unpack(cmd_args) .. "' exited with code " .. retval,
+          "command '"
+            .. c.gomodifytags
+            .. " "
+            .. unpack(cmd_args)
+            .. "' exited with code "
+            .. retval,
           "error"
         )
         return
