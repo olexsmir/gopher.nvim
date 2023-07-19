@@ -1,11 +1,10 @@
+local ts_utils = require "gopher._utils.ts"
+local Job = require "plenary.job"
+local c = require("gopher.config").commands
+local u = require "gopher._utils"
 local M = {}
 
 local function modify(...)
-  local ts_utils = require "gopher._utils.ts"
-  local Job = require "plenary.job"
-  local c = require("gopher.config").config.commands
-  local u = require "gopher._utils"
-
   local fpath = vim.fn.expand "%" ---@diagnostic disable-line: missing-parameter
   local ns = ts_utils.get_struct_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil then
