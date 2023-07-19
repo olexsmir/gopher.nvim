@@ -1,0 +1,29 @@
+version: "3"
+tasks:
+  format:
+    desc: formats all lua files in repo
+    cmds: [stylua .]
+
+  lint:
+    desc: runs all linters
+    cmds:
+      - task: lint_lua
+      - task: lint_editorconfig
+
+  lint_lua:
+    desc: runs lua linter on all repo
+    cmds: [selene .]
+
+  lint_editorconfig:
+    desc: runs editorconfig-checker
+    cmds: [editorconfig-checker]
+
+  test:
+    aliases: [tests, spec]
+    cmds:
+      - |
+        nvim --headless \
+          -u ./spec/minimal_init.vim\
+          -c "PlenaryBustedDirectory spec \
+              {minimal_init='./spec/minimal_init.lua'\
+              ,sequential=true}"
