@@ -1,8 +1,4 @@
 describe("gopher.config", function()
-  it("can be required", function()
-    require "gopher.config"
-  end)
-
   it(".setup() when gets empty table not edit config", function()
     local c = require "gopher.config"
     c.setup {}
