@@ -58,7 +58,7 @@ It will install next tools:
 - [iferr](https://github.com/koron/iferr)
 
 2. Modify struct tags:
-   By default `json` tag will be added/removed, if not set:
+  By default `json` tag will be added/removed, if not set:
 
 ```vim
 :GoTagAdd json " For add json tag
