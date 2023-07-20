@@ -15,7 +15,7 @@ local default_config = {
 }
 
 ---@type gopher.Config
-local _config = {}
+local _config = default_config
 
 ---@param user_config? gopher.Config
 function config.setup(user_config)
