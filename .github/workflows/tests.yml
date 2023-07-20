@@ -1,0 +1,30 @@
+name: tests
+on: [push, pull_request]
+
+jobs:
+  tests:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: arduino/setup-task@v1
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Neovim
+        shell: bash
+        run: |
+          mkdir -p /tmp/nvim
+          wget -q https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O /tmp/nvim/nvim.appimage
+          cd /tmp/nvim
+          chmod a+x ./nvim.appimage
+          ./nvim.appimage --appimage-extract
+          echo "/tmp/nvim/squashfs-root/usr/bin/" >> $GITHUB_PATH
+      - name: Run Tests
+        run: |
+          nvim --version
+          [ ! -d tests ] && exit 0
+          task tests
