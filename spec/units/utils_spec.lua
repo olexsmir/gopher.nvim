@@ -1,19 +1,25 @@
 describe("gopher._utils", function()
-  it("can be requried", function()
-    require "gopher._utils"
+  local u = require "gopher._utils"
+
+  describe(".is_tbl_empty()", function()
+    it("it is empty", function()
+      assert.are.same(true, u.is_tbl_empty {})
+    end)
+
+    it("it is not empty", function()
+      assert.are.same(false, u.is_tbl_empty { first = "1", second = 2 })
+    end)
   end)
 
-  it(".empty() with non-empty talbe", function()
-    local empty = require("gopher._utils").empty
-    local res = empty { first = "1", second = 2 }
+  describe(".sreq()", function()
+    it("can require existing module", function()
+      assert.are.same(require "gopher", u.sreq "gopher")
+    end)
 
-    assert.are.same(res, false)
-  end)
-
-  it(".empty() with empty talbe", function()
-    local empty = require("gopher._utils").empty
-    local res = empty {}
-
-    assert.are.same(res, true)
+    it("cannot require non-existing module", function()
+      assert.has.errors(function()
+        u.sreq "iDontExistBtw"
+      end)
+    end)
   end)
 end)
