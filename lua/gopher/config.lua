@@ -1,10 +1,9 @@
----@class gopher.Config
+---@type gopher.Config
 local config = {}
 
 ---@class gopher.Config
----@field commands gopher.ConfigCommands
 local default_config = {
-  ---@class gopher.ConfigCommands
+  ---@class gopher.ConfigCommand
   commands = {
     go = "go",
     gomodifytags = "gomodifytags",
@@ -15,13 +14,18 @@ local default_config = {
   },
 }
 
----@param user_config gopher.Config|nil
+---@type gopher.Config
+local _config = {}
+
+---@param user_config? gopher.Config
 function config.setup(user_config)
-  config = vim.tbl_deep_extend("force", config, default_config, user_config or {})
+  _config = vim.tbl_deep_extend("force", default_config, user_config or {})
 end
 
--- setup ifself, needs for ability to get
--- default config without calling .setup()
-config.setup()
+setmetatable(config, {
+  __index = function(_, key)
+    return _config[key]
+  end,
+})
 
 return config
