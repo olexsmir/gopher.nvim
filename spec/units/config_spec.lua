@@ -1,37 +1,29 @@
 describe("gopher.config", function()
-  it(".setup() when gets empty table not edit config", function()
+  it(".setup() should provide default when .setup() is not called", function()
     local c = require "gopher.config"
-    c.setup {}
 
-    assert.are.same(c.config.commands.go, "go")
-    assert.are.same(c.config.commands.gomodifytags, "gomodifytags")
-    assert.are.same(c.config.commands.gotests, "gotests")
-    assert.are.same(c.config.commands.impl, "impl")
+    assert.are.same(c.commands.go, "go")
+    assert.are.same(c.commands.gomodifytags, "gomodifytags")
+    assert.are.same(c.commands.gotests, "gotests")
+    assert.are.same(c.commands.impl, "impl")
+    assert.are.same(c.commands.iferr, "iferr")
+    assert.are.same(c.commands.dlv, "dlv")
   end)
 
-  it(".setup() when get one custom value sets that", function()
-    local c = require "gopher.config"
-    c.setup { commands = {
-      go = "custom_go",
-    } }
-
-    assert.are.same(c.config.commands.go, "custom_go")
-  end)
-
-  it(".setup() when get all custom values sets it", function()
+  it(".setup() should change options on users config", function()
     local c = require "gopher.config"
     c.setup {
       commands = {
-        go = "go1.18",
-        gomodifytags = "user-gomodifytags",
-        gotests = "gotests",
-        impl = "goimpl",
+        go = "go1.420",
+        gomodifytags = "iDontUseRustBtw",
       },
     }
 
-    assert.are.same(c.config.commands.go, "go1.18")
-    assert.are.same(c.config.commands.gomodifytags, "user-gomodifytags")
-    assert.are.same(c.config.commands.gotests, "gotests")
-    assert.are.same(c.config.commands.impl, "goimpl")
+    assert.are.same(c.commands.go, "go1.420")
+    assert.are.same(c.commands.gomodifytags, "iDontUseRustBtw")
+    assert.are.same(c.commands.gotests, "gotests")
+    assert.are.same(c.commands.impl, "impl")
+    assert.are.same(c.commands.iferr, "iferr")
+    assert.are.same(c.commands.dlv, "dlv")
   end)
 end)
