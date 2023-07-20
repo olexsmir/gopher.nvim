@@ -21,5 +21,4 @@ jobs:
       - name: Run Tests
         run: |
           nvim --version
-          [ ! -d tests ] && exit 0
           nvim --headless -u ./spec/minimal_init.lua -c "PlenaryBustedDirectory spec {minimal_init='./spec/minimal_init.lua', sequential=true}"
