@@ -7,13 +7,19 @@ tasks:
   lint:
     desc: runs all linters
     cmds:
-      - task: lint_lua
+      - task: lint_selene
+      - task: lint_stylua
 
-  lint_lua:
-    desc: runs lua linter on all repo
+  lint_selene:
+    desc: runs lua linter(selene)
     cmds: [selene .]
 
+  lint_stylua:
+    desc: runs stylua in check mode
+    cmds: [stylua --check .]
+
   test:
+    desc: runs all tests
     aliases: [tests, spec]
     cmds:
       - |
