@@ -9,11 +9,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
-      - uses: arduino/setup-task@v1
-        with:
-          version: 3.x
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Install Neovim
         shell: bash
         run: |
@@ -27,4 +22,4 @@ jobs:
         run: |
           nvim --version
           [ ! -d tests ] && exit 0
-          task tests
+          nvim --headless -u ./spec/minimal_init.lua -c "PlenaryBustedDirectory spec {minimal_init='./spec/minimal_init.lua', sequential=true}"
