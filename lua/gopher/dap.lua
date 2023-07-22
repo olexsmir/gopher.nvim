@@ -1,4 +1,5 @@
 local u = require "gopher._utils"
+local c = require "gopher.config"
 local dap = {}
 
 dap.adapter = function(callback, config)
@@ -14,7 +15,7 @@ dap.adapter = function(callback, config)
     detached = true,
   }
 
-  handle, pid_or_err = vim.loop.spawn("dlv", opts, function(status)
+  handle, pid_or_err = vim.loop.spawn(c.commands.dlv, opts, function(status)
     if not stdout or not handle then
       return
     end
