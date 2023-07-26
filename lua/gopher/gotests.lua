@@ -1,34 +1,26 @@
 local c = require("gopher.config").commands
 local u = require "gopher._utils"
 local ts_utils = require "gopher._utils.ts"
-local Job = require "plenary.job"
+local r = require "gopher._utils.runner"
 local gotests = {}
-
----@param cmd_args table
-local function run(cmd_args)
-  Job:new({
-    command = c.gotests,
-    args = cmd_args,
-    on_exit = function(_, retval)
-      if retval ~= 0 then
-        u.deferred_notify(
-          "command '" .. c.gotests .. " " .. unpack(cmd_args) .. "' exited with code " .. retval,
-          vim.log.levels.ERROR
-        )
-        return
-      end
-
-      u.deferred_notify("unit test(s) generated", vim.log.levels.INFO)
-    end,
-  }):start()
-end
 
 ---@param args table
 local function add_test(args)
   local fpath = vim.fn.expand "%" ---@diagnostic disable-line: missing-parameter
   table.insert(args, "-w")
   table.insert(args, fpath)
-  run(args)
+
+  return r.spawn(c.gotests, {
+    args = args,
+    on_exit = function(ok, data)
+      if not ok then
+        vim.notify("gotests failed: " .. data, vim.log.levels.ERROR)
+        return
+      end
+
+      vim.notify("unit test(s) generated", vim.log.levels.INFO)
+    end,
+  })
 end
 
 ---generate unit test for one function
