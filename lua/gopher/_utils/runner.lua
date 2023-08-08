@@ -1,54 +1,28 @@
+local Job = require "plenary.job"
 local runner = {}
 
-local uv = vim.loop
+---@class gopher.RunnerOpts
+---@field args string[]
+---@field cwd? string?
+---@field on_exit? fun(data:string, status:number)
 
----@class ProcessOpts
----@field args? string[]
----@field cwd? string
----@field on_exit? fun(ok:boolean, output:string)
-
----@param opts? ProcessOpts
 ---@param cmd string
-function runner.spawn(cmd, opts)
-  opts = opts or {}
-
-  local stdout = assert(uv.new_pipe())
-  local stderr = assert(uv.new_pipe())
-
-  local output = ""
-  ---@type uv_process_t?
-  local handle = nil
-
-  handle = uv.spawn(cmd, {
-    stdio = { nil, stdout, stderr },
+---@param opts gopher.RunnerOpts
+---@return string
+function runner.sync(cmd, opts)
+  local output
+  Job:new({
+    command = cmd,
     args = opts.args,
     cwd = opts.cwd,
-  }, function(status)
-    if handle then
-      handle:close()
-    end
-    stderr:close()
-    stdout:close()
-
-    if opts.on_exit then
-      output = output:gsub("[^\r\n]+\r", "")
+    on_exit = function(data, status)
       vim.schedule(function()
-        opts.on_exit(status == 0, output)
+        output = data:result()
+        opts.on_exit(output, status)
       end)
-    end
-  end)
-
-  local function on_output(err, data)
-    assert(not err, err)
-    if data then
-      output = output .. data:gsub("\r\n", "\n")
-    end
-  end
-
-  uv.read_start(stdout, on_output)
-  uv.read_start(stderr, on_output)
-
-  return handle
+    end,
+  }):sync()
+  return output
 end
 
 return runner
