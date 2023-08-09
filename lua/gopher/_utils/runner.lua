@@ -2,7 +2,7 @@ local Job = require "plenary.job"
 local runner = {}
 
 ---@class gopher.RunnerOpts
----@field args string[]
+---@field args? string[]
 ---@field cwd? string?
 ---@field on_exit? fun(data:string, status:number)
 
@@ -10,15 +10,17 @@ local runner = {}
 ---@param opts gopher.RunnerOpts
 ---@return string
 function runner.sync(cmd, opts)
-  local output
+  local output = ""
   Job:new({
     command = cmd,
     args = opts.args,
     cwd = opts.cwd,
     on_exit = function(data, status)
+      output = data:result()
       vim.schedule(function()
-        output = data:result()
-        opts.on_exit(output, status)
+        if opts.on_exit then
+          opts.on_exit(output, status)
+        end
       end)
     end,
   }):sync()
