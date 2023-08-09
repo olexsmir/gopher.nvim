@@ -1,5 +1,5 @@
 local c = require("gopher.config").commands
-local Job = require "plenary.job"
+local r = require "gopher._utils.runner"
 local ts_utils = require "gopher._utils.ts"
 local u = require "gopher._utils"
 local impl = {}
@@ -47,33 +47,24 @@ function impl.impl(...)
     recv = string.format("%s %s", recv_name, recv)
   end
 
-  -- stylua: ignore
-  local cmd_args = {
-    "-dir", vim.fn.fnameescape(vim.fn.expand "%:p:h"), ---@diagnostic disable-line: missing-parameter
-    recv,
-    iface
-  }
-
-  local res_data
-  Job:new({
-    command = c.impl,
-    args = cmd_args,
-    on_exit = function(data, retval)
-      if retval ~= 0 then
-        u.deferred_notify(
-          "command '" .. c.impl .. " " .. unpack(cmd_args) .. "' exited with code " .. retval,
-          vim.log.levels.ERROR
-        )
+  local output = r.sync(c.impl, {
+    args = {
+      "-dir",
+      vim.fn.fnameescape(vim.fn.expand "%:p:h" --[[@as string]]),
+      recv,
+      iface,
+    },
+    on_exit = function(data, status)
+      if not status == 0 then
+        error("impl failed: " .. data, vim.log.levels.ERROR)
         return
       end
-
-      res_data = data:result()
     end,
-  }):sync()
+  })
 
   local pos = vim.fn.getcurpos()[2]
-  table.insert(res_data, 1, "")
-  vim.fn.append(pos, res_data)
+  table.insert(output, 1, "")
+  vim.fn.append(pos, output)
 end
 
 return impl
