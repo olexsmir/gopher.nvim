@@ -1,7 +1,6 @@
 local ts_utils = require "gopher._utils.ts"
 local r = require "gopher._utils.runner"
 local c = require("gopher.config").commands
-local u = require "gopher._utils"
 local struct_tags = {}
 
 local function modify(...)
@@ -56,10 +55,9 @@ local function modify(...)
     or tagged["start"] == nil
     or tagged["start"] == 0
   then
-    u.deferred_notify("failed to set tags " .. vim.inspect(tagged), vim.log.levels.ERROR)
+    error("failed to set tags " .. vim.inspec(tagged), vim.log.levels.ERROR)
   end
 
-  -- write goted tags
   vim.api.nvim_buf_set_lines(
     0,
     tagged.start - 1,

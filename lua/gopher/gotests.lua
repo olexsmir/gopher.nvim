@@ -12,8 +12,7 @@ local function add_test(args)
     args = args,
     on_exit = function(data, status)
       if not status == 0 then
-        vim.notify("gotests failed: " .. data, vim.log.levels.ERROR)
-        return
+        error("gotests failed: " .. data, vim.log.levels.ERROR)
       end
 
       vim.notify("unit test(s) generated", vim.log.levels.INFO)
@@ -25,7 +24,7 @@ end
 function gotests.func_test()
   local ns = ts_utils.get_func_method_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil or ns.name == nil then
-    vim.notify("cursor on func/method and execute the command again", vim.log.levels.INFO)
+    vim.notify("cursor on func/method and execute the command again", vim.log.levels.WARN)
     return
   end
 

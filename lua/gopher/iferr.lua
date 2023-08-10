@@ -8,8 +8,7 @@ function iferr.iferr()
 
   local data = vim.fn.systemlist((c.iferr .. " -pos " .. boff), vim.fn.bufnr "%")
   if vim.v.shell_error ~= 0 then
-    vim.notify("iferr failed: " .. data, vim.log.levels.ERROR)
-    return
+    error("iferr failed: " .. data, vim.log.levels.ERROR)
   end
 
   vim.fn.append(pos, data)
