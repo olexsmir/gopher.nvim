@@ -15,6 +15,9 @@ function runner.sync(cmd, opts)
     command = cmd,
     args = opts.args,
     cwd = opts.cwd,
+    on_stderr = function(_, data)
+      vim.print(data)
+    end,
     on_exit = function(data, status)
       output = data:result()
       vim.schedule(function()
