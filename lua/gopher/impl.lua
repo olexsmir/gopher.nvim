@@ -56,8 +56,7 @@ function impl.impl(...)
     },
     on_exit = function(data, status)
       if not status == 0 then
-        error("impl failed: " .. data, vim.log.levels.ERROR)
-        return
+        error("impl failed: " .. data)
       end
     end,
   })

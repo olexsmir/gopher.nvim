@@ -1,5 +1,6 @@
 local c = require("gopher.config").commands
 local r = require "gopher._utils.runner"
+local u = require "gopher._utils"
 local installer = {}
 
 local urls = {
@@ -17,10 +18,10 @@ local function install(pkg)
     args = { "install", url },
     on_exit = function(data, status)
       if not status == 0 then
-        error("go install failed: " .. data, vim.log.levels.ERROR)
+        error("go install failed: " .. data)
         return
       end
-      vim.notify("installed: " .. url, vim.log.levels.INFO)
+      u.notify("installed: " .. url)
     end,
   })
 end

@@ -42,7 +42,7 @@ local function modify(...)
     args = cmd_args,
     on_exit = function(data, status)
       if not status == 0 then
-        error("gotag failed: " .. data, vim.log.levels.ERROR)
+        error("gotag failed: " .. data)
       end
     end,
   })
@@ -55,7 +55,7 @@ local function modify(...)
     or tagged["start"] == nil
     or tagged["start"] == 0
   then
-    error("failed to set tags " .. vim.inspec(tagged), vim.log.levels.ERROR)
+    error("failed to set tags " .. vim.inspec(tagged))
   end
 
   vim.api.nvim_buf_set_lines(

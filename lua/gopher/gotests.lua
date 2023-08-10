@@ -1,6 +1,7 @@
 local c = require("gopher.config").commands
 local ts_utils = require "gopher._utils.ts"
 local r = require "gopher._utils.runner"
+local u = require "gopher._utils"
 local gotests = {}
 
 ---@param args table
@@ -12,10 +13,10 @@ local function add_test(args)
     args = args,
     on_exit = function(data, status)
       if not status == 0 then
-        error("gotests failed: " .. data, vim.log.levels.ERROR)
+        error("gotests failed: " .. data)
       end
 
-      vim.notify("unit test(s) generated", vim.log.levels.INFO)
+      u.notify "unit test(s) generated"
     end,
   })
 end
@@ -24,7 +25,7 @@ end
 function gotests.func_test()
   local ns = ts_utils.get_func_method_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil or ns.name == nil then
-    vim.notify("cursor on func/method and execute the command again", vim.log.levels.WARN)
+    u.notify("cursor on func/method and execute the command again", vim.log.levels.WARN)
     return
   end
 

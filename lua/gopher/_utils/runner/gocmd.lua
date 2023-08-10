@@ -1,5 +1,6 @@
 local r = require "gopher._utils.runner"
 local c = require("gopher.config").commands
+local u = require "gopher._utils"
 local gocmd = {}
 
 ---@param args string[]
@@ -27,7 +28,7 @@ end
 ---@return string[]|nil
 function gocmd.run(subcmd, args)
   if #args == 0 then
-    error("please provice any arguments", vim.log.levels.ERROR)
+    error "please provice any arguments"
   end
 
   if subcmd == "get" then
@@ -41,10 +42,10 @@ function gocmd.run(subcmd, args)
   return r.sync(c.go, {
     args = { subcmd, unpack(args) },
     on_exit = function(data, status)
-      if not status == 0 then
-        error("gocmd failed: " .. data, vim.log.levels.ERROR)
+      if status ~= 0 then
+        error("gocmd failed: " .. data)
       end
-      vim.notify(c.go .. " " .. subcmd .. " successful runned", vim.log.levels.INFO)
+      u.notify(c.go .. " " .. subcmd .. " successful runned")
     end,
   })
 end
