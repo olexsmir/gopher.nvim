@@ -1,7 +1,6 @@
 local ts_utils = require "gopher._utils.ts"
-local Job = require "plenary.job"
+local r = require "gopher._utils.runner"
 local c = require("gopher.config").commands
-local u = require "gopher._utils"
 local struct_tags = {}
 
 local function modify(...)
@@ -39,45 +38,26 @@ local function modify(...)
     table.insert(cmd_args, "json")
   end
 
-  -- get result of "gomodifytags" works
-  local res_data
-  Job:new({
-    command = c.gomodifytags,
+  local output = r.sync(c.gomodifytags, {
     args = cmd_args,
-    on_exit = function(data, retval)
-      if retval ~= 0 then
-        u.deferred_notify(
-          "command '"
-            .. c.gomodifytags
-            .. " "
-            .. unpack(cmd_args)
-            .. "' exited with code "
-            .. retval,
-          vim.log.levels.ERROR
-        )
-        return
+    on_exit = function(data, status)
+      if not status == 0 then
+        error("gotag failed: " .. data)
       end
-
-      res_data = data:result()
     end,
-  }):sync()
+  })
 
   -- decode goted value
-  local tagged = vim.json.decode(table.concat(res_data))
+  local tagged = vim.json.decode(table.concat(output))
   if
     tagged.errors ~= nil
     or tagged.lines == nil
     or tagged["start"] == nil
     or tagged["start"] == 0
   then
-    u.deferred_notify("failed to set tags " .. vim.inspect(tagged), vim.log.levels.ERROR)
+    error("failed to set tags " .. vim.inspec(tagged))
   end
 
-  for i, v in ipairs(tagged.lines) do
-    tagged.lines[i] = u.rtrim(v)
-  end
-
-  -- write goted tags
   vim.api.nvim_buf_set_lines(
     0,
     tagged.start - 1,

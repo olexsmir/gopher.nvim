@@ -1,6 +1,6 @@
 local tags = require "gopher.struct_tags"
 local tests = require "gopher.gotests"
-local uc = require "gopher._utils.commands"
+local gocmd = require("gopher._utils.runner.gocmd").run
 local gopher = {}
 
 gopher.setup = require("gopher.config").setup
@@ -17,19 +17,19 @@ gopher.test_exported = tests.all_exported_tests
 gopher.tests_all = tests.all_tests
 
 gopher.get = function(...)
-  uc("get", ...)
+  gocmd("get", { ... })
 end
 
 gopher.mod = function(...)
-  uc("mod", ...)
+  gocmd("mod", { ... })
 end
 
 gopher.generate = function(...)
-  uc("generate", ...)
+  gocmd("generate", { ... })
 end
 
 gopher.work = function(...)
-  uc("work", ...)
+  gocmd("work", { ... })
 end
 
 return gopher
