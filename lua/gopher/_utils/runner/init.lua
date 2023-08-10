@@ -8,9 +8,9 @@ local runner = {}
 
 ---@param cmd string
 ---@param opts gopher.RunnerOpts
----@return string
+---@return string[]|nil
 function runner.sync(cmd, opts)
-  local output = ""
+  local output
   Job:new({
     command = cmd,
     args = opts.args,
