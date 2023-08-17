@@ -1,6 +1,14 @@
 ---@type gopher.Config
 local config = {}
 
+---@alias gopher.ConfigGoTagTransform
+---| "snakecase"  "GopherUser" -> "gopher_user"
+---| "camelcase"  "GopherUser" -> "gopherUser"
+---| "lispcase"   "GopherUser" -> "gopher-user"
+---| "pascalcase" "GopherUser" -> "GopherUser"
+---| "titlecase"  "GopherUser" -> "Gopher User"
+---| "keep"       keeps the original field name
+
 ---@class gopher.Config
 local default_config = {
   ---@class gopher.ConfigCommand
@@ -19,6 +27,11 @@ local default_config = {
     -- path to a directory containing custom test code templates
     ---@type string|nil
     template_dir = nil,
+  },
+  ---@class gopher.ConfigGoTag
+  gotag = {
+    ---@type gopher.ConfigGoTagTransform
+    transform = "snakecase",
   },
 }
 
