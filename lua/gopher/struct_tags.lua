@@ -1,6 +1,6 @@
 local ts_utils = require "gopher._utils.ts"
 local r = require "gopher._utils.runner"
-local c = require("gopher.config").commands
+local c = require "gopher.config"
 local struct_tags = {}
 
 local function modify(...)
@@ -12,6 +12,7 @@ local function modify(...)
 
   -- stylua: ignore
   local cmd_args = {
+    "-transform", c.gotag.transform,
     "-format", "json",
     "-file", fpath,
     "-w"
@@ -38,7 +39,7 @@ local function modify(...)
     table.insert(cmd_args, "json")
   end
 
-  local output = r.sync(c.gomodifytags, {
+  local output = r.sync(c.commands.gomodifytags, {
     args = cmd_args,
     on_exit = function(data, status)
       if not status == 0 then
