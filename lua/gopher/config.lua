@@ -12,6 +12,14 @@ local default_config = {
     iferr = "iferr",
     dlv = "dlv",
   },
+  ---@class gopjer.ConfigGotests
+  gotests = {
+    -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
+    template = "default",
+    -- path to a directory containing custom test code templates
+    ---@type string|nil
+    template_dir = nil,
+  },
 }
 
 ---@type gopher.Config

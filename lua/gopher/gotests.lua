@@ -1,4 +1,4 @@
-local c = require("gopher.config").commands
+local c = require "gopher.config"
 local ts_utils = require "gopher._utils.ts"
 local r = require "gopher._utils.runner"
 local u = require "gopher._utils"
@@ -6,10 +6,20 @@ local gotests = {}
 
 ---@param args table
 local function add_test(args)
+  if c.gotests.template_dir then
+    table.insert(args, "-template_dir")
+    table.insert(args, c.gotests.template_dir)
+  end
+
+  if c.gotests.template ~= "default" then
+    table.insert(args, "-template")
+    table.insert(args, c.gotests.template)
+  end
+
   table.insert(args, "-w")
   table.insert(args, vim.fn.expand "%")
 
-  return r.sync(c.gotests, {
+  return r.sync(c.commands.gotests, {
     args = args,
     on_exit = function(data, status)
       if not status == 0 then
