@@ -104,7 +104,7 @@ Example of usage:
 
 6. Generate tests with [gotests](https://github.com/cweill/gotests)
 
-Generate one test for spesific function/method:
+Generate one test for a specific function/method:
 
 ```vim
 :GoTestAdd
