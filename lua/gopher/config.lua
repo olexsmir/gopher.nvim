@@ -27,6 +27,9 @@ local default_config = {
     -- path to a directory containing custom test code templates
     ---@type string|nil
     template_dir = nil,
+    -- switch table tests from using slice to map (with test name for the key)
+    ---@type boolean
+    named = false,
   },
   ---@class gopher.ConfigGoTag
   gotag = {
