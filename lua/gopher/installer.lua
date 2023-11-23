@@ -17,7 +17,7 @@ local latest_tag = "@latest"
 local tags = {
   gomodifytags = latest_tag,
   impl = latest_tag,
-  gotests = c_gotests.tag,
+  gotests = "@develop",
   iferr = latest_tag,
   dlv = latest_tag,
 }
@@ -25,7 +25,6 @@ local tags = {
 ---@param pkg string
 local function install(pkg)
   local url = urls[pkg] .. tags[pkg]
-  u.notify("YEEET: " .. url)
   r.sync(c.go, {
     args = { "install", url },
     on_exit = function(data, status)
