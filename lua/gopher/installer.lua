@@ -1,4 +1,5 @@
 local c = require("gopher.config").commands
+local c_gotests = require("gopher.config").gotests
 local r = require "gopher._utils.runner"
 local u = require "gopher._utils"
 local installer = {}
@@ -11,9 +12,19 @@ local urls = {
   dlv = "github.com/go-delve/delve/cmd/dlv",
 }
 
+local latest_tag = "@latest"
+
+local tags = {
+  gomodifytags = latest_tag,
+  impl = latest_tag,
+  gotests = c_gotests.tag,
+  iferr = latest_tag,
+  dlv = latest_tag,
+}
+
 ---@param pkg string
 local function install(pkg)
-  local url = urls[pkg] .. "@latest"
+  local url = urls[pkg] .. tags[pkg]
   r.sync(c.go, {
     args = { "install", url },
     on_exit = function(data, status)

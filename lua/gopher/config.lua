@@ -22,12 +22,16 @@ local default_config = {
   },
   ---@class gopher.ConfigGotests
   gotests = {
+    -- gotests tag to install from
+    ---@type string
+    tag = "@latest",
     -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
     template = "default",
     -- path to a directory containing custom test code templates
     ---@type string|nil
     template_dir = nil,
     -- switch table tests from using slice to map (with test name for the key)
+    -- works only with gotests installed from develop branch
     ---@type boolean
     named = false,
   },
