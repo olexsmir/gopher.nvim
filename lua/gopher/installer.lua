@@ -25,7 +25,7 @@ local tags = {
 ---@param pkg string
 local function install(pkg)
   local url = urls[pkg] .. tags[pkg]
-  u.notify(url)
+  u.notify("YEEET: " .. url)
   r.sync(c.go, {
     args = { "install", url },
     on_exit = function(data, status)
