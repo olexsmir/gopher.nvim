@@ -3,27 +3,19 @@ local r = require "gopher._utils.runner"
 local u = require "gopher._utils"
 local installer = {}
 
+local latest = "@latest"
+
 local urls = {
-  gomodifytags = "github.com/fatih/gomodifytags",
-  impl = "github.com/josharian/impl",
-  gotests = "github.com/cweill/gotests/...",
-  iferr = "github.com/koron/iferr",
-  dlv = "github.com/go-delve/delve/cmd/dlv",
-}
-
-local latest_tag = "@latest"
-
-local tags = {
-  gomodifytags = latest_tag,
-  impl = latest_tag,
-  gotests = require("gopher.config").gotests.tag,
-  iferr = latest_tag,
-  dlv = latest_tag,
+  gomodifytags = { "github.com/fatih/gomodifytags", latest },
+  impl = { "github.com/josharian/impl", latest },
+  gotests = { "github.com/cweill/gotests/...", require("gopher.config").gotests.tag },
+  iferr = { "github.com/koron/iferr", latest },
+  dlv = { "github.com/go-delve/delve/cmd/dlv", latest },
 }
 
 ---@param pkg string
 local function install(pkg)
-  local url = urls[pkg] .. tags[pkg]
+  local url = urls[pkg][1] .. urls[pkg][2]
   r.sync(c.go, {
     args = { "install", url },
     on_exit = function(data, status)
