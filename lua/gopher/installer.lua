@@ -1,5 +1,4 @@
 local c = require("gopher.config").commands
-local c_gotests = require("gopher.config").gotests
 local r = require "gopher._utils.runner"
 local u = require "gopher._utils"
 local installer = {}
@@ -17,7 +16,7 @@ local latest_tag = "@latest"
 local tags = {
   gomodifytags = latest_tag,
   impl = latest_tag,
-  gotests = "@develop",
+  gotests = require("gopher.config").gotests.tag,
   iferr = latest_tag,
   dlv = latest_tag,
 }
