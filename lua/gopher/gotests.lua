@@ -6,7 +6,7 @@ local gotests = {}
 
 ---@param args table
 local function add_test(args)
-  if c.gotests.named then
+  if c.gotests.named ~= true then
     table.insert(args, "-named")
   end
 
