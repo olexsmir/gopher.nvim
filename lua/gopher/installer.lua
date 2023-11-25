@@ -13,7 +13,7 @@ local urls = {
 
 ---@param pkg string
 local function install(pkg)
-  local url = urls[pkg][1] .. "@latest"
+  local url = urls[pkg] .. "@latest"
   r.sync(c.go, {
     args = { "install", url },
     on_exit = function(data, status)
