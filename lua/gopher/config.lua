@@ -22,9 +22,6 @@ local default_config = {
   },
   ---@class gopher.ConfigGotests
   gotests = {
-    -- gotests tag to install from
-    ---@type string
-    tag = "@latest",
     -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
     template = "default",
     -- path to a directory containing custom test code templates
