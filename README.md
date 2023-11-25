@@ -20,6 +20,27 @@ use {
 }
 ```
 
+Lazy.nvim:
+
+```lua
+return {
+  "olexsmir/gopher.nvim",
+  build = function ()
+    vim.cmd(":GoInstallDeps")
+    -- make named tests works
+    vim.fn.jobstart("go install github.com/cweill/gotests/...@develop")
+  end,
+  config = function ()
+    require("gopher").setup({
+      gotests = {
+        template = "testify",
+        named = true
+      }
+    })
+  end
+}
+```
+
 Also, run `TSInstall go` if `go` parser if isn't installed yet.
 
 ## Config
@@ -40,8 +61,6 @@ require("gopher").setup {
     iferr = "iferr",
   },
   gotests = {
-    -- gotests tag to install from
-    tag = "@latest",
     -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
     template = "default",
     -- path to a directory containing custom test code templates
