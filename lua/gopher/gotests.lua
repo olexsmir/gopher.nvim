@@ -39,7 +39,7 @@ function gotests.func_test()
     return
   end
 
-  add_test { "-only", ns.name }
+  add_test { "-only", "^" .. ns.name .. "$" }
 end
 
 ---generate unit tests for all functions in current file
