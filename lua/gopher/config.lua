@@ -20,7 +20,7 @@ local default_config = {
     iferr = "iferr",
     dlv = "dlv",
   },
-  ---@class gopjer.ConfigGotests
+  ---@class gopher.ConfigGotests
   gotests = {
     -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
     template = "default",
