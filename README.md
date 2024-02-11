@@ -39,8 +39,46 @@ require("gopher").setup {
     impl = "impl",
     iferr = "iferr",
   },
+  gotests = {
+    -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
+    template = "default",
+    -- path to a directory containing custom test code templates
+    template_dir = nil,
+    -- switch table tests from using slice to map (with test name for the key)
+    -- works only with gotests installed from develop branch
+    named = false,
+  },
 }
 ```
+
+### Named tests with testify (using map instead of slice for test cases)
+
+```lua
+require("gopher").setup({
+  gotests = {
+    template = "testify",
+    named = true
+  }
+})
+```
+
+For named tests to work you have to install gotests from develop branch, for example using [mason-tool-installer](https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim):
+
+```lua
+ require('mason-tool-installer').setup({
+  ensure_installed = {
+    { "gotests", version = "develop" },
+  }
+})
+```
+
+Or by calling `vim.fn.jobstart`:
+
+```lua
+vim.fn.jobstart("go install github.com/cweill/gotests/...@develop")
+```
+
+If you're using `lazy.nvim` you can put in `build` function inside `setup()`
 
 ## Features
 
@@ -104,7 +142,7 @@ Example of usage:
 
 6. Generate tests with [gotests](https://github.com/cweill/gotests)
 
-Generate one test for spesific function/method:
+Generate one test for a specific function/method:
 
 ```vim
 :GoTestAdd

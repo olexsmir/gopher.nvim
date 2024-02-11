@@ -6,6 +6,10 @@ local gotests = {}
 
 ---@param args table
 local function add_test(args)
+  if c.gotests.named then
+    table.insert(args, "-named")
+  end
+
   if c.gotests.template_dir then
     table.insert(args, "-template_dir")
     table.insert(args, c.gotests.template_dir)
