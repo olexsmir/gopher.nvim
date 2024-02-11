@@ -20,27 +20,6 @@ use {
 }
 ```
 
-Lazy.nvim:
-
-```lua
-return {
-  "olexsmir/gopher.nvim",
-  build = function ()
-    vim.cmd(":GoInstallDeps")
-    -- make named tests works
-    vim.fn.jobstart("go install github.com/cweill/gotests/...@develop")
-  end,
-  config = function ()
-    require("gopher").setup({
-      gotests = {
-        template = "testify",
-        named = true
-      }
-    })
-  end
-}
-```
-
 Also, run `TSInstall go` if `go` parser if isn't installed yet.
 
 ## Config
@@ -71,6 +50,35 @@ require("gopher").setup {
   },
 }
 ```
+
+### Named tests with testify (using map instead of slice for test cases)
+
+```lua
+require("gopher").setup({
+  gotests = {
+    template = "testify",
+    named = true
+  }
+})
+```
+
+For named tests to work you have to install gotests from develop branch, for example using [mason-tool-installer](https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim):
+
+```lua
+ require('mason-tool-installer').setup({
+  ensure_installed = {
+    { "gotests", version = "develop" },
+  }
+})
+```
+
+Or using `vim.fn.jobstart` on build:
+
+```lua
+vim.fn.jobstart("go install github.com/cweill/gotests/...@develop")
+```
+
+If you're using `lazy.nvim` you can put in `build` function inside `setup()`
 
 ## Features
 
