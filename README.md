@@ -72,7 +72,7 @@ For named tests to work you have to install gotests from develop branch, for exa
 })
 ```
 
-Or using `vim.fn.jobstart` on build:
+Or by calling `vim.fn.jobstart`:
 
 ```lua
 vim.fn.jobstart("go install github.com/cweill/gotests/...@develop")
