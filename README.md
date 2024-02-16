@@ -39,6 +39,9 @@ require("gopher").setup {
     impl = "impl",
     iferr = "iferr",
   },
+  gotests = {
+    template_dir = "" -- customize gotests -template_dir argument
+  }
 }
 ```
 

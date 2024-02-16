@@ -22,6 +22,11 @@ end
 
 ---@param args table
 local function add_test(args)
+  local c = require("gopher.config").config.gotests
+  if c.template_dir ~= "" then
+    table.insert(args, "-template_dir")
+    table.insert(args, c.template_dir)
+  end
   local fpath = vim.fn.expand "%" ---@diagnostic disable-line: missing-parameter
   table.insert(args, "-w")
   table.insert(args, fpath)

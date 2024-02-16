@@ -21,6 +21,10 @@ local M = {
       iferr = "iferr",
       dlv = "dlv",
     },
+    gotests_args = {
+      ---override gotests templates
+      template_dir = "",
+    },
   },
 }
 
