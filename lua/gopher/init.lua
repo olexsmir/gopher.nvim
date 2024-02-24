@@ -9,12 +9,16 @@ gopher.impl = require("gopher.impl").impl
 gopher.iferr = require("gopher.iferr").iferr
 gopher.comment = require "gopher.comment"
 
-gopher.tags_add = tags.add
-gopher.tags_rm = tags.remove
+gopher.tags = {
+  add = tags.add,
+  rm = tags.remove,
+}
 
-gopher.test_add = tests.func_test
-gopher.test_exported = tests.all_exported_tests
-gopher.tests_all = tests.all_tests
+gopher.test = {
+  add = tests.func_test,
+  exported = tests.all_exported_tests,
+  all = tests.all_tests,
+}
 
 gopher.get = function(...)
   gocmd("get", { ... })
