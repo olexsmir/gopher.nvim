@@ -1,6 +1,13 @@
----@type gopher.Config
-local config = {}
+---@toc_entry Configuration
+---@tag gopher.nvim-config
 
+---@type gopher.Config
+--minidoc_replace_start
+local config = {}
+--minidoc_replace_end
+
+---@tag gopher.nvim-config.ConfigGoTagTransform
+---@text Possible values for |gopher.Config|.gotag.transform:
 ---@alias gopher.ConfigGoTagTransform
 ---| "snakecase"  "GopherUser" -> "gopher_user"
 ---| "camelcase"  "GopherUser" -> "gopherUser"
@@ -9,8 +16,15 @@ local config = {}
 ---| "titlecase"  "GopherUser" -> "Gopher User"
 ---| "keep"       keeps the original field name
 
+---@tag gopher.nvim-config-defaults
+---@text Default values:
+---@eval return MiniDoc.afterlines_to_code(MiniDoc.current.eval_section):gsub(">", ">lua")
+---
 ---@class gopher.Config
+--minidoc_replace_start {
 local default_config = {
+  --minidoc_replace_end
+  -- user specified paths to binaries
   ---@class gopher.ConfigCommand
   commands = {
     go = "go",
@@ -38,10 +52,20 @@ local default_config = {
     transform = "snakecase",
   },
 }
+--minidoc_afterlines_end
 
 ---@type gopher.Config
+---@private
 local _config = default_config
 
+---@toc_entry Setup
+---@tag gopher.nvim-setup
+---@text Setup function. This method simply merges default configs with opts table.
+--- You can read more about configuration at |gopher.nvim-config|
+--- Calling this function is optional, if you ok with default settings. Look |gopher.nvim.config-defaults|
+---
+---@usage `require("gopher").setup {}` (replace `{}` with your `config` table)
+---
 ---@param user_config? gopher.Config
 function config.setup(user_config)
   _config = vim.tbl_deep_extend("force", default_config, user_config or {})

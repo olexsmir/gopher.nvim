@@ -1,0 +1,84 @@
+*gopher.nvim*
+
+==============================================================================
+
+gopher.nvim is a minimalistic plugin for Go development in Neovim written in Lua.
+It's not an LSP tool, the main goal of this plugin is add go tooling support in Neovim.
+
+------------------------------------------------------------------------------
+                                                 *gopher.nvim-table-of-contents*
+Table of Contents
+  Configuration...........................................|gopher.nvim-config|
+  Setup....................................................|gopher.nvim-setup|
+
+
+==============================================================================
+------------------------------------------------------------------------------
+                                                            *gopher.nvim-config*
+
+------------------------------------------------------------------------------
+Type ~
+gopher.Config
+
+------------------------------------------------------------------------------
+                                       *gopher.nvim-config.ConfigGoTagTransform*
+Possible values for |gopher.Config|.gotag.transform:
+"snakecase"  "GopherUser" -> "gopher_user"
+"camelcase"  "GopherUser" -> "gopherUser"
+"lispcase"   "GopherUser" -> "gopher-user"
+"pascalcase" "GopherUser" -> "GopherUser"
+"titlecase"  "GopherUser" -> "Gopher User"
+"keep"       keeps the original field name
+
+------------------------------------------------------------------------------
+                                                   *gopher.nvim-config-defaults*
+Default values:
+>lua
+  {
+    -- user specified paths to binaries
+    ---@class gopher.ConfigCommand
+    commands = {
+      go = "go",
+      gomodifytags = "gomodifytags",
+      gotests = "gotests",
+      impl = "impl",
+      iferr = "iferr",
+      dlv = "dlv",
+    },
+    ---@class gopher.ConfigGotests
+    gotests = {
+      -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
+      template = "default",
+      -- path to a directory containing custom test code templates
+      ---@type string|nil
+      template_dir = nil,
+      -- switch table tests from using slice to map (with test name for the key)
+      -- works only with gotests installed from develop branch
+      ---@type boolean
+      named = false,
+    },
+    ---@class gopher.ConfigGoTag
+    gotag = {
+      ---@type gopher.ConfigGoTagTransform
+      transform = "snakecase",
+    },
+  }
+<
+Class ~
+{gopher.Config}
+
+------------------------------------------------------------------------------
+                                                             *gopher.nvim-setup*
+                         `config.setup`({user_config})
+Setup function. This method simply merges default configs with opts table.
+You can read more about configuration at |gopher.nvim-config|
+Calling this function is optional, if you ok with default settings. Look |gopher.nvim.config-defaults|
+
+Usage ~
+`require("gopher").setup {}` (replace `{}` with your `config` table)
+
+Parameters ~
+{user_config} `(optional)` gopher.Config
+
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
