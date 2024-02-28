@@ -18,9 +18,15 @@ jobs:
           - v0.9.1
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Install Task
+        uses: arduino/setup-task@v1
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: actions/checkout@v3
+
       - name: Install Neovim
-        shell: bash
         run: |
           mkdir -p /tmp/nvim
           wget -q https://github.com/neovim/neovim/releases/download/${{ matrix.nvim_version }}/nvim.appimage -O /tmp/nvim/nvim.appimage
@@ -28,7 +34,8 @@ jobs:
           chmod a+x ./nvim.appimage
           ./nvim.appimage --appimage-extract
           echo "/tmp/nvim/squashfs-root/usr/bin/" >> $GITHUB_PATH
+
       - name: Run Tests
         run: |
           nvim --version
-          nvim --headless -u ./spec/minimal_init.lua -c "PlenaryBustedDirectory spec {minimal_init='./spec/minimal_init.lua', sequential=true}"
+          task test

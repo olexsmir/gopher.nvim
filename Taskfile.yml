@@ -24,7 +24,8 @@ tasks:
     cmds:
       - |
         nvim --headless \
-          -u ./scripts/minimal_init.lua\
+          -u ./scripts/minimal_init.lua \
           -c "PlenaryBustedDirectory spec \
-              {minimal_init='./scripts/minimal_init.lua'\
-              ,sequential=true}"
+              {minimal_init='./scripts/minimal_init.lua' \
+              ,sequential=true}" \
+          -c ":qa!"
