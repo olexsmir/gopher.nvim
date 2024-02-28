@@ -24,6 +24,4 @@ hooks.write_pre = function(lines)
   return lines
 end
 
-print "Generating documentation...\n"
 MiniDoc.generate(files, "doc/gopher.nvim.txt", { hooks = hooks })
-print "Generation complete!\n"
