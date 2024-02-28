@@ -15,6 +15,9 @@ Table of Contents
 ==============================================================================
 ------------------------------------------------------------------------------
                                                             *gopher.nvim-config*
+config it is the place where you can configure the plugin.
+also this is optional is you're ok with default settings.
+You can look at default options |gopher.nvim-config-defaults|
 
 ------------------------------------------------------------------------------
 Type ~
@@ -23,6 +26,7 @@ gopher.Config
 ------------------------------------------------------------------------------
                                        *gopher.nvim-config.ConfigGoTagTransform*
 Possible values for |gopher.Config|.gotag.transform:
+
 "snakecase"  "GopherUser" -> "gopher_user"
 "camelcase"  "GopherUser" -> "gopherUser"
 "lispcase"   "GopherUser" -> "gopher-user"

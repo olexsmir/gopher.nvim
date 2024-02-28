@@ -1,5 +1,8 @@
 ---@toc_entry Configuration
 ---@tag gopher.nvim-config
+---@text config it is the place where you can configure the plugin.
+--- also this is optional is you're ok with default settings.
+--- You can look at default options |gopher.nvim-config-defaults|
 
 ---@type gopher.Config
 --minidoc_replace_start
@@ -8,6 +11,7 @@ local config = {}
 
 ---@tag gopher.nvim-config.ConfigGoTagTransform
 ---@text Possible values for |gopher.Config|.gotag.transform:
+---
 ---@alias gopher.ConfigGoTagTransform
 ---| "snakecase"  "GopherUser" -> "gopher_user"
 ---| "camelcase"  "GopherUser" -> "gopherUser"
