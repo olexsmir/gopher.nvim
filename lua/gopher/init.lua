@@ -1,3 +1,14 @@
+--- *gopher.nvim*
+---
+--- ==============================================================================
+---
+--- gopher.nvim is a minimalistic plugin for Go development in Neovim written in Lua.
+--- It's not an LSP tool, the main goal of this plugin is add go tooling support in Neovim.
+
+--- Table of Contents
+---@tag gopher.nvim-table-of-contents
+---@toc
+
 local tags = require "gopher.struct_tags"
 local tests = require "gopher.gotests"
 local gocmd = require("gopher._utils.runner.gocmd").run
