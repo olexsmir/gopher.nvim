@@ -7,6 +7,23 @@ if not okay then
   return
 end
 
+local files = {
+  "lua/gopher/init.lua",
+  "lua/gopher/config.lua",
+}
+
 minidoc.setup()
 
-MiniDoc.generate({ "lua/gopher" }, "doc/gopher.nvim.txt")
+local hooks = vim.deepcopy(minidoc.default_hooks)
+hooks.write_pre = function(lines)
+  -- Remove first two lines with `======` and `------` delimiters to comply
+  -- with `:h local-additions` template
+  table.remove(lines, 1)
+  table.remove(lines, 1)
+
+  return lines
+end
+
+print "Generating documentation...\n"
+MiniDoc.generate(files, "doc/gopher.nvim.txt", { hooks = hooks })
+print "Generation complete!\n"

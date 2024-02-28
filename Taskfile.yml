@@ -37,3 +37,13 @@ tasks:
               {minimal_init='./scripts/minimal_init.lua' \
               ,sequential=true}" \
           -c ":qa!"
+
+  docgen:
+    desc: generate vimhelp
+    cmds:
+      - |
+        nvim --noplugin \
+             --headless \
+             -u "./scripts/minimal_init.lua" \
+             -c "luafile ./scripts/doc_gen.lua" \
+             -c "qa!"
