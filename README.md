@@ -54,24 +54,24 @@ require("gopher").setup {
 ```
 
 >[!NOTE]
->
-> <details>
->   <summary>
->     For named tests to work you have to install gotests from develop branch. Next code snippets could be placed into the build step in the Lazy plugin declaration
->   </summary>
->
->   ```lua
->   -- using mason-tool-installer
->   require("mason-tool-installer").setup {
->     ensure_installed = {
->       { "gotests", version = "develop" },
->     }
->   }
->
->   -- using `vim.fn.jobstart`
->   vim.fn.jobstart("go install github.com/cweill/gotests/...@develop")
->   ```
-> </details>
+
+<details>
+  <summary>
+    For named tests to work you have to install gotests from develop branch. Next code snippets could be placed into the build step in the Lazy plugin declaration
+  </summary>
+
+  ```lua
+  -- using mason-tool-installer
+  require("mason-tool-installer").setup {
+    ensure_installed = {
+      { "gotests", version = "develop" },
+    }
+  }
+
+  -- using `vim.fn.jobstart`
+  vim.fn.jobstart("go install github.com/cweill/gotests/...@develop")
+  ```
+</details>
 
 ## Features
 
@@ -113,7 +113,7 @@ require("gopher").setup {
   ```lua
   --- or you can use lua api
   require("gopher").tags.add "xml"
-  require("gopher").tags.rm  "proto"
+  require("gopher").tags.rm "proto"
   ```
 </details>
 
