@@ -82,22 +82,22 @@ require("gopher").setup {
     <b>Install plugin's go deps</b>
   </summary>
 
-```vim
-:GoInstallDeps
-```
+  ```vim
+  :GoInstallDeps
+  ```
 
-This will install the following tools:
+  This will install the following tools:
 
-- [gomodifytags](https://github.com/fatih/gomodifytags)
-- [impl](https://github.com/josharian/impl)
-- [gotests](https://github.com/cweill/gotests)
-- [iferr](https://github.com/koron/iferr)
-- [dlv](github.com/go-delve/delve/cmd/dlv)
+  - [gomodifytags](https://github.com/fatih/gomodifytags)
+  - [impl](https://github.com/josharian/impl)
+  - [gotests](https://github.com/cweill/gotests)
+  - [iferr](https://github.com/koron/iferr)
+  - [dlv](github.com/go-delve/delve/cmd/dlv)
 </details>
 
 <details>
   <summary>
-    <b>Add and remove tags for structs(via gomodifytags)</b>
+    <b>Add and remove tags for structs via <a href="https://github.com/fatih/gomodifytags">gomodifytags</a>)</b>
   </summary>
 
   By default `json` tag will be added/removed, if not set:
@@ -119,7 +119,7 @@ This will install the following tools:
 
 <details>
   <summary>
-    <b>Generating tests via [gotests](https://github.com/cweill)</b>
+    <b>Generating tests via <a href="https://github.com/cweill/gotests">gotests</a></b>
   </summary>
 
   ```vim
@@ -170,7 +170,7 @@ This will install the following tools:
 
 <details>
   <summary>
-    <b>Interface implementation via [impl](https://github.com/josharian/impl)</b>
+    <b>Interface implementation via <a href="https://github.com/josharian/impl">impl<a></b>
   </summary>
 
   Syntax of the command:
@@ -206,7 +206,7 @@ This will install the following tools:
 
 <details>
   <summary>
-    <b>Generate `if err != nil {` via [iferr](https://github.com/koron/iferr)</b>
+    <b>Generate `if err != nil {` via <a href="https://github.com/koron/iferr">iferr</a></b>
   </summary>
 
   Set the cursor on the line with `err` and execute
@@ -218,12 +218,12 @@ This will install the following tools:
 
 <details>
   <summary>
-    <b>Setup [nvim-dap](https://github.com/mfussenegger/nvim-dap) for go in one line</b>
+    <b>Setup <a href="https://github.com/mfussenegger/nvim-dap">nvim-dap</a> for go in one line</b>
   </summary>
 
-  >[!IMPORTANT]
-  >
-  > [nvim-dap](https://github.com/mfussenegger/nvim-dap) has to be installed
+>[!IMPORTANT]
+>
+> [nvim-dap](https://github.com/mfussenegger/nvim-dap) has to be installed
 
   ```lua
   require("gopher.dap").setup()
