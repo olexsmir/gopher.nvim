@@ -70,6 +70,7 @@ require("gopher").setup {
 >   -- using `vim.fn.jobstart`
 >   vim.fn.jobstart("go install github.com/cweill/gotests/...@develop")
 >   ```
+> </details>
 
 ## Features
 
