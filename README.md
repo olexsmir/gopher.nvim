@@ -53,9 +53,6 @@ require("gopher").setup {
 }
 ```
 
->[!NOTE]
->
-
 <details>
   <summary>
     For named tests to work you have to install gotests from develop branch. Next code snippets could be placed into the build step in the Lazy plugin declaration
@@ -112,7 +109,7 @@ require("gopher").setup {
   ```
 
   ```lua
-  --- or you can use lua api
+  -- or you can use lua api
   require("gopher").tags.add "xml"
   require("gopher").tags.rm "proto"
   ```
@@ -130,13 +127,15 @@ require("gopher").setup {
   " Generate all tests for all functions/methods in the current file
   :GoTestsAll
 
-  " Generate tests only for exported functions/methods in the current file:
+  " Generate tests for only  exported functions/methods in the current file
   :GoTestsExp
   ```
 
   ```lua
-  --- or you can use lua api
+  -- or you can use lua api
   require("gopher").test.add()
+  require("gopher").test.exported()
+  require("gopher").test.all()
   ```
 </details>
 
