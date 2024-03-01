@@ -206,7 +206,7 @@ require("gopher").setup {
 
 <details>
   <summary>
-    <b>Generate `if err != nil {` via <a href="https://github.com/koron/iferr">iferr</a></b>
+    <b>Generate <code>if err != nil {</code> via <a href="https://github.com/koron/iferr">iferr</a></b>
   </summary>
 
   Set the cursor on the line with `err` and execute
