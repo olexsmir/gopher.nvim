@@ -97,7 +97,7 @@ require("gopher").setup {
 
 <details>
   <summary>
-    <b>Add and remove tags for structs via <a href="https://github.com/fatih/gomodifytags">gomodifytags</a>)</b>
+    <b>Add and remove tags for structs via <a href="https://github.com/fatih/gomodifytags">gomodifytags</a></b>
   </summary>
 
   By default `json` tag will be added/removed, if not set:
@@ -221,9 +221,8 @@ require("gopher").setup {
     <b>Setup <a href="https://github.com/mfussenegger/nvim-dap">nvim-dap</a> for go in one line</b>
   </summary>
 
->[!IMPORTANT]
->
-> [nvim-dap](https://github.com/mfussenegger/nvim-dap) has to be installed
+  >[!IMPORTANT]
+  > [nvim-dap](https://github.com/mfussenegger/nvim-dap) has to be installed
 
   ```lua
   require("gopher.dap").setup()
