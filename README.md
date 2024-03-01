@@ -4,7 +4,7 @@
 
 Minimalistic plugin for Go development in Neovim written in Lua.
 
-It's **NOT** an LSP tool, the main goal of this plugin is add go tooling support in Neovim.
+It's **NOT** an LSP tool, the main goal of this plugin is to add go tooling support in Neovim.
 
 ## Install (using [lazy.nvim](https://github.com/folke/lazy.nvim)
 
@@ -22,7 +22,7 @@ Pre-dependency:
     "nvim-treesitter/nvim-treesitter",
     "mfussenegger/nvim-dap", -- (optional) only if you use `gopher.dap`
   },
-  -- (optional) update pluign's deps on every update
+  -- (optional) update plugin's deps on every update
   build = function()
     vim.cmd.GoInstallDeps()
   end,
@@ -56,7 +56,7 @@ require("gopher").setup {
 
 >[!IMPORTANT]
 >
-> For named tests to work you have to install gotests from develop branch. Next code snippets could be placed into build step in Lazy plugin declatation
+> For named tests to work you have to install gotests from develop branch. Next code snippets could be placed into the build step in the Lazy plugin declaration
 
 ```lua
 -- using mason-tool-installer
@@ -83,7 +83,7 @@ vim.fn.jobstart("go install github.com/cweill/gotests/...@develop")
 :GoInstallDeps
 ```
 
-This will install next tools:
+This will install the following tools:
 
 - [gomodifytags](https://github.com/fatih/gomodifytags)
 - [impl](https://github.com/josharian/impl)
@@ -123,10 +123,10 @@ This will install next tools:
   " Generate one test for a specific function/method(one under cursor)
   :GoTestAdd
 
-  " Generate all tests for all functions/methods in current file
+  " Generate all tests for all functions/methods in the current file
   :GoTestsAll
 
-  " Generate tests only for exported functions/methods in current file:
+  " Generate tests only for exported functions/methods in the current file:
   :GoTestsExp
   ```
 
@@ -144,10 +144,10 @@ This will install next tools:
   ```vim
   :GoGet github.com/gorilla/mux
 
-  " Link can have a `http` or `https` prefix.
+  " Link can have an `http` or `https` prefix.
   :GoGet https://github.com/lib/pq
 
-  " You can provide more than one package url:
+  " You can provide more than one package url
   :GoGet github.com/jackc/pgx/v5 github.com/google/uuid/
 
   " go mod commands
@@ -160,7 +160,7 @@ This will install next tools:
   " run go generate in cwd
   :GoGenerate
 
-  " run go generate for current file
+  " run go generate for the current file
   :GoGenerate %
   ```
 </details>
@@ -174,7 +174,7 @@ This will install next tools:
   ```vim
   :GoImpl [receiver] [interface]
 
-  " also you can put cursor on the struct and run
+  " also you can put a cursor on the struct and run
   :GoImpl [interface]
   ```
 
@@ -183,7 +183,7 @@ This will install next tools:
   :GoImpl r Read io.Reader
   :GoImpl Write io.Writer
 
-  " or your can put cursor on the struct and run
+  " or you can put a cursor on the struct and run
   :GoImpl io.Reader
   ```
 </details>
@@ -206,7 +206,7 @@ This will install next tools:
     <b>Generate `if err != nil {` via [iferr](https://github.com/koron/iferr)</b>
   </summary>
 
-  Set cursor on the line with `err` and execute
+  Set the cursor on the line with `err` and execute
 
   ```vim
   :GoIfErr
