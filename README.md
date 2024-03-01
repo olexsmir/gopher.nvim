@@ -222,6 +222,7 @@ require("gopher").setup {
   </summary>
 
   >[!IMPORTANT]
+  >
   > [nvim-dap](https://github.com/mfussenegger/nvim-dap) has to be installed
 
   ```lua
