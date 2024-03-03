@@ -141,7 +141,7 @@ require("gopher").setup {
 
 <details>
   <summary>
-    <b>Run commands like `go mod/get/etc` inside of nvim</b>
+    <b>Run commands like <code>go mod/get/etc</code> inside of nvim</b>
   </summary>
 
   ```vim
