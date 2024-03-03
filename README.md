@@ -6,12 +6,12 @@ Minimalistic plugin for Go development in Neovim written in Lua.
 
 It's **NOT** an LSP tool, the main goal of this plugin is to add go tooling support in Neovim.
 
-## Install (using [lazy.nvim](https://github.com/folke/lazy.nvim)
+## Install (using [lazy.nvim](https://github.com/folke/lazy.nvim))
 
 Pre-dependency:
 
-- [go](https://github.com/golang/go) (tested on 1.17 and 1.18)
-- Go treesitter parser, install by `:TSInstall go`
+- [Go](https://github.com/golang/go)
+- `go` treesitter parser, install by `:TSInstall go`
 
 ```lua
 {
@@ -186,7 +186,7 @@ require("gopher").setup {
   :GoImpl r Read io.Reader
   :GoImpl Write io.Writer
 
-  " or you can put a cursor on the struct and run
+  " or you can simply put a cursor on the struct and run
   :GoImpl io.Reader
   ```
 </details>
