@@ -9,7 +9,7 @@ It's not an LSP tool, the main goal of this plugin is add go tooling support in 
                                                  *gopher.nvim-table-of-contents*
 Table of Contents
   Configuration...........................................|gopher.nvim-config|
-  Setup....................................................|gopher.nvim-setup|
+  Setup.............................................|gopher.nvim-config-setup|
 
 
 ==============================================================================
@@ -20,25 +20,12 @@ also this is optional is you're ok with default settings.
 You can look at default options |gopher.nvim-config-defaults|
 
 ------------------------------------------------------------------------------
-Type ~
-gopher.Config
-
-------------------------------------------------------------------------------
-                                       *gopher.nvim-config.ConfigGoTagTransform*
-Possible values for |gopher.Config|.gotag.transform:
-
-"snakecase"  "GopherUser" -> "gopher_user"
-"camelcase"  "GopherUser" -> "gopherUser"
-"lispcase"   "GopherUser" -> "gopher-user"
-"pascalcase" "GopherUser" -> "GopherUser"
-"titlecase"  "GopherUser" -> "Gopher User"
-"keep"       keeps the original field name
-
-------------------------------------------------------------------------------
                                                    *gopher.nvim-config-defaults*
-Default values:
+                                `default_config`
 >lua
-  {
+  local default_config = {
+    --minidoc_replace_end
+
     -- user specified paths to binaries
     ---@class gopher.ConfigCommand
     commands = {
@@ -58,7 +45,6 @@ Default values:
       template_dir = nil,
       -- switch table tests from using slice to map (with test name for the key)
       -- works only with gotests installed from develop branch
-      ---@type boolean
       named = false,
     },
     ---@class gopher.ConfigGoTag
@@ -68,20 +54,20 @@ Default values:
     },
   }
 <
-Class ~
+Class  
 {gopher.Config}
 
 ------------------------------------------------------------------------------
-                                                             *gopher.nvim-setup*
+                                                      *gopher.nvim-config-setup*
                          `config.setup`({user_config})
 Setup function. This method simply merges default configs with opts table.
 You can read more about configuration at |gopher.nvim-config|
 Calling this function is optional, if you ok with default settings. Look |gopher.nvim.config-defaults|
 
-Usage ~
+Usage  
 `require("gopher").setup {}` (replace `{}` with your `config` table)
 
-Parameters ~
+Parameters  
 {user_config} `(optional)` gopher.Config
 
 
