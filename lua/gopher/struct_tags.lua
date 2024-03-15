@@ -56,7 +56,7 @@ local function modify(...)
     or tagged["start"] == nil
     or tagged["start"] == 0
   then
-    error("failed to set tags " .. vim.inspec(tagged))
+    error("failed to set tags " .. vim.inspect(tagged))
   end
 
   vim.api.nvim_buf_set_lines(
