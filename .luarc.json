@@ -6,11 +6,5 @@
         "after_each",
         "before_all",
         "after_all"
-    ],
-    "workspace.library": [
-        "/home/olex/.local/share/nvim/lazy/neodev.nvim/types/nightly",
-        "/usr/share/nvim/runtime/lua",
-        "/home/olex/code/gopher.nvim/lua",
-        "${3rd}/luv/library"
     ]
 }
