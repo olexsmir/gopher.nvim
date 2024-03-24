@@ -116,4 +116,15 @@ function M.remove(...)
   modify(unpack(cmd_args))
 end
 
+---clear all tags to struct under cursor
+function M.clear()
+  if #arg == nil or arg == "" then
+    arg = { "json" }
+  end
+
+  local cmd_args = { "-clear-tags" }
+
+  modify(unpack(cmd_args))
+end
+
 return M
