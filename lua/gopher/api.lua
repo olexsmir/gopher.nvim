@@ -6,6 +6,7 @@ local cmd = require "gopher._utils.commands"
 API.install_deps = require "gopher.installer"
 API.tags_add = tags.add
 API.tags_rm = tags.remove
+API.tags_clear = tags.clear
 API.impl = require "gopher.impl"
 API.iferr = require "gopher.iferr"
 API.comment = require "gopher.comment"
