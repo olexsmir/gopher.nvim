@@ -154,6 +154,14 @@ Notice: [nvim-dap](https://github.com/mfussenegger/nvim-dap) is required
 require"gopher.dap".setup()
 ```
 
+11. Generate `constructor` from a `struct`
+
+Set cursor on a struct name and execute:
+
+```vim
+:GenConstructor
+```
+
 ## Contributing
 
 PRs are always welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md)

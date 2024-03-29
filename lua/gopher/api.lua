@@ -12,6 +12,7 @@ API.comment = require "gopher.comment"
 API.test_add = tests.func_test
 API.test_exported = tests.all_exported_tests
 API.tests_all = tests.all_tests
+API.gen_constructor = require "gopher.gen_constructor"
 
 API.get = function(...)
   cmd("get", ...)
