@@ -11,7 +11,7 @@ command! -nargs=* GoGenerate :lua require"gopher.api".generate(<f-args>)
 command! GoCmt :lua require"gopher.api".comment()
 command! GoIfErr :lua require"gopher.api".iferr()
 command! GoInstallDeps :lua require"gopher.api".install_deps()
-command! GoGenConstructor :lua require"gopher.api".gen_constructor(f-args)
+command! GoGenConstructor :lua require"gopher.api".gen_constructor(<f-args>)
 
 
 " TODO: Use this format to remove vimscript in the future"
