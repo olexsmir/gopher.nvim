@@ -8,8 +8,18 @@ It's not an LSP tool, the main goal of this plugin is add go tooling support in 
 ------------------------------------------------------------------------------
                                                  *gopher.nvim-table-of-contents*
 Table of Contents
+  Setup....................................................|gopher.nvim-setup|
   Configuration...........................................|gopher.nvim-config|
-  Setup.............................................|gopher.nvim-config-setup|
+
+------------------------------------------------------------------------------
+                                                             *gopher.nvim-setup*
+                                 `gopher.setup`
+Setup function. This method simply merges default configs with opts table.
+You can read more about configuration at |gopher.nvim-config|
+Calling this function is optional, if you ok with default settings. Look |gopher.nvim.config-defaults|
+
+Usage ~
+`require("gopher").setup {}` (replace `{}` with your `config` table)
 
 
 ==============================================================================
@@ -54,20 +64,13 @@ You can look at default options |gopher.nvim-config-defaults|
     },
   }
 <
-Class  
+Class ~
 {gopher.Config}
 
 ------------------------------------------------------------------------------
-                                                      *gopher.nvim-config-setup*
+                                                                *config.setup()*
                          `config.setup`({user_config})
-Setup function. This method simply merges default configs with opts table.
-You can read more about configuration at |gopher.nvim-config|
-Calling this function is optional, if you ok with default settings. Look |gopher.nvim.config-defaults|
-
-Usage  
-`require("gopher").setup {}` (replace `{}` with your `config` table)
-
-Parameters  
+Parameters ~
 {user_config} `(optional)` gopher.Config
 
 

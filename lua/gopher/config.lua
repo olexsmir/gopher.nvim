@@ -62,14 +62,6 @@ local default_config = {
 ---@private
 local _config = default_config
 
----@toc_entry Setup
----@tag gopher.nvim-setup
----@text Setup function. This method simply merges default configs with opts table.
---- You can read more about configuration at |gopher.nvim-config|
---- Calling this function is optional, if you ok with default settings. Look |gopher.nvim.config-defaults|
----
----@usage `require("gopher").setup {}` (replace `{}` with your `config` table)
----
 ---@param user_config? gopher.Config
 function config.setup(user_config)
   _config = vim.tbl_deep_extend("force", default_config, user_config or {})

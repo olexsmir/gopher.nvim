@@ -14,6 +14,13 @@ local tests = require "gopher.gotests"
 local gocmd = require("gopher._utils.runner.gocmd").run
 local gopher = {}
 
+---@toc_entry Setup
+---@tag gopher.nvim-setup
+---@text Setup function. This method simply merges default configs with opts table.
+--- You can read more about configuration at |gopher.nvim-config|
+--- Calling this function is optional, if you ok with default settings. Look |gopher.nvim.config-defaults|
+---
+---@usage `require("gopher").setup {}` (replace `{}` with your `config` table)
 gopher.setup = require("gopher.config").setup
 gopher.install_deps = require("gopher.installer").install_deps
 gopher.impl = require("gopher.impl").impl
