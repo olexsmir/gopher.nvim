@@ -22,7 +22,14 @@ local gopher = {}
 ---
 ---@usage `require("gopher").setup {}` (replace `{}` with your `config` table)
 gopher.setup = require("gopher.config").setup
+
+---@toc_entry Install dependencies
+---@tag gopher.nvim-install-deps
+---@text Gopher.nvim implements most of its features using third-party tools.
+--- To  install these tools, you can run `:GoInstallDeps` command
+--- or call `require("gopher").install_deps()` if you want ues lua api.
 gopher.install_deps = require("gopher.installer").install_deps
+
 gopher.impl = require("gopher.impl").impl
 gopher.iferr = require("gopher.iferr").iferr
 gopher.comment = require "gopher.comment"

@@ -9,6 +9,7 @@ It's not an LSP tool, the main goal of this plugin is add go tooling support in 
                                                  *gopher.nvim-table-of-contents*
 Table of Contents
   Setup....................................................|gopher.nvim-setup|
+  Install dependencies..............................|gopher.nvim-install-deps|
   Configuration...........................................|gopher.nvim-config|
 
 ------------------------------------------------------------------------------
@@ -20,6 +21,13 @@ Calling this function is optional, if you ok with default settings. Look |gopher
 
 Usage ~
 `require("gopher").setup {}` (replace `{}` with your `config` table)
+
+------------------------------------------------------------------------------
+                                                      *gopher.nvim-install-deps*
+                             `gopher.install_deps`
+Gopher.nvim implements most of its features using third-party tools.
+To  install these tools, you can run `:GoInstallDeps` command
+or call `require("gopher").install_deps()` if you want ues lua api.
 
 
 ==============================================================================
