@@ -45,5 +45,5 @@ tasks:
         nvim --noplugin \
              --headless \
              -u "./scripts/minimal_init.lua" \
-             -c "luafile ./scripts/doc_gen.lua" \
+             -c "luafile ./scripts/docgen.lua" \
              -c ":qa!"
