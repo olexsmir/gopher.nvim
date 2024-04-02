@@ -14,6 +14,7 @@ Table of Contents
   Modifty struct tags................................|gopher.nvim-struct-tags|
   Auto implementation of interface methods..................|gopher.nvim-impl|
   Generating unit tests boilerplate......................|gopher.nvim-gotests|
+  Iferr....................................................|gopher.nvim-iferr|
   Setup `nvim-dap` for Go......................................|gopher.nvim-dap|
 
 ------------------------------------------------------------------------------
@@ -189,6 +190,14 @@ you can do it with:
 <
 
 if you choose to install `gotests` within neovim, i recommend adding it to your `build` section in your |lazy.nvim|
+
+
+==============================================================================
+------------------------------------------------------------------------------
+                                                             *gopher.nvim-iferr*
+if you're using `iferr` tool, this module provides a way to automatically insert `if err != nil` check.
+Usage ~
+execute `:GoIfErr` near any err variable to insert the check
 
 
 ==============================================================================
