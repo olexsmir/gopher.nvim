@@ -1,3 +1,29 @@
+---@toc_entry Modifty struct tags
+---@tag gopher.nvim-struct-tags
+---@text struct-tags is utilizing the `gomodifytags` tool to add or remove tags to struct fields.
+---@usage - put your coursor on the struct
+--- - run `:GoTagAdd json` to add json tags to struct fields
+--- - run `:GoTagRm json` to remove json tags to struct fields
+---
+--- note: if you dont spesify the tag it will use `json` as default
+---
+--- simple example:
+--- >go
+---    // before
+---    type User struct {
+---    // ^ put your cursor here
+---    // run `:GoTagAdd yaml`
+---        ID int
+---        Name string
+---    }
+---
+---    // after
+---    type User struct {
+---        ID int      `yaml:id`
+---        Name string `yaml:name`
+---    }
+--- <
+
 local ts_utils = require "gopher._utils.ts"
 local r = require "gopher._utils.runner"
 local c = require "gopher.config"
@@ -69,8 +95,7 @@ local function modify(...)
   vim.cmd "write"
 end
 
----add tags to struct under cursor
----@param ... unknown
+-- add tags to struct under cursor
 function struct_tags.add(...)
   local arg = { ... }
   if #arg == nil or arg == "" then
@@ -85,8 +110,7 @@ function struct_tags.add(...)
   modify(unpack(cmd_args))
 end
 
----remove tags to struct under cursor
----@param ... unknown
+-- remove tags to struct under cursor
 function struct_tags.remove(...)
   local arg = { ... }
   if #arg == nil or arg == "" then

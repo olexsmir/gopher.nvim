@@ -11,6 +11,7 @@ Table of Contents
   Setup....................................................|gopher.nvim-setup|
   Install dependencies..............................|gopher.nvim-install-deps|
   Configuration...........................................|gopher.nvim-config|
+  Modifty struct tags................................|gopher.nvim-struct-tags|
   Auto implementation of interface methods..................|gopher.nvim-impl|
   Setup `nvim-dap` for Go......................................|gopher.nvim-dap|
 
@@ -86,6 +87,35 @@ Parameters ~
 
 ==============================================================================
 ------------------------------------------------------------------------------
+                                                       *gopher.nvim-struct-tags*
+struct-tags is utilizing the `gomodifytags` tool to add or remove tags to struct fields.
+Usage ~
+- put your coursor on the struct
+- run `:GoTagAdd json` to add json tags to struct fields
+- run `:GoTagRm json` to remove json tags to struct fields
+
+note: if you dont spesify the tag it will use `json` as default
+
+simple example:
+>go
+   // before
+   type User struct {
+   // ^ put your cursor here
+   // run `:GoTagAdd yaml`
+       ID int
+       Name string
+   }
+
+   // after
+   type User struct {
+       ID int      `yaml:id`
+       Name string `yaml:name`
+   }
+<
+
+
+==============================================================================
+------------------------------------------------------------------------------
                                                               *gopher.nvim-impl*
 impl is utilizing the `impl` tool to generate method stubs for interfaces.
 Usage ~
@@ -120,7 +150,7 @@ simple example:
                                                                *gopher.nvim-dap*
 This module sets up `nvim-dap` for Go.
 Usage ~
-just call `require("gopher.dap").setup()`, adn you're good to go.
+just call `require("gopher.dap").setup()`, and you're good to go.
 
 
  vim:tw=78:ts=8:noet:ft=help:norl:
