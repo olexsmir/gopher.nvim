@@ -15,6 +15,7 @@ Table of Contents
   Auto implementation of interface methods..................|gopher.nvim-impl|
   Generating unit tests boilerplate......................|gopher.nvim-gotests|
   Iferr....................................................|gopher.nvim-iferr|
+  Generate comments.....................................|gopher.nvim-comments|
   Setup `nvim-dap` for Go......................................|gopher.nvim-dap|
 
 ------------------------------------------------------------------------------
@@ -198,6 +199,14 @@ if you choose to install `gotests` within neovim, i recommend adding it to your 
 if you're using `iferr` tool, this module provides a way to automatically insert `if err != nil` check.
 Usage ~
 execute `:GoIfErr` near any err variable to insert the check
+
+
+==============================================================================
+------------------------------------------------------------------------------
+                                                          *gopher.nvim-comments*
+Usage ~
+Execute `:GoCmt` to generate a comment for the current function/method/struct/etc on this line.
+This module provides a way to generate comments for Go code.
 
 
 ==============================================================================
