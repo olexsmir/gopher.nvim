@@ -1,3 +1,8 @@
+---@toc_entry Setup `nvim-dap` for Go
+---@tag gopher.nvim-dap
+---@text This module sets up `nvim-dap` for Go.
+---@usage just call `require("gopher.dap").setup()`, and you're good to go.
+
 local u = require "gopher._utils"
 local c = require "gopher.config"
 local dap = {}
@@ -106,7 +111,7 @@ dap.configuration = {
   },
 }
 
----setup `nvim-dap` for Go
+-- sets ups nvim-dap for Go in one function call.
 function dap.setup()
   local d = u.sreq "dap"
 

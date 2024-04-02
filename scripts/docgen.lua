@@ -10,7 +10,8 @@ end
 local files = {
   "lua/gopher/init.lua",
   "lua/gopher/config.lua",
-  "lua/gopher/impl.lua"
+  "lua/gopher/impl.lua",
+  "lua/gopher/dap.lua",
 }
 
 minidoc.setup()

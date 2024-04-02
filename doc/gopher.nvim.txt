@@ -12,6 +12,7 @@ Table of Contents
   Install dependencies..............................|gopher.nvim-install-deps|
   Configuration...........................................|gopher.nvim-config|
   Auto implementation of interface methods..................|gopher.nvim-impl|
+  Setup `nvim-dap` for Go......................................|gopher.nvim-dap|
 
 ------------------------------------------------------------------------------
                                                              *gopher.nvim-setup*
@@ -112,6 +113,14 @@ simple example:
    	panic("not implemented") // TODO: Implement
    }
 <
+
+
+==============================================================================
+------------------------------------------------------------------------------
+                                                               *gopher.nvim-dap*
+This module sets up `nvim-dap` for Go.
+Usage ~
+just call `require("gopher.dap").setup()`, adn you're good to go.
 
 
  vim:tw=78:ts=8:noet:ft=help:norl:
