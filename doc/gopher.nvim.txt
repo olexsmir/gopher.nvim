@@ -13,6 +13,7 @@ Table of Contents
   Configuration...........................................|gopher.nvim-config|
   Modifty struct tags................................|gopher.nvim-struct-tags|
   Auto implementation of interface methods..................|gopher.nvim-impl|
+  Generating unit tests boilerplate......................|gopher.nvim-gotests|
   Setup `nvim-dap` for Go......................................|gopher.nvim-dap|
 
 ------------------------------------------------------------------------------
@@ -143,6 +144,51 @@ simple example:
    	panic("not implemented") // TODO: Implement
    }
 <
+
+
+==============================================================================
+------------------------------------------------------------------------------
+                                                           *gopher.nvim-gotests*
+gotests is utilizing the `gotests` tool to generate unit tests boilerplate.
+Usage ~
+
+- generate unit test for spesisfic function/method
+  - to specift the function/method put your cursor on it
+  - run `:GoTestAdd`
+
+- generate unit tests for all functions/methods in current file
+  - run `:GoTestsAll`
+
+- generate unit tests only for exported(public) functions/methods
+  - run `:GoTestsExp`
+
+you can also specify the template to use for generating the tests. see |gopher.nvim-config|
+more details about templates can be found at: https://github.com/cweill/gotests
+
+
+------------------------------------------------------------------------------
+                                                     *gopher.nvim-gotests-named*
+
+if you prefare using named tests, you can enable it in the config.
+but you would need to install `gotests@develop` because stable version doesn't support this feature.
+you can do it with:
+>lua
+  -- simply run go get in your shell:
+  go install github.com/cweill/gotests/...@develop
+
+  -- if you want to install it within neovim, you can use one of this:
+
+  vim.fn.jobstart("go install github.com/cweill/gotests/...@develop")
+
+  -- or if you want to use mason:
+  require("mason-tool-installer").setup {
+    ensure_installed = {
+      { "gotests", version = "develop" },
+    }
+  }
+<
+
+if you choose to install `gotests` within neovim, i recommend adding it to your `build` section in your |lazy.nvim|
 
 
 ==============================================================================

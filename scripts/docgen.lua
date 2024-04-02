@@ -12,6 +12,7 @@ local files = {
   "lua/gopher/config.lua",
   "lua/gopher/struct_tags.lua",
   "lua/gopher/impl.lua",
+  "lua/gopher/gotests.lua",
   "lua/gopher/dap.lua",
 }
 

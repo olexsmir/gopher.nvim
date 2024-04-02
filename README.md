@@ -64,24 +64,6 @@ require("gopher").setup {
 }
 ```
 
-<details>
-  <summary>
-    For named tests to work you have to install gotests from develop branch. Next code snippets could be placed into the build step in the Lazy plugin declaration
-  </summary>
-
-  ```lua
-  -- using mason-tool-installer
-  require("mason-tool-installer").setup {
-    ensure_installed = {
-      { "gotests", version = "develop" },
-    }
-  }
-
-  -- using `vim.fn.jobstart`
-  vim.fn.jobstart("go install github.com/cweill/gotests/...@develop")
-  ```
-</details>
-
 ## Features
 
 <!-- markdownlint-disable -->
@@ -148,6 +130,8 @@ require("gopher").setup {
   require("gopher").test.exported()
   require("gopher").test.all()
   ```
+
+  For named tests see `:h gopher.nvim-gotests-named`
 </details>
 
 <details>
