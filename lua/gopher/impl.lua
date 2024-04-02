@@ -1,3 +1,32 @@
+---@toc_entry Auto implementation of interface methods
+---@tag gopher.nvim-impl
+---@text impl is utilizing the `impl` tool to generate method stubs for interfaces.
+---@usage
+--- 1. put your coursor on the struct on which you want implement the interface
+---    and run `:GoImpl io.Reader`
+---    which will automatically choose the reciver for the methods and
+---    implement the `io.Reader` interface
+--- 2. same as previous but with custom receiver, so put your coursor on the struct
+---    run `:GoImpl w io.Writer`
+---    where `w` is the receiver and `io.Writer` is the interface
+--- 3. specift receiver, struct, and interface
+---    there's no need to put your coursor on the struct if you specify all arguments
+---    `:GoImpl r RequestReader io.Reader`
+---    where `r` is the receiver, `RequestReader` is the struct and `io.Reader` is the interface
+---
+--- simple example:
+--- >go
+---    type BytesReader struct{}
+---    //    ^ put your cursor here
+---    // run `:GoImpl b io.Reader`
+---
+---    // this is what you will get
+---    func (b *BytesReader) Read(p []byte) (n int, err error) {
+---    	panic("not implemented") // TODO: Implement
+---    }
+--- <
+
+
 local c = require("gopher.config").commands
 local r = require "gopher._utils.runner"
 local ts_utils = require "gopher._utils.ts"
@@ -5,6 +34,7 @@ local u = require "gopher._utils"
 local impl = {}
 
 ---@return string
+---@private
 local function get_struct()
   local ns = ts_utils.get_struct_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil then
