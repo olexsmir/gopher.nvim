@@ -1,6 +1,6 @@
 local health = {}
 local cmd = require("gopher.config").commands
-local u = require "gopher._utils.health"
+local u = require "gopher._utils.health_util"
 
 local deps = {
   plugin = {
@@ -24,11 +24,12 @@ local deps = {
     },
     { bin = cmd.dlv, msg = "required for debugging, (`nvim-dap`, `gopher.dap`)", optional = true },
   },
+  treesitter = {
+    { parser = "go", msg = "required for `gopher.nvim`", optional = false },
+  },
 }
 
 function health.check()
-  u.info "install go treesitter parser by `:TSInstall go` if you don't have it already"
-
   u.start "required plugins"
   for _, plugin in ipairs(deps.plugin) do
     if u.is_lualib_found(plugin.lib) then
@@ -53,6 +54,15 @@ function health.check()
       else
         u.error(bin.bin .. " not found, " .. bin.msg)
       end
+    end
+  end
+
+  u.start "required treesitter parsers"
+  for _, parser in ipairs(deps.treesitter) do
+    if u.is_treesitter_parser_available(parser.parser) then
+      u.ok(parser.parser .. " parser installed")
+    else
+      u.error(parser.parser .. " parser not found, " .. parser.msg)
     end
   end
 end

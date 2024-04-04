@@ -23,4 +23,11 @@ function health.is_binary_found(bin)
   return false
 end
 
+---@param ft string
+---@return boolean
+function health.is_treesitter_parser_available(ft)
+  local ok, parser = pcall(vim.treesitter.get_parser, 0, ft)
+  return ok and parser ~= nil
+end
+
 return health
