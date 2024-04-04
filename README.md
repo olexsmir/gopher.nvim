@@ -4,7 +4,7 @@
 
 Minimalistic plugin for Go development in Neovim written in Lua.
 
-> It's **NOT** an LSP tool, the main goal of this plugin is to add go tooling support in Neovim.
+It's **NOT** an LSP tool, the main goal of this plugin is to add go tooling support in Neovim.
 
 > If you want to use new and maybe undocumented, and unstable features you might use [develop](https://github.com/olexsmir/gopher.nvim/tree/develop) branch.
 
