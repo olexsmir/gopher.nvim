@@ -4,40 +4,54 @@
 
 Minimalistic plugin for Go development in Neovim written in Lua.
 
-It's not an LSP tool, the main goal of this plugin is add go tooling support in Neovim.
+It's **NOT** an LSP tool, the main goal of this plugin is to add go tooling support in Neovim.
 
-## Install
+> If you want to use new and maybe undocumented, and unstable features you might use [develop](https://github.com/olexsmir/gopher.nvim/tree/develop) branch.
 
-Pre-dependency: [go](https://github.com/golang/go) (tested on 1.17 and 1.18)
+## Install (using [lazy.nvim](https://github.com/folke/lazy.nvim))
+
+Pre-dependency:
+
+- [Go](https://github.com/golang/go)
+- `go` treesitter parser, install by `:TSInstall go`
 
 ```lua
-use {
+{
   "olexsmir/gopher.nvim",
-  requires = { -- dependencies
+  ft = "go",
+  -- branch = "develop", -- if you want develop branch
+                         -- keep in mind, it might break everything
+  dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
+    "mfussenegger/nvim-dap", -- (optional) only if you use `gopher.dap`
   },
+  -- (optional) will update plugin's deps on every update
+  build = function()
+    vim.cmd.GoInstallDeps()
+  end,
+  ---@type gopher.Config
+  opts = {},
 }
 ```
 
-Also, run `TSInstall go` if `go` parser if isn't installed yet.
+## Configuratoin
 
-## Config
+> [!IMPORTANT]
+>
+> If you need more info look `:h gopher.nvim`
 
-By `.setup` function you can configure the plugin.
-
-Note:
-
-- `installer` does not install the tool in user set path
+**Take a look at default options**
 
 ```lua
 require("gopher").setup {
   commands = {
     go = "go",
     gomodifytags = "gomodifytags",
-    gotests = "~/go/bin/gotests", -- also you can set custom command path
+    gotests = "gotests",
     impl = "impl",
     iferr = "iferr",
+    dlv = "dlv",
   },
   gotests = {
     -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
@@ -48,151 +62,170 @@ require("gopher").setup {
     -- works only with gotests installed from develop branch
     named = false,
   },
+  gotag = {
+    transform = "snakecase",
+  },
 }
 ```
 
-### Named tests with testify (using map instead of slice for test cases)
-
-```lua
-require("gopher").setup({
-  gotests = {
-    template = "testify",
-    named = true
-  }
-})
-```
-
-For named tests to work you have to install gotests from develop branch, for example using [mason-tool-installer](https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim):
-
-```lua
- require('mason-tool-installer').setup({
-  ensure_installed = {
-    { "gotests", version = "develop" },
-  }
-})
-```
-
-Or by calling `vim.fn.jobstart`:
-
-```lua
-vim.fn.jobstart("go install github.com/cweill/gotests/...@develop")
-```
-
-If you're using `lazy.nvim` you can put in `build` function inside `setup()`
-
 ## Features
 
-1. Installation requires this go tool:
+<!-- markdownlint-disable -->
 
-```vim
-:GoInstallDeps
-```
+<details>
+  <summary>
+    <b>Install plugin's go deps</b>
+  </summary>
 
-It will install next tools:
+  ```vim
+  :GoInstallDeps
+  ```
 
-- [gomodifytags](https://github.com/fatih/gomodifytags)
-- [impl](https://github.com/josharian/impl)
-- [gotests](https://github.com/cweill/gotests)
-- [iferr](https://github.com/koron/iferr)
+  This will install the following tools:
 
-2. Modify struct tags:
+  - [gomodifytags](https://github.com/fatih/gomodifytags)
+  - [impl](https://github.com/josharian/impl)
+  - [gotests](https://github.com/cweill/gotests)
+  - [iferr](https://github.com/koron/iferr)
+  - [dlv](github.com/go-delve/delve/cmd/dlv)
+</details>
+
+<details>
+  <summary>
+    <b>Add and remove tags for structs via <a href="https://github.com/fatih/gomodifytags">gomodifytags</a></b>
+  </summary>
+
   By default `json` tag will be added/removed, if not set:
 
-```vim
-:GoTagAdd json " For add json tag
-:GoTagRm yaml " For remove yaml tag
-```
+  ```vim
+  " add json tag
+  :GoTagAdd json
 
-3. Run `go mod` command:
+  " remove yaml tag
+  :GoTagRm yaml
+  ```
 
-```vim
-:GoMod tidy " Runs `go mod tidy`
-:GoMod init asdf " Runs `go mod init asdf`
-```
+  ```lua
+  -- or you can use lua api
+  require("gopher").tags.add "xml"
+  require("gopher").tags.rm "proto"
+  ```
+</details>
 
-4. Run `go get` command
+<details>
+  <summary>
+    <b>Generating tests via <a href="https://github.com/cweill/gotests">gotests</a></b>
+  </summary>
 
-Link can have a `http` or `https` prefix.
+  ```vim
+  " Generate one test for a specific function/method(one under cursor)
+  :GoTestAdd
 
-You can provide more than one package url:
+  " Generate all tests for all functions/methods in the current file
+  :GoTestsAll
 
-```vim
-:GoGet github.com/gorilla/mux
-```
+  " Generate tests for only  exported functions/methods in the current file
+  :GoTestsExp
+  ```
 
-5. Interface implementation
+  ```lua
+  -- or you can use lua api
+  require("gopher").test.add()
+  require("gopher").test.exported()
+  require("gopher").test.all()
+  ```
 
-Command syntax:
+  For named tests see `:h gopher.nvim-gotests-named`
+</details>
 
-```vim
-:GoImpl [receiver] [interface]
+<details>
+  <summary>
+    <b>Run commands like <code>go mod/get/etc</code> inside of nvim</b>
+  </summary>
 
-" Also you can put cursor on the struct and run:
-:GoImpl [interface]
-```
+  ```vim
+  :GoGet github.com/gorilla/mux
 
-Example of usage:
+  " Link can have an `http` or `https` prefix.
+  :GoGet https://github.com/lib/pq
 
-```vim
-" Example
-:GoImpl r Read io.Reader
-" or simply put your cursor in the struct and run:
-:GoImpl io.Reader
-```
+  " You can provide more than one package url
+  :GoGet github.com/jackc/pgx/v5 github.com/google/uuid/
 
-6. Generate tests with [gotests](https://github.com/cweill/gotests)
+  " go mod commands
+  :GoMod tidy
+  :GoMod init new-shiny-project
 
-Generate one test for a specific function/method:
+  " go work commands
+  :GoWork sync
 
-```vim
-:GoTestAdd
-```
+  " run go generate in cwd
+  :GoGenerate
 
-Generate all tests for all functions/methods in current file:
+  " run go generate for the current file
+  :GoGenerate %
+  ```
+</details>
 
-```vim
-:GoTestsAll
-```
+<details>
+  <summary>
+    <b>Interface implementation via <a href="https://github.com/josharian/impl">impl<a></b>
+  </summary>
 
-Generate tests only for exported functions/methods in current file:
+  Syntax of the command:
+  ```vim
+  :GoImpl [receiver] [interface]
 
-```vim
-:GoTestsExp
-```
+  " also you can put a cursor on the struct and run
+  :GoImpl [interface]
+  ```
 
-7. Run `go generate` command;
+  Usage examples:
+  ```vim
+  :GoImpl r Read io.Reader
+  :GoImpl Write io.Writer
 
-```vim
-" Run `go generate` in cwd path
-:GoGenerate
+  " or you can simply put a cursor on the struct and run
+  :GoImpl io.Reader
+  ```
+</details>
 
-" Run `go generate` for current file
-:GoGenerate %
-```
+<details>
+  <summary>
+    <b>Generate boilerplate for doc comments</b>
+  </summary>
 
-8. Generate doc comment
+  First set a cursor on **public** package/function/interface/struct and execute:
 
-First set a cursor on **public** package/function/interface/struct and execute:
+  ```vim
+  :GoCmt
+  ```
+</details>
 
-```vim
-:GoCmt
-```
 
-9. Generate `if err`
+<details>
+  <summary>
+    <b>Generate <code>if err != nil {</code> via <a href="https://github.com/koron/iferr">iferr</a></b>
+  </summary>
 
-Set cursor on the line with **err** and execute:
+  Set the cursor on the line with `err` and execute
 
-```vim
-:GoIfErr
-```
+  ```vim
+  :GoIfErr
+  ```
+</details>
 
-10. Setup nvim-dap for go in one line.
+<details>
+  <summary>
+    <b>Setup <a href="https://github.com/mfussenegger/nvim-dap">nvim-dap</a> for go in one line</b>
+  </summary>
 
-Notice: [nvim-dap](https://github.com/mfussenegger/nvim-dap) is required
+  note [nvim-dap](https://github.com/mfussenegger/nvim-dap) has to be installed
 
-```lua
-require"gopher.dap".setup()
-```
+  ```lua
+  require("gopher.dap").setup()
+  ```
+</details>
 
 ## Contributing
 
@@ -202,3 +235,4 @@ PRs are always welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 - [go.nvim](https://github.com/ray-x/go.nvim)
 - [nvim-dap-go](https://github.com/leoluz/nvim-dap-go)
+- [iferr](https://github.com/koron/iferr)
