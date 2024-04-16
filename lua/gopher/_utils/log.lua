@@ -33,6 +33,21 @@ local config = {
   float_precision = 0.01,
 }
 
+---@class Gopher.Logger
+---@field outfile string
+---@field trace fun(...)
+---@field fmt_trace fun(...)
+---@field debug fun(...)
+---@field fmt_debug fun(...)
+---@field info fun(...)
+---@field fmt_info fun(...)
+---@field warn fun(...)
+---@field fmt_warn fun(...)
+---@field error fun(...)
+---@field fmt_error fun(...)
+
+---@type Gopher.Logger
+---@diagnostic disable-next-line: missing-fields
 local log = {
   outfile = table.concat {
     (vim.fn.has "nvim-0.8.0" == 1) and vim.fn.stdpath "log" or vim.fn.stdpath "cache",
