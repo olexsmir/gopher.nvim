@@ -5,7 +5,7 @@ local utils = {}
 function utils.deferred_notify(msg, lvl)
   vim.defer_fn(function()
     vim.notify(msg, lvl, {
-      title = TITLE,
+      title = c.___plugin_name,
     })
   end, 0)
 end
@@ -15,7 +15,7 @@ end
 function utils.notify(msg, lvl)
   lvl = lvl or vim.log.levels.INFO
   vim.notify(msg, lvl, {
-    title = TITLE,
+    title = c.___plugin_name,
   })
 end
 
