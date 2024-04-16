@@ -1,3 +1,5 @@
+local c = require "gopher.config"
+local log = require "gopher._utils.log"
 local utils = {}
 
 ---@param msg string
@@ -7,6 +9,7 @@ function utils.deferred_notify(msg, lvl)
     vim.notify(msg, lvl, {
       title = c.___plugin_name,
     })
+    log.info(msg)
   end, 0)
 end
 
@@ -17,6 +20,7 @@ function utils.notify(msg, lvl)
   vim.notify(msg, lvl, {
     title = c.___plugin_name,
   })
+  log.info(msg)
 end
 
 -- safe require
