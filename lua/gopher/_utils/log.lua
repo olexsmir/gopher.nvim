@@ -96,7 +96,7 @@ do
     local nameupper = level_config.name:upper()
 
     local msg = message_maker(...)
-    local info = debug.getinfo(config.info_level or 2, "Sl")
+    local info = debug.getinfo(2, "Sl")
     local lineinfo = info.short_src .. ":" .. info.currentline
 
     -- Output to console
