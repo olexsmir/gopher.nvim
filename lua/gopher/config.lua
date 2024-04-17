@@ -30,6 +30,7 @@ local default_config = {
   --minidoc_replace_end
 
   -- log level, you might consider using DEBUG or TRACE for degugging the plugin
+  ---@type integer
   log_level = vim.log.levels.INFO,
 
   -- user specified paths to binaries
