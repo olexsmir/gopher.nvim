@@ -9,7 +9,7 @@ function utils.deferred_notify(msg, lvl)
     vim.notify(msg, lvl, {
       title = c.___plugin_name,
     })
-    log.info(msg)
+    log.debug(msg)
   end, 0)
 end
 
@@ -20,7 +20,7 @@ function utils.notify(msg, lvl)
   vim.notify(msg, lvl, {
     title = c.___plugin_name,
   })
-  log.info(msg)
+  log.debug(msg)
 end
 
 -- safe require

@@ -3,6 +3,8 @@
 ---@usage Execute `:GoCmt` to generate a comment for the current function/method/struct/etc on this line.
 ---@text This module provides a way to generate comments for Go code.
 
+local log = require "gopher._utils.log"
+
 local function generate(row, col)
   local ts_utils = require "gopher._utils.ts"
   local comment, ns = nil, nil
@@ -37,6 +39,8 @@ end
 return function()
   local row, col = unpack(vim.api.nvim_win_get_cursor(0))
   local comment, ns = generate(row + 1, col + 1)
+
+  log.debug("generated comment: " .. comment)
 
   vim.api.nvim_win_set_cursor(0, {
     ns.dim.s.r,
