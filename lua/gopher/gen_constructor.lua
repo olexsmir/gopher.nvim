@@ -16,7 +16,6 @@ return function(_)
     for i in ns.struct_properties.parameters_node:iter_children() do
       if i:type() == "type_parameter_declaration" then
         for j in i:iter_children() do
-          print("j: ", j:type())
           if j:type() == "identifier" then
             table.insert(parameter_identifiers, vim.treesitter.get_node_text(j, 1))
           end

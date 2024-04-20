@@ -101,7 +101,6 @@ function M.get_all_nodes(query, lang, _, bufnr, pos_row, _)
         sCol = sCol + 1
         eCol = eCol + 1
       elseif op == "parameters" then
-        print(node)
         parameters_node = node
       elseif op == "fields" then
         fields_node = node
