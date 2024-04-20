@@ -3,7 +3,7 @@ local nodes = require "gopher._utils.ts.nodes"
 local u = require "gopher._utils"
 local M = {
   querys = {
-    struct_block = [[((type_declaration (type_spec name:(type_identifier) @struct.name type: (struct_type)))@struct.declaration)]],
+    struct_block = [[((type_declaration (type_spec name:(type_identifier) @struct.name type_parameters: (type_parameter_list)? @struct.parameters type: (struct_type ( field_declaration_list) @struct.fields) @struct.type))@struct.declaration)]],
     em_struct_block = [[(field_declaration name:(field_identifier)@struct.name type: (struct_type)) @struct.declaration]],
     package = [[(package_clause (package_identifier)@package.name)@package.clause]],
     interface = [[((type_declaration (type_spec name:(type_identifier) @interface.name type:(interface_type)))@interface.declaration)]],
@@ -22,11 +22,11 @@ local function get_name_defaults()
   }
 end
 
----@param row string
+---@param row integer
 ---@param col string
 ---@param bufnr string|nil
 ---@param do_notify boolean|nil
----@return table|nil
+---@return table?
 function M.get_struct_node_at_pos(row, col, bufnr, do_notify)
   local notify = do_notify or true
   local query = M.querys.struct_block .. " " .. M.querys.em_struct_block
@@ -41,7 +41,7 @@ function M.get_struct_node_at_pos(row, col, bufnr, do_notify)
   end
 end
 
----@param row string
+---@param row integer
 ---@param col string
 ---@param bufnr string|nil
 ---@param do_notify boolean|nil

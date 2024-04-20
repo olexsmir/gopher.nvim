@@ -50,8 +50,8 @@ end
 ---@param query string
 ---@param lang string
 ---@param bufnr integer
----@param pos_row string
----@return string
+---@param pos_row integer
+---@return table? | string?
 function M.get_all_nodes(query, lang, _, bufnr, pos_row, _)
   local ts_query = require "nvim-treesitter.query"
   local parsers = require "nvim-treesitter.parsers"
@@ -73,8 +73,19 @@ function M.get_all_nodes(query, lang, _, bufnr, pos_row, _)
   local results = {}
 
   for match in ts_query.iter_prepared_matches(parsed_query, root, bufnr, start_row, end_row) do
-    local sRow, sCol, eRow, eCol, declaration_node
+    -- 'type' will be the left side of a query identifier, e.g. @struct.name => struct
+    -- 'name' will be the name of the node
+    -- 'op' will be the right side of a query identifier, e.g. @struct.name => name
     local type, name, op = "", "", ""
+
+    -- sRow and sCol are the column where the node start
+    -- eRow and eCol are the column where the node end
+    -- 'declaration_node' is the node that declares the struct
+    local sRow, sCol, eRow, eCol, declaration_node
+
+    -- parameters and fields are properties of 'struct' nodes
+    local parameters_node, fields_node
+
     locals.recurse_local_nodes(match, function(_, node, path)
       local idx = string.find(path, ".[^.]*$")
       op = string.sub(path, idx + 1, #path)
@@ -89,6 +100,11 @@ function M.get_all_nodes(query, lang, _, bufnr, pos_row, _)
         eRow = eRow + 1
         sCol = sCol + 1
         eCol = eCol + 1
+      elseif op == "parameters" then
+        print(node)
+        parameters_node = node
+      elseif op == "fields" then
+        fields_node = node
       end
     end)
 
@@ -99,6 +115,13 @@ function M.get_all_nodes(query, lang, _, bufnr, pos_row, _)
         name = name,
         operator = op,
         type = type,
+
+
+        -- struct_properties only will be added for struct nodes
+        struct_properties = {
+          parameters_node = parameters_node,
+          fields_node = fields_node,
+        },
       })
     end
   end
@@ -109,14 +132,14 @@ end
 ---@param query string
 ---@param default string
 ---@param bufnr string
----@param row string
+---@param row integer
 ---@param col string
----@return table
+---@return table?
 function M.nodes_at_cursor(query, default, bufnr, row, col)
   local u = require "gopher._utils"
 
   bufnr = bufnr or vim.api.nvim_get_current_buf()
-  local ft = vim.api.nvim_buf_get_option(bufnr, "ft")
+  local ft = vim.api.nvim_get_option_value("ft",{buf = bufnr})
   if row == nil or col == nil then
     row, col = unpack(vim.api.nvim_win_get_cursor(0))
   end
