@@ -3,6 +3,23 @@
 -- for the code i have stolen(or have inspected by idk)
 local c = require "gopher.config"
 
+---@class Gopher.Logger
+---@field get_outfile fun():string
+---@field trace fun(...)
+---@field fmt_trace fun(...)
+---@field debug fun(...)
+---@field fmt_debug fun(...)
+---@field info fun(...)
+---@field fmt_info fun(...)
+---@field warn fun(...)
+---@field fmt_warn fun(...)
+---@field error fun(...)
+---@field fmt_error fun(...)
+
+---@type Gopher.Logger
+---@diagnostic disable-next-line: missing-fields
+local log = {}
+
 local config = {
   -- Name of the plugin. Prepended to log messages
   name = c.___plugin_name,
@@ -32,28 +49,12 @@ local config = {
   -- Can limit the number of decimals displayed for floats
   float_precision = 0.01,
 }
-
----@class Gopher.Logger
----@field outfile string
----@field trace fun(...)
----@field fmt_trace fun(...)
----@field debug fun(...)
----@field fmt_debug fun(...)
----@field info fun(...)
----@field fmt_info fun(...)
----@field warn fun(...)
----@field fmt_warn fun(...)
----@field error fun(...)
----@field fmt_error fun(...)
-
----@type Gopher.Logger
----@diagnostic disable-next-line: missing-fields
-local log = {
-  outfile = table.concat {
+function log.get_outfile()
+  return table.concat {
     (vim.fn.has "nvim-0.8.0" == 1) and vim.fn.stdpath "log" or vim.fn.stdpath "cache",
     ("/%s.log"):format(config.name),
-  },
-}
+  }
+end
 
 -- selene: allow(incorrect_standard_library_use)
 local unpack = unpack or table.unpack
@@ -133,7 +134,7 @@ do
 
     -- Output to log file
     if config.use_file then
-      local fp = assert(io.open(log.outfile, "a"))
+      local fp = assert(io.open(log.get_outfile(), "a"))
       local str = string.format("[%-6s%s] %s: %s\n", nameupper, os.date(), lineinfo, msg)
       fp:write(str)
       fp:close()

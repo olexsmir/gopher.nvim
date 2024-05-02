@@ -72,7 +72,7 @@ local _config = default_config
 -- if you don't belive me that i am secret see
 -- the line below it says @private
 ---@private
-_config.___plugin_name = "gopher.nvim"
+_config.___plugin_name = "gopher.nvim" ---@diagnostic disable-line: inject-field
 
 ---@param user_config? gopher.Config
 function config.setup(user_config)
