@@ -24,9 +24,8 @@ local gopher = {}
 ---@usage `require("gopher").setup {}` (replace `{}` with your `config` table)
 gopher.setup = function(user_config)
   log.debug "setting up config"
-  log.debug(vim.inspect(user_config))
-
   require("gopher.config").setup(user_config)
+  log.debug(vim.inspect(user_config))
 end
 
 ---@toc_entry Install dependencies

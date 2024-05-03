@@ -16,10 +16,6 @@ local c = require "gopher.config"
 ---@field error fun(...)
 ---@field fmt_error fun(...)
 
----@type Gopher.Logger
----@diagnostic disable-next-line: missing-fields
-local log = {}
-
 local config = {
   -- Name of the plugin. Prepended to log messages
   name = c.___plugin_name,
@@ -49,6 +45,12 @@ local config = {
   -- Can limit the number of decimals displayed for floats
   float_precision = 0.01,
 }
+
+---@type Gopher.Logger
+---@diagnostic disable-next-line: missing-fields
+local log = {}
+
+---@return string
 function log.get_outfile()
   return table.concat {
     (vim.fn.has "nvim-0.8.0" == 1) and vim.fn.stdpath "log" or vim.fn.stdpath "cache",
