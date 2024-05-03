@@ -22,6 +22,7 @@ local gopher = {}
 --- Calling this function is optional, if you ok with default settings. Look |gopher.nvim.config-defaults|
 ---
 ---@usage `require("gopher").setup {}` (replace `{}` with your `config` table)
+---@param user_config gopher.Config
 gopher.setup = function(user_config)
   log.debug "setting up config"
   require("gopher.config").setup(user_config)
