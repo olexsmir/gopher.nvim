@@ -75,6 +75,7 @@ local _config = default_config
 _config.___plugin_name = "gopher.nvim" ---@diagnostic disable-line: inject-field
 
 ---@param user_config? gopher.Config
+---@private
 function config.setup(user_config)
   _config = vim.tbl_deep_extend("force", default_config, user_config or {})
 end
