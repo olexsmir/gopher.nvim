@@ -22,21 +22,21 @@ function M.check()
   local health = vim.health or require "health"
   local u = require "gopher._utils._health"
 
-  health.report_start "Required plugins"
+  health.start "Required plugins"
   for _, plugin in ipairs(M._required.plugins) do
     if u.lualib_is_found(plugin.lib) then
-      health.report_ok(plugin.lib .. " installed.")
+      health.ok(plugin.lib .. " installed.")
     else
-      health.report_error(plugin.lib .. " not found. " .. plugin.help)
+      health.error(plugin.lib .. " not found. " .. plugin.help)
     end
   end
 
-  health.report_start "Required go tools"
+  health.start "Required go tools"
   for _, binary in ipairs(M._required.binarys) do
     if u.binary_is_found(binary.bin) then
-      health.report_ok(binary.bin .. " installed")
+      health.ok(binary.bin .. " installed")
     else
-      health.report_warn(binary.bin .. " is not installed but " .. binary.help)
+      health.warn(binary.bin .. " is not installed but " .. binary.help)
     end
   end
 end
