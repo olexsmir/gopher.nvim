@@ -220,6 +220,8 @@ require("gopher").setup {
     <b>Setup <a href="https://github.com/mfussenegger/nvim-dap">nvim-dap</a> for go in one line</b>
   </summary>
 
+  THIS FEATURE WILL BE REMOVED IN `0.1.6`
+
   note [nvim-dap](https://github.com/mfussenegger/nvim-dap) has to be installed
 
   ```lua
