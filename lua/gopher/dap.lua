@@ -3,7 +3,6 @@
 ---@text This module sets up `nvim-dap` for Go.
 ---@usage just call `require("gopher.dap").setup()`, and you're good to go.
 
-local u = require "gopher._utils"
 local c = require "gopher.config"
 local dap = {}
 
@@ -113,7 +112,15 @@ dap.configuration = {
 
 -- sets ups nvim-dap for Go in one function call.
 function dap.setup()
-  local d = u.sreq "dap"
+  vim.deprecate(
+    "gopher.dap",
+    "you might consider setting up `nvim-dap` manually, or using another plugin(https://github.com/leoluz/nvim-dap-go)",
+    "v0.1.6",
+    "gopher"
+  )
+
+  local ok, d = pcall(require, "dap")
+  assert(ok, "gopher.nvim dependency error: dap not installed")
 
   d.adapters.go = dap.adapter
   d.configurations.go = dap.configuration
