@@ -20,9 +20,6 @@ local config = {
   -- Name of the plugin. Prepended to log messages
   name = c.___plugin_name,
 
-  -- level of looging
-  log_level = c.log_level,
-
   -- Should print the output to neovim while running
   -- values: 'sync','async',false
   use_console = vim.env.GOPHER_VERBOSE_LOGS == "1",
@@ -93,7 +90,9 @@ do
 
   local log_at_level = function(level_config, message_maker, ...)
     -- Return early if we're below the current_log_level
-    if level_config.level < config.log_level then
+    --
+    -- the log level source get from config directly because otherwise it doesnt work
+    if level_config.level < c.log_level then
       return
     end
     local nameupper = level_config.name:upper()
