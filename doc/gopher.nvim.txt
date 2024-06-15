@@ -1,0 +1,220 @@
+*gopher.nvim*
+
+==============================================================================
+
+gopher.nvim is a minimalistic plugin for Go development in Neovim written in Lua.
+It's not an LSP tool, the main goal of this plugin is add go tooling support in Neovim.
+
+------------------------------------------------------------------------------
+                                                 *gopher.nvim-table-of-contents*
+Table of Contents
+  Setup....................................................|gopher.nvim-setup|
+  Install dependencies..............................|gopher.nvim-install-deps|
+  Configuration...........................................|gopher.nvim-config|
+  Modifty struct tags................................|gopher.nvim-struct-tags|
+  Auto implementation of interface methods..................|gopher.nvim-impl|
+  Generating unit tests boilerplate......................|gopher.nvim-gotests|
+  Iferr....................................................|gopher.nvim-iferr|
+  Generate comments.....................................|gopher.nvim-comments|
+  Setup `nvim-dap` for Go......................................|gopher.nvim-dap|
+
+------------------------------------------------------------------------------
+                                                             *gopher.nvim-setup*
+                         `gopher.setup`({user_config})
+Setup function. This method simply merges default configs with opts table.
+You can read more about configuration at |gopher.nvim-config|
+Calling this function is optional, if you ok with default settings. Look |gopher.nvim.config-defaults|
+
+Usage ~
+`require("gopher").setup {}` (replace `{}` with your `config` table)
+Parameters ~
+{user_config} gopher.Config
+
+------------------------------------------------------------------------------
+                                                      *gopher.nvim-install-deps*
+                             `gopher.install_deps`
+Gopher.nvim implements most of its features using third-party tools.
+To  install these tools, you can run `:GoInstallDeps` command
+or call `require("gopher").install_deps()` if you want ues lua api.
+
+
+==============================================================================
+------------------------------------------------------------------------------
+                                                            *gopher.nvim-config*
+config it is the place where you can configure the plugin.
+also this is optional is you're ok with default settings.
+You can look at default options |gopher.nvim-config-defaults|
+
+------------------------------------------------------------------------------
+                                                   *gopher.nvim-config-defaults*
+                                `default_config`
+>lua
+  local default_config = {
+    --minidoc_replace_end
+
+    -- log level, you might consider using DEBUG or TRACE for degugging the plugin
+    ---@type number
+    log_level = vim.log.levels.INFO,
+
+    -- user specified paths to binaries
+    ---@class gopher.ConfigCommand
+    commands = {
+      go = "go",
+      gomodifytags = "gomodifytags",
+      gotests = "gotests",
+      impl = "impl",
+      iferr = "iferr",
+      dlv = "dlv",
+    },
+    ---@class gopher.ConfigGotests
+    gotests = {
+      -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
+      template = "default",
+      -- path to a directory containing custom test code templates
+      ---@type string|nil
+      template_dir = nil,
+      -- switch table tests from using slice to map (with test name for the key)
+      -- works only with gotests installed from develop branch
+      named = false,
+    },
+    ---@class gopher.ConfigGoTag
+    gotag = {
+      ---@type gopher.ConfigGoTagTransform
+      transform = "snakecase",
+    },
+  }
+<
+Class ~
+{gopher.Config}
+
+
+==============================================================================
+------------------------------------------------------------------------------
+                                                       *gopher.nvim-struct-tags*
+struct-tags is utilizing the `gomodifytags` tool to add or remove tags to struct fields.
+Usage ~
+- put your coursor on the struct
+- run `:GoTagAdd json` to add json tags to struct fields
+- run `:GoTagRm json` to remove json tags to struct fields
+
+note: if you dont spesify the tag it will use `json` as default
+
+simple example:
+>go
+   // before
+   type User struct {
+   // ^ put your cursor here
+   // run `:GoTagAdd yaml`
+       ID int
+       Name string
+   }
+
+   // after
+   type User struct {
+       ID int      `yaml:id`
+       Name string `yaml:name`
+   }
+<
+
+
+==============================================================================
+------------------------------------------------------------------------------
+                                                              *gopher.nvim-impl*
+impl is utilizing the `impl` tool to generate method stubs for interfaces.
+Usage ~
+
+1. put your coursor on the struct on which you want implement the interface
+   and run `:GoImpl io.Reader`
+   which will automatically choose the reciver for the methods and
+   implement the `io.Reader` interface
+2. same as previous but with custom receiver, so put your coursor on the struct
+   run `:GoImpl w io.Writer`
+   where `w` is the receiver and `io.Writer` is the interface
+3. specift receiver, struct, and interface
+   there's no need to put your coursor on the struct if you specify all arguments
+   `:GoImpl r RequestReader io.Reader`
+   where `r` is the receiver, `RequestReader` is the struct and `io.Reader` is the interface
+
+simple example:
+>go
+   type BytesReader struct{}
+   //    ^ put your cursor here
+   // run `:GoImpl b io.Reader`
+
+   // this is what you will get
+   func (b *BytesReader) Read(p []byte) (n int, err error) {
+   	panic("not implemented") // TODO: Implement
+   }
+<
+
+
+==============================================================================
+------------------------------------------------------------------------------
+                                                           *gopher.nvim-gotests*
+gotests is utilizing the `gotests` tool to generate unit tests boilerplate.
+Usage ~
+
+- generate unit test for spesisfic function/method
+  - to specift the function/method put your cursor on it
+  - run `:GoTestAdd`
+
+- generate unit tests for all functions/methods in current file
+  - run `:GoTestsAll`
+
+- generate unit tests only for exported(public) functions/methods
+  - run `:GoTestsExp`
+
+you can also specify the template to use for generating the tests. see |gopher.nvim-config|
+more details about templates can be found at: https://github.com/cweill/gotests
+
+
+------------------------------------------------------------------------------
+                                                     *gopher.nvim-gotests-named*
+
+if you prefare using named tests, you can enable it in the config.
+but you would need to install `gotests@develop` because stable version doesn't support this feature.
+you can do it with:
+>lua
+  -- simply run go get in your shell:
+  go install github.com/cweill/gotests/...@develop
+
+  -- if you want to install it within neovim, you can use one of this:
+
+  vim.fn.jobstart("go install github.com/cweill/gotests/...@develop")
+
+  -- or if you want to use mason:
+  require("mason-tool-installer").setup {
+    ensure_installed = {
+      { "gotests", version = "develop" },
+    }
+  }
+<
+
+if you choose to install `gotests` within neovim, i recommend adding it to your `build` section in your |lazy.nvim|
+
+
+==============================================================================
+------------------------------------------------------------------------------
+                                                             *gopher.nvim-iferr*
+if you're using `iferr` tool, this module provides a way to automatically insert `if err != nil` check.
+Usage ~
+execute `:GoIfErr` near any err variable to insert the check
+
+
+==============================================================================
+------------------------------------------------------------------------------
+                                                          *gopher.nvim-comments*
+Usage ~
+Execute `:GoCmt` to generate a comment for the current function/method/struct/etc on this line.
+This module provides a way to generate comments for Go code.
+
+
+==============================================================================
+------------------------------------------------------------------------------
+                                                               *gopher.nvim-dap*
+This module sets up `nvim-dap` for Go.
+Usage ~
+just call `require("gopher.dap").setup()`, and you're good to go.
+
+
+ vim:tw=78:ts=8:noet:ft=help:norl:

@@ -1,44 +1,70 @@
-local c = require("gopher.config").config.commands
+local health = {}
+local cmd = require("gopher.config").commands
+local u = require "gopher._utils.health_util"
 
-local requried_for_work_msg = "Gopher.nvim will not work without it!"
-local M = {
-  _required = {
-    plugins = {
-      { lib = "plenary", help = requried_for_work_msg },
-      { lib = "nvim-treesitter", help = requried_for_work_msg },
-      { lib = "dap", help = "Required for set upping debugger" },
+local deps = {
+  plugin = {
+    { lib = "dap", msg = "required for `gopher.dap`", optional = true },
+    { lib = "plenary", msg = "required for everyting in gopher.nvim", optional = false },
+    { lib = "nvim-treesitter", msg = "required for everyting in gopher.nvim", optional = false },
+  },
+  bin = {
+    {
+      bin = cmd.go,
+      msg = "required for `:GoGet`, `:GoMod`, `:GoGenerate`, `:GoWork`, `:GoInstallDeps`",
+      optional = false,
     },
-    binarys = {
-      { bin = c.go, help = "required for GoMod, GoGet, GoGenerate command" },
-      { bin = c.gomodifytags, help = "required for modify struct tags" },
-      { bin = c.impl, help = "required for interface implementing" },
-      { bin = c.gotests, help = "required for test(s) generation" },
-      { bin = c.dlv, help = "required for debugger(nvim-dap)" },
+    { bin = cmd.gomodifytags, msg = "required for `:GoTagAdd`, `:GoTagRm`", optional = false },
+    { bin = cmd.impl, msg = "required for `:GoImpl`", optional = false },
+    { bin = cmd.iferr, msg = "required for `:GoIfErr`", optional = false },
+    {
+      bin = cmd.gotests,
+      msg = "required for `:GoTestAdd`, `:GoTestsAll`, `:GoTestsExp`",
+      optional = false,
     },
+    { bin = cmd.dlv, msg = "required for debugging, (`nvim-dap`, `gopher.dap`)", optional = true },
+  },
+  treesitter = {
+    { parser = "go", msg = "required for `gopher.nvim`", optional = false },
   },
 }
 
-function M.check()
-  local health = vim.health or require "health"
-  local u = require "gopher._utils._health"
-
-  health.report_start "Required plugins"
-  for _, plugin in ipairs(M._required.plugins) do
-    if u.lualib_is_found(plugin.lib) then
-      health.report_ok(plugin.lib .. " installed.")
+function health.check()
+  u.start "required plugins"
+  for _, plugin in ipairs(deps.plugin) do
+    if u.is_lualib_found(plugin.lib) then
+      u.ok(plugin.lib .. " installed")
     else
-      health.report_error(plugin.lib .. " not found. " .. plugin.help)
+      if plugin.optional then
+        u.warn(plugin.lib .. " not found, " .. plugin.msg)
+      else
+        u.error(plugin.lib .. " not found, " .. plugin.msg)
+      end
     end
   end
 
-  health.report_start "Required go tools"
-  for _, binary in ipairs(M._required.binarys) do
-    if u.binary_is_found(binary.bin) then
-      health.report_ok(binary.bin .. " installed")
+  u.start "required binaries"
+  u.info "all those binaries can be installed by `:GoInstallDeps`"
+  for _, bin in ipairs(deps.bin) do
+    if u.is_binary_found(bin.bin) then
+      u.ok(bin.bin .. " installed")
     else
-      health.report_warn(binary.bin .. " is not installed but " .. binary.help)
+      if bin.optional then
+        u.warn(bin.bin .. " not found, " .. bin.msg)
+      else
+        u.error(bin.bin .. " not found, " .. bin.msg)
+      end
+    end
+  end
+
+  u.start "required treesitter parsers"
+  for _, parser in ipairs(deps.treesitter) do
+    if u.is_treesitter_parser_available(parser.parser) then
+      u.ok(parser.parser .. " parser installed")
+    else
+      u.error(parser.parser .. " parser not found, " .. parser.msg)
     end
   end
 end
 
-return M
+return health

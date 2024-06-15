@@ -1,11 +1,35 @@
-local M = {}
+---@toc_entry Modifty struct tags
+---@tag gopher.nvim-struct-tags
+---@text struct-tags is utilizing the `gomodifytags` tool to add or remove tags to struct fields.
+---@usage - put your coursor on the struct
+--- - run `:GoTagAdd json` to add json tags to struct fields
+--- - run `:GoTagRm json` to remove json tags to struct fields
+---
+--- note: if you dont spesify the tag it will use `json` as default
+---
+--- simple example:
+--- >go
+---    // before
+---    type User struct {
+---    // ^ put your cursor here
+---    // run `:GoTagAdd yaml`
+---        ID int
+---        Name string
+---    }
+---
+---    // after
+---    type User struct {
+---        ID int      `yaml:id`
+---        Name string `yaml:name`
+---    }
+--- <
+
+local ts_utils = require "gopher._utils.ts"
+local r = require "gopher._utils.runner"
+local c = require "gopher.config"
+local struct_tags = {}
 
 local function modify(...)
-  local ts_utils = require "gopher._utils.ts"
-  local Job = require "plenary.job"
-  local c = require("gopher.config").config.commands
-  local u = require "gopher._utils"
-
   local fpath = vim.fn.expand "%" ---@diagnostic disable-line: missing-parameter
   local ns = ts_utils.get_struct_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil then
@@ -14,6 +38,7 @@ local function modify(...)
 
   -- stylua: ignore
   local cmd_args = {
+    "-transform", c.gotag.transform,
     "-format", "json",
     "-file", fpath,
     "-w"
@@ -40,40 +65,26 @@ local function modify(...)
     table.insert(cmd_args, "json")
   end
 
-  -- get result of "gomodifytags" works
-  local res_data
-  Job:new({
-    command = c.gomodifytags,
+  local output = r.sync(c.commands.gomodifytags, {
     args = cmd_args,
-    on_exit = function(data, retval)
-      if retval ~= 0 then
-        u.notify(
-          "command 'gomodifytags " .. unpack(cmd_args) .. "' exited with code " .. retval,
-          "error"
-        )
-        return
+    on_exit = function(data, status)
+      if not status == 0 then
+        error("gotag failed: " .. data)
       end
-
-      res_data = data:result()
     end,
-  }):sync()
+  })
 
   -- decode goted value
-  local tagged = vim.json.decode(table.concat(res_data))
+  local tagged = vim.json.decode(table.concat(output))
   if
     tagged.errors ~= nil
     or tagged.lines == nil
     or tagged["start"] == nil
     or tagged["start"] == 0
   then
-    u.notify("failed to set tags " .. vim.inspect(tagged), "error")
+    error("failed to set tags " .. vim.inspect(tagged))
   end
 
-  for i, v in ipairs(tagged.lines) do
-    tagged.lines[i] = u.rtrim(v)
-  end
-
-  -- write goted tags
   vim.api.nvim_buf_set_lines(
     0,
     tagged.start - 1,
@@ -84,9 +95,8 @@ local function modify(...)
   vim.cmd "write"
 end
 
----add tags to struct under cursor
----@param ... unknown
-function M.add(...)
+-- add tags to struct under cursor
+function struct_tags.add(...)
   local arg = { ... }
   if #arg == nil or arg == "" then
     arg = { "json" }
@@ -100,9 +110,8 @@ function M.add(...)
   modify(unpack(cmd_args))
 end
 
----remove tags to struct under cursor
----@param ... unknown
-function M.remove(...)
+-- remove tags to struct under cursor
+function struct_tags.remove(...)
   local arg = { ... }
   if #arg == nil or arg == "" then
     arg = { "json" }
@@ -116,4 +125,4 @@ function M.remove(...)
   modify(unpack(cmd_args))
 end
 
-return M
+return struct_tags

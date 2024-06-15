@@ -1,0 +1,49 @@
+version: "3"
+tasks:
+  format:
+    desc: formats all lua files in repo
+    cmds:
+      - stylua .
+
+  lint:
+    desc: runs all linters
+    cmds:
+      - task: selene
+      - task: stylua:check
+
+  selene:
+    desc: runs lua linter(selene)
+    cmds:
+      - selene .
+
+  stylua:check:
+    desc: runs stylua in check mode
+    cmds:
+      - stylua --check .
+
+  stylua:
+    desc: runs lua formatter
+    cmds:
+      - stylua .
+
+  test:
+    desc: runs all tests
+    aliases: [tests, spec]
+    cmds:
+      - |
+        nvim --headless \
+          -u ./scripts/minimal_init.lua \
+          -c "PlenaryBustedDirectory spec \
+              {minimal_init='./scripts/minimal_init.lua' \
+              ,sequential=true}" \
+          -c ":qa!"
+
+  docgen:
+    desc: generate vimhelp
+    cmds:
+      - |
+        nvim --noplugin \
+             --headless \
+             -u "./scripts/minimal_init.lua" \
+             -c "luafile ./scripts/docgen.lua" \
+             -c ":qa!"

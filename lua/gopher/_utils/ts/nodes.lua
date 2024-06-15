@@ -1,3 +1,7 @@
+local ts_query = require "nvim-treesitter.query"
+local parsers = require "nvim-treesitter.parsers"
+local locals = require "nvim-treesitter.locals"
+local u = require "gopher._utils"
 local M = {}
 
 local function intersects(row, col, sRow, sCol, eRow, eCol)
@@ -53,10 +57,6 @@ end
 ---@param pos_row string
 ---@return string
 function M.get_all_nodes(query, lang, _, bufnr, pos_row, _)
-  local ts_query = require "nvim-treesitter.query"
-  local parsers = require "nvim-treesitter.parsers"
-  local locals = require "nvim-treesitter.locals"
-
   bufnr = bufnr or 0
   pos_row = pos_row or 30000
 
@@ -113,8 +113,6 @@ end
 ---@param col string
 ---@return table
 function M.nodes_at_cursor(query, default, bufnr, row, col)
-  local u = require "gopher._utils"
-
   bufnr = bufnr or vim.api.nvim_get_current_buf()
   local ft = vim.api.nvim_buf_get_option(bufnr, "ft")
   if row == nil or col == nil then
@@ -123,13 +121,19 @@ function M.nodes_at_cursor(query, default, bufnr, row, col)
 
   local nodes = M.get_all_nodes(query, ft, default, bufnr, row, col)
   if nodes == nil then
-    u.notify("Unable to find any nodes. Place your cursor on a go symbol and try again", "debug")
+    u.deferred_notify(
+      "Unable to find any nodes. Place your cursor on a go symbol and try again",
+      vim.log.levels.DEBUG
+    )
     return nil
   end
 
   nodes = M.sort_nodes(M.intersect_nodes(nodes, row, col))
   if nodes == nil or #nodes == 0 then
-    u.notify("Unable to find any nodes at pos. " .. tostring(row) .. ":" .. tostring(col), "debug")
+    u.deferred_notify(
+      "Unable to find any nodes at pos. " .. tostring(row) .. ":" .. tostring(col),
+      vim.log.levels.DEBUG
+    )
     return nil
   end
 

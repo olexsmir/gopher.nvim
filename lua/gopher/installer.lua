@@ -1,3 +1,8 @@
+local c = require("gopher.config").commands
+local r = require "gopher._utils.runner"
+local u = require "gopher._utils"
+local installer = {}
+
 local urls = {
   gomodifytags = "github.com/fatih/gomodifytags",
   impl = "github.com/josharian/impl",
@@ -8,28 +13,24 @@ local urls = {
 
 ---@param pkg string
 local function install(pkg)
-  local Job = require "plenary.job"
-  local u = require "gopher._utils"
-
   local url = urls[pkg] .. "@latest"
-
-  Job:new({
-    command = "go",
+  r.sync(c.go, {
     args = { "install", url },
-    on_exit = function(_, retval)
-      if retval ~= 0 then
-        u.notify("command 'go install " .. url .. "' exited with code " .. retval, "error")
+    on_exit = function(data, status)
+      if not status == 0 then
+        error("go install failed: " .. data)
         return
       end
-
-      u.notify("install " .. url .. " finished", "info ")
+      u.notify("installed: " .. url)
     end,
-  }):start()
+  })
 end
 
 ---Install required go deps
-return function()
+function installer.install_deps()
   for pkg, _ in pairs(urls) do
     install(pkg)
   end
 end
+
+return installer

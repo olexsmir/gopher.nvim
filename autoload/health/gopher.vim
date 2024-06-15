@@ -1,3 +1,3 @@
 function! health#gopher#check()
-  lua require"gopher.health".check()
+  lua require("gopher.health").check()
 endfunction
