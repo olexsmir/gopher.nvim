@@ -43,6 +43,7 @@ local c = require "gopher.config"
 local ts_utils = require "gopher._utils.ts"
 local r = require "gopher._utils.runner"
 local u = require "gopher._utils"
+local log = require "gopher._utils.log"
 local gotests = {}
 
 ---@param args table
@@ -64,6 +65,8 @@ local function add_test(args)
 
   table.insert(args, "-w")
   table.insert(args, vim.fn.expand "%")
+
+  log.debug("generating tests with args: ", args)
 
   return r.sync(c.commands.gotests, {
     args = args,

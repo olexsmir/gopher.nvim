@@ -4,6 +4,7 @@
 ---@usage execute `:GoIfErr` near any err variable to insert the check
 
 local c = require "gopher.config"
+local log = require "gopher._utils.log"
 local iferr = {}
 
 -- That's Lua implementation: github.com/koron/iferr
@@ -14,6 +15,7 @@ function iferr.iferr()
   local data = vim.fn.systemlist((c.commands.iferr .. " -pos " .. boff), vim.fn.bufnr "%")
   if vim.v.shell_error ~= 0 then
     error("iferr failed: " .. data)
+    log.error("failed. output: " .. data)
   end
 
   vim.fn.append(pos, data)

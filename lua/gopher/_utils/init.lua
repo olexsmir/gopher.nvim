@@ -1,23 +1,15 @@
+local c = require "gopher.config"
+local log = require "gopher._utils.log"
 local utils = {}
-
-local TITLE = "gopher.nvim"
-
----@param t table
----@return boolean
-function utils.is_tbl_empty(t)
-  if t == nil then
-    return true
-  end
-  return next(t) == nil
-end
 
 ---@param msg string
 ---@param lvl number
 function utils.deferred_notify(msg, lvl)
   vim.defer_fn(function()
     vim.notify(msg, lvl, {
-      title = TITLE,
+      title = c.___plugin_name,
     })
+    log.debug(msg)
   end, 0)
 end
 
@@ -26,8 +18,9 @@ end
 function utils.notify(msg, lvl)
   lvl = lvl or vim.log.levels.INFO
   vim.notify(msg, lvl, {
-    title = TITLE,
+    title = c.___plugin_name,
   })
+  log.debug(msg)
 end
 
 -- safe require

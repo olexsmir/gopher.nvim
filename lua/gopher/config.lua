@@ -29,6 +29,10 @@ local config = {}
 local default_config = {
   --minidoc_replace_end
 
+  -- log level, you might consider using DEBUG or TRACE for degugging the plugin
+  ---@type number
+  log_level = vim.log.levels.INFO,
+
   -- user specified paths to binaries
   ---@class gopher.ConfigCommand
   commands = {
@@ -62,7 +66,16 @@ local default_config = {
 ---@private
 local _config = default_config
 
+-- I am kinda secret so don't tell anyone about me
+-- even dont use me
+--
+-- if you don't belive me that i am secret see
+-- the line below it says @private
+---@private
+_config.___plugin_name = "gopher.nvim" ---@diagnostic disable-line: inject-field
+
 ---@param user_config? gopher.Config
+---@private
 function config.setup(user_config)
   _config = vim.tbl_deep_extend("force", default_config, user_config or {})
 end

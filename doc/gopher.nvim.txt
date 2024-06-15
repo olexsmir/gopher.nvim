@@ -20,13 +20,15 @@ Table of Contents
 
 ------------------------------------------------------------------------------
                                                              *gopher.nvim-setup*
-                                 `gopher.setup`
+                         `gopher.setup`({user_config})
 Setup function. This method simply merges default configs with opts table.
 You can read more about configuration at |gopher.nvim-config|
 Calling this function is optional, if you ok with default settings. Look |gopher.nvim.config-defaults|
 
 Usage ~
 `require("gopher").setup {}` (replace `{}` with your `config` table)
+Parameters ~
+{user_config} gopher.Config
 
 ------------------------------------------------------------------------------
                                                       *gopher.nvim-install-deps*
@@ -49,6 +51,10 @@ You can look at default options |gopher.nvim-config-defaults|
 >lua
   local default_config = {
     --minidoc_replace_end
+
+    -- log level, you might consider using DEBUG or TRACE for degugging the plugin
+    ---@type number
+    log_level = vim.log.levels.INFO,
 
     -- user specified paths to binaries
     ---@class gopher.ConfigCommand
@@ -80,12 +86,6 @@ You can look at default options |gopher.nvim-config-defaults|
 <
 Class ~
 {gopher.Config}
-
-------------------------------------------------------------------------------
-                                                                *config.setup()*
-                         `config.setup`({user_config})
-Parameters ~
-{user_config} `(optional)` gopher.Config
 
 
 ==============================================================================

@@ -9,6 +9,7 @@
 ---@tag gopher.nvim-table-of-contents
 ---@toc
 
+local log = require "gopher._utils.log"
 local tags = require "gopher.struct_tags"
 local tests = require "gopher.gotests"
 local gocmd = require("gopher._utils.runner.gocmd").run
@@ -21,7 +22,12 @@ local gopher = {}
 --- Calling this function is optional, if you ok with default settings. Look |gopher.nvim.config-defaults|
 ---
 ---@usage `require("gopher").setup {}` (replace `{}` with your `config` table)
-gopher.setup = require("gopher.config").setup
+---@param user_config gopher.Config
+gopher.setup = function(user_config)
+  log.debug "setting up config"
+  require("gopher.config").setup(user_config)
+  log.debug(vim.inspect(user_config))
+end
 
 ---@toc_entry Install dependencies
 ---@tag gopher.nvim-install-deps
