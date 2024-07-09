@@ -23,12 +23,4 @@ function utils.notify(msg, lvl)
   log.debug(msg)
 end
 
--- safe require
----@param  module string module name
-function utils.sreq(module)
-  local ok, m = pcall(require, module)
-  assert(ok, string.format("gopher.nvim dependency error: %s not installed", module))
-  return m
-end
-
 return utils
