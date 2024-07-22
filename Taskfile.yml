@@ -33,9 +33,7 @@ tasks:
       - |
         nvim --headless \
           -u ./scripts/minimal_init.lua \
-          -c "PlenaryBustedDirectory spec \
-              {minimal_init='./scripts/minimal_init.lua' \
-              ,sequential=true}" \
+          -c "lua MiniTest.run()" \
           -c ":qa!"
 
   docgen:
