@@ -1,6 +1,9 @@
 [vim]
 any = true
 
+[MiniTest]
+type = "table"
+
 [describe]
 any = true
 [[describe.args]]

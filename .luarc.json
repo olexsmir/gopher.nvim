@@ -1,5 +1,6 @@
 {
     "diagnostics.globals": [
+        "MiniTest",
         "describe",
         "it",
         "before_each",
