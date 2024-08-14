@@ -1,0 +1,19 @@
+---
+base: lua52
+globals:
+  vim:
+    any: true
+
+  MiniTest:
+    any: true
+
+  # plenary.nvim's testing legacy
+  it:
+    args:
+      - type: string
+      - type: function
+
+  describe:
+    args:
+      - type: string
+      - type: function
