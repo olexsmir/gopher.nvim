@@ -14,8 +14,14 @@ function iferr.iferr()
 
   local data = vim.fn.systemlist((c.commands.iferr .. " -pos " .. boff), vim.fn.bufnr "%")
   if vim.v.shell_error ~= 0 then
-    error("iferr failed: " .. data)
-    log.error("failed. output: " .. data)
+    if string.find(data[1], "no functions at") then
+      vim.print "no function found"
+      log.warn("iferr: no function at " .. boff)
+      return
+    end
+
+    log.error("failed. output: " .. vim.inspect(data))
+    error("iferr failed: " .. vim.inspect(data))
   end
 
   vim.fn.append(pos, data)
