@@ -3,12 +3,30 @@ local nodes = require "gopher._utils.ts.nodes"
 local u = require "gopher._utils"
 local ts = {
   queries = {
-    struct_block = [[((type_declaration (type_spec name:(type_identifier) @struct.name type: (struct_type)))@struct.declaration)]],
-    em_struct_block = [[(field_declaration name:(field_identifier)@struct.name type: (struct_type)) @struct.declaration]],
-    package = [[(package_clause (package_identifier)@package.name)@package.clause]],
-    interface = [[((type_declaration (type_spec name:(type_identifier) @interface.name type:(interface_type)))@interface.declaration)]],
-    method_name = [[((method_declaration receiver: (parameter_list)@method.receiver name: (field_identifier)@method.name body:(block))@method.declaration)]],
-    func = [[((function_declaration name: (identifier)@function.name) @function.declaration)]],
+    struct_block = [[
+((type_declaration
+   (type_spec name: (type_identifier) @struct.name
+              type: (struct_type))) @struct.declaration)
+    ]],
+    em_struct_block = [[
+(field_declaration name: (field_identifier) @struct.name
+                   type: (struct_type)) @struct.declaration
+    ]],
+    package = [[
+(package_clause (package_identifier) @package.name) @package.clause
+    ]],
+    interface = [[
+((type_declaration (type_spec name: (type_identifier) @interface.name
+                              type: (interface_type))) @interface.declaration)
+    ]],
+    method_name = [[
+((method_declaration receiver: (parameter_list) @method.receiver
+                     name: (field_identifier) @method.name
+                     body: (block)) @method.declaration)
+    ]],
+    func = [[
+((function_declaration name: (identifier) @function.name) @function.declaration)
+    ]],
   },
 }
 
