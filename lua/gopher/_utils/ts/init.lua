@@ -2,7 +2,7 @@
 local nodes = require "gopher._utils.ts.nodes"
 local u = require "gopher._utils"
 local ts = {
-  querys = {
+  queries = {
     struct_block = [[((type_declaration (type_spec name:(type_identifier) @struct.name type: (struct_type)))@struct.declaration)]],
     em_struct_block = [[(field_declaration name:(field_identifier)@struct.name type: (struct_type)) @struct.declaration]],
     package = [[(package_clause (package_identifier)@package.name)@package.clause]],
@@ -29,7 +29,7 @@ end
 ---@return table|nil
 function ts.get_struct_node_at_pos(row, col, bufnr, do_notify)
   local notify = do_notify or true
-  local query = ts.querys.struct_block .. " " .. ts.querys.em_struct_block
+  local query = ts.queries.struct_block .. " " .. ts.queries.em_struct_block
   local bufn = bufnr or vim.api.nvim_get_current_buf()
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
@@ -48,7 +48,7 @@ end
 ---@return table|nil
 function ts.get_func_method_node_at_pos(row, col, bufnr, do_notify)
   local notify = do_notify or true
-  local query = ts.querys.func .. " " .. ts.querys.method_name
+  local query = ts.queries.func .. " " .. ts.queries.method_name
   local bufn = bufnr or vim.api.nvim_get_current_buf()
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
@@ -69,7 +69,7 @@ function ts.get_package_node_at_pos(row, col, bufnr, do_notify)
   local notify = do_notify or true
   -- stylua: ignore
   if row > 10 then return end
-  local query = ts.querys.package
+  local query = ts.queries.package
   local bufn = bufnr or vim.api.nvim_get_current_buf()
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
@@ -89,7 +89,7 @@ end
 ---@return table|nil
 function ts.get_interface_node_at_pos(row, col, bufnr, do_notify)
   local notify = do_notify or true
-  local query = ts.querys.interface
+  local query = ts.queries.interface
   local bufn = bufnr or vim.api.nvim_get_current_buf()
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
