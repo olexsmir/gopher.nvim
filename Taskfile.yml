@@ -26,17 +26,13 @@ tasks:
     cmds:
       - stylua .
 
-  test:
-    desc: runs all tests
-    aliases: [tests, spec]
+  tests:
+    desc: run all tests
     cmds:
       - |
         nvim --headless \
-          -u ./scripts/minimal_init.lua \
-          -c "PlenaryBustedDirectory spec \
-              {minimal_init='./scripts/minimal_init.lua' \
-              ,sequential=true}" \
-          -c ":qa!"
+             -u ./scripts/minimal_init.lua \
+             -c "lua MiniTest.run()"
 
   docgen:
     desc: generate vimhelp

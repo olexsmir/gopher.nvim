@@ -1,6 +1,9 @@
 [vim]
 any = true
 
+[MiniTest]
+any = true
+
 [describe]
 any = true
 [[describe.args]]
