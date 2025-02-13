@@ -116,7 +116,6 @@ simple example:
    }
 <
 
-
 ==============================================================================
 ------------------------------------------------------------------------------
                                                               *gopher.nvim-impl*
@@ -147,7 +146,6 @@ simple example:
    }
 <
 
-
 ==============================================================================
 ------------------------------------------------------------------------------
                                                            *gopher.nvim-gotests*
@@ -166,7 +164,6 @@ Usage ~
 
 you can also specify the template to use for generating the tests. see |gopher.nvim-config|
 more details about templates can be found at: https://github.com/cweill/gotests
-
 
 ------------------------------------------------------------------------------
                                                      *gopher.nvim-gotests-named*
