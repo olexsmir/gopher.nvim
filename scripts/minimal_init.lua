@@ -32,14 +32,13 @@ vim.notify = print
 install_plug "nvim-lua/plenary.nvim"
 install_plug "nvim-treesitter/nvim-treesitter"
 install_plug "echasnovski/mini.doc" -- used for docs generation
+install_plug "echasnovski/mini.test"
 
 -- install go treesitter parse
 require("nvim-treesitter.install").ensure_installed_sync "go"
 
 -- setup mini.test only when running headless nvim
 if #vim.api.nvim_list_uis() == 0 then
-  install_plug "echasnovski/mini.test"
-
   require("mini.test").setup {
     collect = {
       find_files = function()
