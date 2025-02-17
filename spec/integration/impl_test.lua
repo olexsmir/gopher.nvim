@@ -16,7 +16,7 @@ T["impl"]["works w io.Writer"] = function()
   t.fixtures.write(tmp, fixtures.input)
 
   child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr "%", 3, 6, 0 })
+  child.fn.setpos(".", { child.fn.bufnr(tmp), 3, 6 })
   child.cmd "GoImpl w io.Writer"
   child.cmd "write"
 
@@ -44,7 +44,7 @@ T["impl"]["works io.Closer"] = function()
   t.fixtures.write(tmp, fixtures.input)
 
   child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr "%", 3, 6, 0 })
+  child.fn.setpos(".", { child.fn.bufnr(tmp), 3, 6 })
   child.cmd "GoImpl io.Closer"
   child.cmd "write"
 
