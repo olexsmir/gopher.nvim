@@ -23,7 +23,8 @@ jobs:
           version: 3.x
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/checkout@v3
+      - name: Install Go
+        uses: actions/setup-go@v5
 
       - name: Cache .tests
         uses: actions/cache@v4
@@ -36,6 +37,11 @@ jobs:
         with:
           neovim: true
           version: ${{ matrix.version }}
+
+      - uses: actions/checkout@v3
+
+      - name: Install Go bins
+        run: nvim --headless -u "./scripts/minimal_init.lua" -c "GoInstallDeps" -c "qa!"
 
       - name: Run Tests
         run: |
