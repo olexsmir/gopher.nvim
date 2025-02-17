@@ -12,7 +12,6 @@ local T = MiniTest.new_set {
 T["iferr"] = MiniTest.new_set {}
 T["iferr"]["works"] = function()
   local tmp = t.tmpfile()
-
   local fixtures = t.fixtures.read "iferr/iferr"
   t.fixtures.write(tmp, fixtures.input)
 
