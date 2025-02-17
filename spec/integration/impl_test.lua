@@ -10,9 +10,9 @@ local T = MiniTest.new_set {
   },
 }
 T["impl"] = MiniTest.new_set {}
-T["impl"]["works"] = function()
+T["impl"]["works w io.Writer"] = function()
   local tmp = t.tmpfile()
-  local fixtures = t.fixtures.read "impl/impl"
+  local fixtures = t.fixtures.read "impl/writer"
   t.fixtures.write(tmp, fixtures.input)
 
   child.cmd("silent edit " .. tmp)
@@ -21,7 +21,34 @@ T["impl"]["works"] = function()
   child.cmd "write"
 
   -- since "impl" won't implement interface if it's already implemented i went with this hack
-  local rhs = fixtures.output:gsub("Tester2", "Tester")
+  local rhs = fixtures.output:gsub("Test2", "Test")
+  t.eq(t.readfile(tmp), rhs)
+end
+
+T["impl"]["works r Read io.Reader"] = function()
+  local tmp = t.tmpfile()
+  local fixtures = t.fixtures.read "impl/reader"
+  t.fixtures.write(tmp, fixtures.input)
+
+  child.cmd("silent edit " .. tmp)
+  child.cmd "GoImpl r Read io.Reader"
+  child.cmd "write"
+
+  local rhs = fixtures.output:gsub("Read2", "Read")
+  t.eq(t.readfile(tmp), rhs)
+end
+
+T["impl"]["works io.Closer"] = function()
+  local tmp = t.tmpfile()
+  local fixtures = t.fixtures.read "impl/closer"
+  t.fixtures.write(tmp, fixtures.input)
+
+  child.cmd("silent edit " .. tmp)
+  child.fn.setpos(".", { child.fn.bufnr "%", 3, 6, 0 })
+  child.cmd "GoImpl io.Closer"
+  child.cmd "write"
+
+  local rhs = fixtures.output:gsub("Test2", "Test")
   t.eq(t.readfile(tmp), rhs)
 end
 

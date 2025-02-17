@@ -10,7 +10,7 @@ local T = MiniTest.new_set {
   },
 }
 T["struct_tags"] = MiniTest.new_set {}
-T["struct_tags"]["add"] = function()
+T["struct_tags"]["works add"] = function()
   local tmp = t.tmpfile()
   local fixtures = t.fixtures.read "tags/add"
   t.fixtures.write(tmp, fixtures.input)
@@ -22,7 +22,7 @@ T["struct_tags"]["add"] = function()
   t.eq(t.readfile(tmp), fixtures.output)
 end
 
-T["struct_tags"]["remove"] = function()
+T["struct_tags"]["works remove"] = function()
   local tmp = t.tmpfile()
   local fixtures = t.fixtures.read "tags/remove"
   t.fixtures.write(tmp, fixtures.input)
