@@ -11,7 +11,7 @@ local T = MiniTest.new_set {
 }
 T["iferr"] = MiniTest.new_set {}
 T["iferr"]["works"] = function()
-  local tmp = vim.env.HOME .. "/test.go"
+  local tmp = t.tmpfile()
 
   local fixtures = t.fixtures.read "iferr/iferr"
   t.fixtures.write(tmp, fixtures.input)
