@@ -1,5 +1,11 @@
 name: tests
-on: [push, pull_request]
+
+on:
+  push:
+    branches:
+    - main
+    - develop
+  pull_request:
 
 jobs:
   tests:
@@ -18,6 +24,12 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/checkout@v3
+
+      - name: Cache .tests
+        uses: actions/cache@v4
+        with:
+          path: .tests
+          key: ${{ runner.os }}-tests-${{ hashFiles('.tests') }}
 
       - name: Install NeoVim
         uses: rhysd/action-setup-vim@v1
