@@ -5,15 +5,15 @@ local T = MiniTest.new_set {
   hooks = {
     post_once = child.stop,
     pre_case = function()
-      child.restart { "-u", "scripts/minimal_init.lua" }
+      child.restart { "-u", t.mininit_path }
     end,
   },
 }
 T["iferr"] = MiniTest.new_set {}
 T["iferr"]["works"] = function()
   local tmp = t.tmpfile()
-  local fixtures = t.fixtures.read "iferr/iferr"
-  t.fixtures.write(tmp, fixtures.input)
+  local fixtures = t.get_fixtures "iferr/iferr"
+  t.writefile(tmp, fixtures.input)
 
   child.cmd("silent edit " .. tmp)
   child.fn.setpos(".", { child.fn.bufnr "%", 8, 2, 0 })

@@ -1,8 +1,11 @@
 -- NOTE: there's a probably a better way to do this
-local fixtures_dir = (vim.fn.expand "%:p:h") .. "/spec/fixtures/"
+local base_dir = vim.fn.expand "%:p:h"
+local fixtures_dir = vim.fs.joinpath(base_dir, "/spec/fixtures/")
 
 ---@class gopher.TestUtils
 local testutils = {}
+
+testutils.mininit_path = vim.fs.joinpath(base_dir, "/scripts/minimal_init.lua")
 
 ---@generic T
 ---@param a T
@@ -23,21 +26,25 @@ function testutils.readfile(path)
   return vim.fn.join(vim.fn.readfile(path), "\n")
 end
 
-testutils.fixtures = {}
+---@param fpath string
+---@param contents string
+function testutils.writefile(fpath, contents)
+  vim.fn.writefile(vim.split(contents, "\n"), fpath)
+end
+
+---@param path string
+---@return string
+function testutils.readfile_from_fixture_dir(path)
+  return testutils.readfile(fixtures_dir .. path)
+end
 
 ---@param fixture string
 ---@return {input: string, output: string}
-function testutils.fixtures.read(fixture)
+function testutils.get_fixtures(fixture)
   return {
-    input = testutils.readfile(fixtures_dir .. fixture .. "_input.go"),
-    output = testutils.readfile(fixtures_dir .. fixture .. "_output.go"),
+    input = testutils.readfile_from_fixture_dir(fixture .. "_input.go"),
+    output = testutils.readfile_from_fixture_dir(fixture .. "_output.go"),
   }
-end
-
----@param fpath string
----@param fixture string
-function testutils.fixtures.write(fpath, fixture)
-  vim.fn.writefile(vim.split(fixture, "\n"), fpath)
 end
 
 return testutils
