@@ -1,10 +1,6 @@
-package for_test
+package fortest
 
-import (
-	"testing"
-
-	"gotest.tools/v3/assert"
-)
+import "testing"
 
 func TestAdd(t *testing.T) {
 	type args struct {
@@ -20,7 +16,9 @@ func TestAdd(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(t, tt.want, Add(tt.args.x, tt.args.y))
+			if got := Add(tt.args.x, tt.args.y); got != tt.want {
+				t.Errorf("Add() = %v, want %v", got, tt.want)
+			}
 		})
 	}
 }

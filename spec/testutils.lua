@@ -1,10 +1,10 @@
 local base_dir = vim.env.GOPHER_DIR or vim.fn.expand "%:p:h"
-local fixtures_dir = vim.fs.joinpath(base_dir, "/spec/fixtures/")
 
 ---@class gopher.TestUtils
 local testutils = {}
 
-testutils.mininit_path = vim.fs.joinpath(base_dir, "/scripts/minimal_init.lua")
+testutils.mininit_path = vim.fs.joinpath(base_dir, "scripts", "minimal_init.lua")
+testutils.fixtures_dir = vim.fs.joinpath(base_dir, "spec/fixtures")
 
 ---@generic T
 ---@param a T
@@ -35,8 +35,8 @@ end
 ---@return {input: string, output: string}
 function testutils.get_fixtures(fixture)
   return {
-    input = testutils.readfile(fixtures_dir .. fixture .. "_input.go"),
-    output = testutils.readfile(fixtures_dir .. fixture .. "_output.go"),
+    input = testutils.readfile(vim.fs.joinpath(testutils.fixtures_dir, fixture) .. "_input.go"),
+    output = testutils.readfile(vim.fs.joinpath(testutils.fixtures_dir, fixture) .. "_output.go"),
   }
 end
 

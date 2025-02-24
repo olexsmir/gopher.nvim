@@ -15,11 +15,27 @@ T["gotests"] = MiniTest.new_set {}
 --- All other parts are handled `gotests` tool itself.
 
 T["gotests"]["should add test for function under cursor"] = function()
-  MiniTest.skip "come back daddy"
+  local tmp = "/home/olex/2.go"
+  local fixtures = t.get_fixtures "tests/function"
+  t.writefile(tmp, fixtures.input)
+
+  child.cmd("silent edit " .. tmp)
+  child.fn.setpos(".", { child.fn.bufnr "%", 3, 6 })
+  child.cmd "GoTestAdd"
+
+  t.eq(fixtures.output, t.readfile(tmp:gsub(".go", "_test.go")))
 end
 
 T["gotests"]["should add test for method under cursor"] = function()
-  MiniTest.skip "come back daddy"
+  local tmp = "/home/olex/1.go"
+  local fixtures = t.get_fixtures "tests/method"
+  t.writefile(tmp, fixtures.input)
+
+  child.cmd("silent edit " .. tmp)
+  child.fn.setpos(".", { child.fn.bufnr "%", 5, 19 })
+  child.cmd "GoTestAdd"
+
+  t.eq(fixtures.output, t.readfile(tmp:gsub(".go", "_test.go")))
 end
 
 return T
