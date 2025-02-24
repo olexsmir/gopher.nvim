@@ -23,7 +23,7 @@ local config = {}
 --minidoc_replace_start {
 
 ---@tag gopher.nvim-config-defaults
----@eval return MiniDoc.afterlines_to_code(MiniDoc.current.eval_section):gsub(">", ">lua")
+---@eval return MiniDoc.afterlines_to_code(MiniDoc.current.eval_section)
 ---
 ---@class gopher.Config
 local default_config = {

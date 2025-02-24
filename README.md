@@ -10,10 +10,11 @@ It's **NOT** an LSP tool, the main goal of this plugin is to add go tooling supp
 
 ## Install (using [lazy.nvim](https://github.com/folke/lazy.nvim))
 
-Pre-dependency:
+Requirements:
 
-- [Go](https://github.com/golang/go)
+- **Neovim 0.10** or later
 - `go` treesitter parser, install by `:TSInstall go`
+- [Go](https://github.com/golang/go) installed (tested on 1.23)
 
 ```lua
 {
