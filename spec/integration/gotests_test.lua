@@ -12,10 +12,16 @@ local T = MiniTest.new_set {
 T["gotests"] = MiniTest.new_set {}
 
 --- NOTE: :GoTestAdd is the only place that has actual logic
---- All other parts are handled `gotests` tool itself.
+--- All other parts are handled `gotests` itself.
+
+---@param fpath string
+---@return string
+local function read_testfile(fpath)
+  return t.readfile(fpath:gsub(".go", "_test.go"))
+end
 
 T["gotests"]["should add test for function under cursor"] = function()
-  local tmp = "/home/olex/2.go"
+  local tmp = t.tmpfile()
   local fixtures = t.get_fixtures "tests/function"
   t.writefile(tmp, fixtures.input)
 
@@ -23,11 +29,11 @@ T["gotests"]["should add test for function under cursor"] = function()
   child.fn.setpos(".", { child.fn.bufnr "%", 3, 6 })
   child.cmd "GoTestAdd"
 
-  t.eq(fixtures.output, t.readfile(tmp:gsub(".go", "_test.go")))
+  t.eq(fixtures.output, read_testfile(tmp))
 end
 
 T["gotests"]["should add test for method under cursor"] = function()
-  local tmp = "/home/olex/1.go"
+  local tmp = t.tmpfile()
   local fixtures = t.get_fixtures "tests/method"
   t.writefile(tmp, fixtures.input)
 
@@ -35,7 +41,7 @@ T["gotests"]["should add test for method under cursor"] = function()
   child.fn.setpos(".", { child.fn.bufnr "%", 5, 19 })
   child.cmd "GoTestAdd"
 
-  t.eq(fixtures.output, t.readfile(tmp:gsub(".go", "_test.go")))
+  t.eq(fixtures.output, read_testfile(tmp))
 end
 
 return T
