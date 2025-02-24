@@ -1,5 +1,4 @@
--- NOTE: there's a probably a better way to do this
-local base_dir = vim.fn.expand "%:p:h"
+local base_dir = vim.env.GOPHER_DIR or vim.fn.expand "%:p:h"
 local fixtures_dir = vim.fs.joinpath(base_dir, "/spec/fixtures/")
 
 ---@class gopher.TestUtils
