@@ -17,7 +17,7 @@ local gopher = {}
 
 ---@toc_entry Setup
 ---@tag gopher.nvim-setup
----@text Setup function. This method simply merges default configs with opts table.
+---@text Setup function. This method simply merges default config with opts table.
 --- You can read more about configuration at |gopher.nvim-config|
 --- Calling this function is optional, if you ok with default settings. Look |gopher.nvim.config-defaults|
 ---
@@ -32,8 +32,8 @@ end
 ---@toc_entry Install dependencies
 ---@tag gopher.nvim-install-deps
 ---@text Gopher.nvim implements most of its features using third-party tools.
---- To  install these tools, you can run `:GoInstallDeps` command
---- or call `require("gopher").install_deps()` if you want ues lua api.
+--- To install these tools, you can run `:GoInstallDeps` command
+--- or call `require("gopher").install_deps()` if you want to use lua api.
 gopher.install_deps = require("gopher.installer").install_deps
 
 gopher.impl = require("gopher.impl").impl

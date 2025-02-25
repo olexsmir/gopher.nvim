@@ -2,30 +2,31 @@
 ---@tag gopher.nvim-gotests
 ---@text gotests is utilizing the `gotests` tool to generate unit tests boilerplate.
 ---@usage
---- - generate unit test for spesisfic function/method
----   - to specift the function/method put your cursor on it
----   - run `:GoTestAdd`
+--- - Generate unit test for specific function/method:
+---   1. Place your cursor on the desired function/method.
+---   2. Run `:GoTestAdd`
 ---
---- - generate unit tests for all functions/methods in current file
+--- - Generate unit tests for *all* functions/methods in current file:
 ---   - run `:GoTestsAll`
 ---
---- - generate unit tests only for exported(public) functions/methods
+--- - Generate unit tests *only* for *exported(public)* functions/methods:
 ---   - run `:GoTestsExp`
 ---
---- you can also specify the template to use for generating the tests. see |gopher.nvim-config|
---- more details about templates can be found at: https://github.com/cweill/gotests
+--- You can also specify the template to use for generating the tests. See |gopher.nvim-config|
+--- More details about templates can be found at: https://github.com/cweill/gotests
 ---
 
 ---@tag gopher.nvim-gotests-named
 ---@text
---- if you prefare using named tests, you can enable it in the config.
---- but you would need to install `gotests@develop` because stable version doesn't support this feature.
---- you can do it with:
+--- You can enable named tests in the config if you prefer using named tests.
+--- But you must install `gotests@develop` because the stable version doesn't support this feature.
+---
 --- >lua
 ---   -- simply run go get in your shell:
 ---   go install github.com/cweill/gotests/...@develop
 ---
 ---   -- if you want to install it within neovim, you can use one of this:
+---   -- if you choose to install gotests this way i reocmmend adding it to your `build` section in your |lazy.nvim|
 ---
 ---   vim.fn.jobstart("go install github.com/cweill/gotests/...@develop")
 ---
@@ -36,8 +37,6 @@
 ---     }
 ---   }
 --- <
----
---- if you choose to install `gotests` within neovim, i recommend adding it to your `build` section in your |lazy.nvim|
 
 local c = require "gopher.config"
 local ts_utils = require "gopher._utils.ts"
