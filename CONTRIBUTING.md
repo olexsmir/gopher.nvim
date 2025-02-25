@@ -18,7 +18,6 @@ You can install these with:
 ```bash
 sudo pacman -S selene stylua
 # or whatever is your package manager
-# or way of installing pkgs
 ```
 
 For formatting use this following commands, or setup your editor to integrate with selene/stylua:
@@ -39,6 +38,7 @@ task docgen
 ```
 
 ### Commit messages
+
 We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/), please follow it.
 
 ### Testing
@@ -48,8 +48,5 @@ All tests live in [/spec](https://github.com/olexsmir/gopher.nvim/tree/main/spec
 
 You can run tests with:
 ```bash
-task test
-# also there are some aliases for that
 task tests
-task spec
 ```

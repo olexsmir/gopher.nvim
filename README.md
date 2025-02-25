@@ -35,7 +35,7 @@ Requirements:
 }
 ```
 
-## Configuratoin
+## Configuration
 
 > [!IMPORTANT]
 >
