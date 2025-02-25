@@ -5,8 +5,8 @@ local u = require "gopher._utils.health_util"
 local deps = {
   plugin = {
     { lib = "dap", msg = "required for `gopher.dap`", optional = true },
-    { lib = "plenary", msg = "required for everyting in gopher.nvim", optional = false },
-    { lib = "nvim-treesitter", msg = "required for everyting in gopher.nvim", optional = false },
+    { lib = "plenary", msg = "required for everything in gopher.nvim", optional = false },
+    { lib = "nvim-treesitter", msg = "required for everything in gopher.nvim", optional = false },
   },
   bin = {
     {
