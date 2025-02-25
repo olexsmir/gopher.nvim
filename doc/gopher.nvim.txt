@@ -160,14 +160,14 @@ Example:
 gotests is utilizing the `gotests` tool to generate unit tests boilerplate.
 Usage ~
 
-- generate unit test for specific function/method:
+- Generate unit test for specific function/method:
   1. Place your cursor on the desired function/method.
   2. Run `:GoTestAdd`
 
-- generate unit tests for *all* functions/methods in current file:
+- Generate unit tests for *all* functions/methods in current file:
   - run `:GoTestsAll`
 
-- generate unit tests *only* for *exported(public)* functions/methods:
+- Generate unit tests *only* for *exported(public)* functions/methods:
   - run `:GoTestsExp`
 
 You can also specify the template to use for generating the tests. See |gopher.nvim-config|
@@ -196,15 +196,12 @@ But you must install `gotests@develop` because the stable version doesn't suppor
   }
 <
 
-if you choose to install `gotests` within neovim, i recommend adding it to your `build` section in your |lazy.nvim|
-
-
 ==============================================================================
 ------------------------------------------------------------------------------
                                                              *gopher.nvim-iferr*
-if you're using `iferr` tool, this module provides a way to automatically insert `if err != nil` check.
+If you're using `iferr` tool, this module provides a way to automatically insert `if err != nil` check.
 Usage ~
-execute `:GoIfErr` near any err variable to insert the check
+Execute `:GoIfErr` near any `err` variable to insert the check
 
 
 ==============================================================================
