@@ -1,7 +1,7 @@
 ---@toc_entry Iferr
 ---@tag gopher.nvim-iferr
----@text if you're using `iferr` tool, this module provides a way to automatically insert `if err != nil` check.
----@usage execute `:GoIfErr` near any `err` variable to insert the check
+---@text If you're using `iferr` tool, this module provides a way to automatically insert `if err != nil` check.
+---@usage Execute `:GoIfErr` near any `err` variable to insert the check
 
 local c = require "gopher.config"
 local log = require "gopher._utils.log"
