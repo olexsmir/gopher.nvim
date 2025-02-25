@@ -22,7 +22,6 @@ local deps = {
       msg = "required for `:GoTestAdd`, `:GoTestsAll`, `:GoTestsExp`",
       optional = false,
     },
-    { bin = cmd.dlv, msg = "required for debugging, (`nvim-dap`, `gopher.dap`)", optional = true },
   },
   treesitter = {
     { parser = "go", msg = "required for `gopher.nvim`", optional = false },

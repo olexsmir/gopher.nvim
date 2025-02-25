@@ -16,7 +16,6 @@ Table of Contents
   Generating unit tests boilerplate......................|gopher.nvim-gotests|
   Iferr....................................................|gopher.nvim-iferr|
   Generate comments.....................................|gopher.nvim-comments|
-  Setup `nvim-dap` for Go......................................|gopher.nvim-dap|
 
 ------------------------------------------------------------------------------
                                                              *gopher.nvim-setup*
@@ -28,7 +27,7 @@ Calling this function is optional, if you ok with default settings. Look |gopher
 Usage ~
 `require("gopher").setup {}` (replace `{}` with your `config` table)
 Parameters ~
-{user_config} gopher.Config
+{user_config} `(gopher.Config)`
 
 ------------------------------------------------------------------------------
                                                       *gopher.nvim-install-deps*
@@ -204,14 +203,6 @@ execute `:GoIfErr` near any err variable to insert the check
 Usage ~
 Execute `:GoCmt` to generate a comment for the current function/method/struct/etc on this line.
 This module provides a way to generate comments for Go code.
-
-
-==============================================================================
-------------------------------------------------------------------------------
-                                                               *gopher.nvim-dap*
-This module sets up `nvim-dap` for Go.
-Usage ~
-just call `require("gopher.dap").setup()`, and you're good to go.
 
 
  vim:tw=78:ts=8:noet:ft=help:norl:

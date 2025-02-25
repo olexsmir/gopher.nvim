@@ -25,7 +25,6 @@ Requirements:
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
-    "mfussenegger/nvim-dap", -- (optional) only if you use `gopher.dap`
   },
   -- (optional) will update plugin's deps on every update
   build = function()
@@ -216,20 +215,6 @@ require("gopher").setup {
   ```
 </details>
 
-<details>
-  <summary>
-    <b>Setup <a href="https://github.com/mfussenegger/nvim-dap">nvim-dap</a> for go in one line</b>
-  </summary>
-
-  THIS FEATURE WILL BE REMOVED IN `0.1.6`
-
-  note [nvim-dap](https://github.com/mfussenegger/nvim-dap) has to be installed
-
-  ```lua
-  require("gopher.dap").setup()
-  ```
-</details>
-
 ## Contributing
 
 PRs are always welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md)
@@ -237,5 +222,4 @@ PRs are always welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md)
 ## Thanks
 
 - [go.nvim](https://github.com/ray-x/go.nvim)
-- [nvim-dap-go](https://github.com/leoluz/nvim-dap-go)
 - [iferr](https://github.com/koron/iferr)
