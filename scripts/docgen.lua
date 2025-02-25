@@ -15,7 +15,6 @@ local files = {
   "lua/gopher/gotests.lua",
   "lua/gopher/iferr.lua",
   "lua/gopher/comment.lua",
-  "lua/gopher/dap.lua",
 }
 
 minidoc.setup()

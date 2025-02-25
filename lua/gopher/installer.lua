@@ -8,7 +8,6 @@ local urls = {
   impl = "github.com/josharian/impl",
   gotests = "github.com/cweill/gotests/...",
   iferr = "github.com/koron/iferr",
-  dlv = "github.com/go-delve/delve/cmd/dlv",
 }
 
 ---@param pkg string
