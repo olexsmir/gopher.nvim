@@ -2,19 +2,25 @@
 ---@tag gopher.nvim-impl
 ---@text impl is utilizing the `impl` tool to generate method stubs for interfaces.
 ---@usage
---- 1. put your coursor on the struct on which you want implement the interface
----    and run `:GoImpl io.Reader`
----    which will automatically choose the reciver for the methods and
----    implement the `io.Reader` interface
---- 2. same as previous but with custom receiver, so put your coursor on the struct
----    run `:GoImpl w io.Writer`
----    where `w` is the receiver and `io.Writer` is the interface
---- 3. specift receiver, struct, and interface
----    there's no need to put your coursor on the struct if you specify all arguments
----    `:GoImpl r RequestReader io.Reader`
----    where `r` is the receiver, `RequestReader` is the struct and `io.Reader` is the interface
+--- 1. Automatically implement an interface for a struct:
+---    - Place your cursor on the struct where you want to implement the interface.
+---    - Run `:GoImpl io.Reader`
+---    - This will automatically determine the receiver and implement the `io.Reader` interface.
 ---
---- simple example:
+--- 2. Specify a custom receiver:
+---    - Place your cursor on the struct
+---    - Run `:GoImpl w io.Writer`, where:
+---      - `w` is the receiver.
+---      - `io.Writer` is the interface to implement.
+---
+--- 3. Explicitly specify the receiver, struct, and interface:
+---    - No need to place the cursor on the struct if all arguments are provided.
+---    - Run `:GoImpl r RequestReader io.Reader`, where:
+---      - `r` is the receiver.
+---      - `RequestReader` is the struct.
+---      - `io.Reader` is the interface to implement.
+---
+--- Example:
 --- >go
 ---    type BytesReader struct{}
 ---    //    ^ put your cursor here
@@ -22,7 +28,7 @@
 ---
 ---    // this is what you will get
 ---    func (b *BytesReader) Read(p []byte) (n int, err error) {
----    	panic("not implemented") // TODO: Implement
+---        panic("not implemented") // TODO: Implement
 ---    }
 --- <
 
