@@ -29,7 +29,6 @@ vim.opt.runtimepath:append(root())
 vim.opt.packpath = { root ".tests/site" }
 vim.notify = print
 
-install_plug "nvim-lua/plenary.nvim"
 install_plug "nvim-treesitter/nvim-treesitter"
 install_plug "echasnovski/mini.doc" -- used for docs generation
 install_plug "echasnovski/mini.test"
