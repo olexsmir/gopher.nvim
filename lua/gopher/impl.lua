@@ -64,7 +64,7 @@ function impl.impl(...)
     iface = vim.fn.input "impl: generating method stubs for interface: "
     vim.cmd "redraw!"
     if iface == "" then
-      u.deferred_notify("usage: GoImpl f *File io.Reader", vim.log.levels.INFO)
+      u.notify("usage: GoImpl f *File io.Reader", vim.log.levels.INFO)
       return
     end
   elseif #args == 1 then -- :GoImpl io.Reader
@@ -82,21 +82,14 @@ function impl.impl(...)
     recv = string.format("%s %s", recv_name, recv)
   end
 
-  local output = r.sync(c.impl, {
-    args = {
-      "-dir",
-      vim.fn.fnameescape(vim.fn.expand "%:p:h" --[[@as string]]),
-      recv,
-      iface,
-    },
-    on_exit = function(data, status)
-      if not status == 0 then
-        error("impl failed: " .. data)
-      end
-    end,
-  })
+  local rs = r.sync { c.impl, "-dir", vim.fn.fnameescape(vim.fn.expand "%:p:h"), recv, iface }
+  if rs.code ~= 0 then
+    error("failed to implement interface: " .. rs.stderr)
+  end
 
   local pos = vim.fn.getcurpos()[2]
+  local output = vim.fn.split(rs.stdout, "\n")
+
   table.insert(output, 1, "")
   vim.fn.append(pos, output)
 end
