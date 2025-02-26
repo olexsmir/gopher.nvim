@@ -1,9 +1,11 @@
+local c = require "gopher.config"
 local runner = {}
 
 ---@class gopher.RunnerOpts
 ---@field cwd? string
 ---@field timeout? number
----@field stdin? string|string[]
+---@field stdin? boolean|string|string[]
+---@field text? boolean
 
 ---@param cmd (string|number)[]
 ---@param opts? gopher.RunnerOpts
@@ -14,9 +16,9 @@ function runner.sync(cmd, opts)
   return vim
     .system(cmd, {
       cwd = opts.cwd or nil,
-      timeout = opts.timeout or 2000, -- TODO: move out to config
+      timeout = opts.timeout or c.timeout,
       stdin = opts.stdin or nil,
-      text = true,
+      text = opts.text or true,
     })
     :wait()
 end
@@ -29,8 +31,9 @@ function runner.async(cmd, on_exit, opts)
   opts = opts or {}
   return vim.system(cmd, {
     cwd = opts.cwd or nil,
-    timeout = opts.timeout or 2000,
-    text = true,
+    timeout = opts.timeout or c.timeout,
+    stdin = opts.stdin or nil,
+    text = opts.text or true,
   }, on_exit)
 end
 
