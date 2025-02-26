@@ -67,16 +67,12 @@ local function add_test(args)
 
   log.debug("generating tests with args: ", args)
 
-  return r.sync(c.commands.gotests, {
-    args = args,
-    on_exit = function(data, status)
-      if not status == 0 then
-        error("gotests failed: " .. data)
-      end
+  local rs = r.sync { c.commands.gotests, unpack(args) }
+  if rs.code ~= 0 then
+    error("gotests failed: " .. rs.stderr)
+  end
 
-      u.notify "unit test(s) generated"
-    end,
-  })
+  u.notify "unit test(s) generated"
 end
 
 -- generate unit test for one function
