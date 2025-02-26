@@ -26,11 +26,11 @@ function iferr.iferr()
       return
     end
 
-    log.error("ferr: failed. output: " .. vim.inspect(rs.stderr))
+    log.error("ferr: failed. output: " .. rs.stderr)
     error("iferr failed: " .. rs.stderr)
   end
 
-  vim.fn.append(pos, vim.fn.split(rs.stdout, "\n"))
+  vim.fn.append(pos, vim.split(rs.stdout, "\n"))
   vim.cmd [[silent normal! j=2j]]
   vim.fn.setpos(".", pos)
 end
