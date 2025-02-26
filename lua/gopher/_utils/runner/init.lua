@@ -1,33 +1,36 @@
-local Job = require "plenary.job"
 local runner = {}
 
 ---@class gopher.RunnerOpts
----@field args? string[]
----@field cwd? string?
----@field on_exit? fun(data:string, status:number)
+---@field cwd? string
+---@field timeout? number
+---@field stdin? string|string[]
 
----@param cmd string
----@param opts gopher.RunnerOpts
----@return string[]|nil
+---@param cmd (string|number)[]
+---@param opts? gopher.RunnerOpts
+---@return vim.SystemCompleted
 function runner.sync(cmd, opts)
-  local output
-  Job:new({
-    command = cmd,
-    args = opts.args,
-    cwd = opts.cwd,
-    on_stderr = function(_, data)
-      vim.print(data)
-    end,
-    on_exit = function(data, status)
-      output = data:result()
-      vim.schedule(function()
-        if opts.on_exit then
-          opts.on_exit(output, status)
-        end
-      end)
-    end,
-  }):sync(60000 --[[1 min]])
-  return output
+  opts = opts or {}
+
+  return vim
+    .system(cmd, {
+      cwd = opts.cwd or nil,
+      timeout = opts.timeout or 2000, -- TODO: move out to config
+      stdin = opts.stdin or nil,
+      text = true,
+    })
+    :wait()
+end
+
+---@param cmd (string|number)[]
+---@param on_exit fun(out:vim.SystemCompleted)
+---@param opts gopher.RunnerOpts
+---@return vim.SystemObj
+function runner.async(cmd, on_exit, opts)
+  return vim.system(cmd, {
+    cwd = opts.cwd or nil,
+    timeout = opts.timeout or 2000,
+    text = true,
+  }, on_exit)
 end
 
 return runner
