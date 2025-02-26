@@ -23,9 +23,10 @@ end
 
 ---@param cmd (string|number)[]
 ---@param on_exit fun(out:vim.SystemCompleted)
----@param opts gopher.RunnerOpts
+---@param opts? gopher.RunnerOpts
 ---@return vim.SystemObj
 function runner.async(cmd, on_exit, opts)
+  opts = opts or {}
   return vim.system(cmd, {
     cwd = opts.cwd or nil,
     timeout = opts.timeout or 2000,

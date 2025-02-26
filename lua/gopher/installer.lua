@@ -1,6 +1,7 @@
 local c = require("gopher.config").commands
 local r = require "gopher._utils.runner"
 local u = require "gopher._utils"
+local log = require "gopher._utils.log"
 local installer = {}
 
 local urls = {
@@ -13,16 +14,17 @@ local urls = {
 ---@param pkg string
 local function install(pkg)
   local url = urls[pkg] .. "@latest"
-  r.sync(c.go, {
-    args = { "install", url },
-    on_exit = function(data, status)
-      if not status == 0 then
-        error("go install failed: " .. data)
-        return
-      end
-      u.notify("installed: " .. url)
-    end,
-  })
+  local function on_exit(opt)
+    if opt.code ~= 0 then
+      u.deferred_notify("go install failed: " .. url)
+      log.debug("go install failed:", "url", url, "stderr", opt.stderr)
+      return
+    end
+
+    u.deferred_notify("go install'ed: " .. url)
+  end
+
+  r.async({ c.go, "install", url }, on_exit)
 end
 
 ---Install required go deps
