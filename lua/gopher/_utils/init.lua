@@ -27,7 +27,7 @@ end
 ---@param path string
 ---@return string
 function utils.readfile_joined(path)
-  return vim.fn.join(vim.fn.readfile(path), "\n")
+  return table.concat(vim.fn.readfile(path), "\n")
 end
 
 return utils

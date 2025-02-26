@@ -22,7 +22,7 @@ end
 ---@param path string
 ---@return string
 function testutils.readfile(path)
-  return vim.fn.join(vim.fn.readfile(path), "\n")
+  return table.concat(vim.fn.readfile(path), "\n")
 end
 
 ---@param fpath string
