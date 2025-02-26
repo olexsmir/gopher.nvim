@@ -4,7 +4,7 @@ local u = require "gopher._utils.health_util"
 
 local deps = {
   plugin = {
-    { lib = "nvim-treesitter", msg = "required for everything in gopher.nvim", optional = false },
+    { lib = "nvim-treesitter", msg = "required for basically everything in gopher.nvim" },
   },
   bin = {
     {
@@ -32,11 +32,7 @@ function health.check()
     if u.is_lualib_found(plugin.lib) then
       u.ok(plugin.lib .. " installed")
     else
-      if plugin.optional then
-        u.warn(plugin.lib .. " not found, " .. plugin.msg)
-      else
-        u.error(plugin.lib .. " not found, " .. plugin.msg)
-      end
+      u.error(plugin.lib .. " not found, " .. plugin.msg)
     end
   end
 
