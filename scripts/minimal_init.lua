@@ -27,7 +27,7 @@ vim.env.XDG_CACHE_HOME = root ".tests/cache"
 vim.cmd [[set runtimepath=$VIMRUNTIME]]
 vim.opt.runtimepath:append(root())
 vim.opt.packpath = { root ".tests/site" }
-vim.notify = print
+vim.notify = vim.print
 
 install_plug "nvim-treesitter/nvim-treesitter"
 install_plug "echasnovski/mini.doc" -- used for docs generation
