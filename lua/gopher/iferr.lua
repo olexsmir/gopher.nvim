@@ -30,7 +30,7 @@ function iferr.iferr()
     error("iferr failed: " .. rs.stderr)
   end
 
-  vim.fn.append(pos, vim.split(rs.stdout, "\n"))
+  vim.fn.append(pos, u.remove_empty_lines(vim.split(rs.stdout, "\n")))
   vim.cmd [[silent normal! j=2j]]
   vim.fn.setpos(".", pos)
 end

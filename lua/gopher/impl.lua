@@ -88,7 +88,7 @@ function impl.impl(...)
   end
 
   local pos = vim.fn.getcurpos()[2]
-  local output = vim.split(rs.stdout, "\n")
+  local output = u.remove_empty_lines(vim.split(rs.stdout, "\n"))
 
   table.insert(output, 1, "")
   vim.fn.append(pos, output)

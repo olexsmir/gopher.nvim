@@ -30,4 +30,16 @@ function utils.readfile_joined(path)
   return table.concat(vim.fn.readfile(path), "\n")
 end
 
+---@param t string[]
+---@return string[]
+function utils.remove_empty_lines(t)
+  local res = {}
+  for _, line in ipairs(t) do
+    if line ~= "" then
+      table.insert(res, line)
+    end
+  end
+  return res
+end
+
 return utils
