@@ -8,14 +8,15 @@ local function install_plug(plugin)
   local package_root = root ".tests/site/pack/deps/start/"
   if not vim.uv.fs_stat(package_root .. name) then
     print("Installing " .. plugin)
-    vim.fn.mkdir(package_root, "p")
-    vim.fn.system {
-      "git",
-      "clone",
-      "--depth=1",
-      "https://github.com/" .. plugin .. ".git",
-      package_root .. "/" .. name,
-    }
+    vim
+      .system({
+        "git",
+        "clone",
+        "--depth=1",
+        "https://github.com/" .. plugin .. ".git",
+        package_root .. "/" .. name,
+      }, { text = true })
+      :wait()
   end
 end
 
@@ -24,26 +25,25 @@ vim.env.XDG_DATA_HOME = root ".tests/data"
 vim.env.XDG_STATE_HOME = root ".tests/state"
 vim.env.XDG_CACHE_HOME = root ".tests/cache"
 
+install_plug "nvim-treesitter/nvim-treesitter"
+install_plug "echasnovski/mini.doc" -- used for docs generation
+install_plug "echasnovski/mini.test"
+
 vim.cmd [[set runtimepath=$VIMRUNTIME]]
 vim.opt.runtimepath:append(root())
 vim.opt.packpath = { root ".tests/site" }
 vim.notify = vim.print
 
-install_plug "nvim-treesitter/nvim-treesitter"
-install_plug "echasnovski/mini.doc" -- used for docs generation
-install_plug "echasnovski/mini.test"
-
 -- install go treesitter parse
 require("nvim-treesitter.install").ensure_installed_sync "go"
 
-require("mini.test").setup {
-  collect = {
-    find_files = function()
-      return vim.fn.globpath("spec", "**/*_test.lua", true, true)
-    end,
-  },
-}
-
-vim.print "--- mini start"
-vim.print(vim.system({ "echo", "hello" }):wait().stdout)
-vim.print "--- mini end "
+-- setup mini.test only when running headless nvim
+if #vim.api.nvim_list_uis() == 0 then
+  require("mini.test").setup {
+    collect = {
+      find_files = function()
+        return vim.fn.globpath("spec", "**/*_test.lua", true, true)
+      end,
+    },
+  }
+end
