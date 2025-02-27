@@ -25,11 +25,13 @@ jobs:
           version: 3.x
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Go mod init
+        run: go mod init github.com/olexsmir/gopher.nvim
+
       - name: Install Go
         uses: actions/setup-go@v5
         with:
           go-version: "1.24.0"
-          check-latest: false
 
       - name: Install Neovim
         uses: rhysd/action-setup-vim@v1
@@ -37,17 +39,12 @@ jobs:
           neovim: true
           version: ${{ matrix.versions }}
 
-
-      - name: Once again, what does it say?
-        run: |
-          nvim --clean --headless -u ./scripts/minimal_init.lua +"=vim.system({'gotests'}):wait().stdout" +q
-          echo "PATH -- $PATH"
-          echo "GOBIN $GOBIN"
-          echo "GOPATH $GOPATH"
-          echo `whereis gotests`
-          echo `gotests -version`
-          ls /home/runner/go/bin
-          exit 1
+      - name: Fix envs
+        id: fix-envs
+        run:
+          echo "GOPATH=/home/runner/go" >> $GITHUB_ENV
+          echo "GOBIN=$GOPATH/bin" >> $GITHUB_ENV
+          echo "$GOBIN" >> $GITHUB_PATH
 
       - name: Install Go bins
         run: |
