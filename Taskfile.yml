@@ -42,7 +42,7 @@ tasks:
     desc: generate vimhelp
     cmds:
       - |
-        nvim --clean  --headless \
+        nvim --clean --headless \
              -u "./scripts/minimal_init.lua" \
              +"luafile ./scripts/docgen.lua" \
              +":qa!"

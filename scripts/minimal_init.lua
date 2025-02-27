@@ -36,13 +36,10 @@ install_plug "echasnovski/mini.test"
 -- install go treesitter parse
 require("nvim-treesitter.install").ensure_installed_sync "go"
 
--- setup mini.test only when running headless nvim
-if #vim.api.nvim_list_uis() == 0 then
-  require("mini.test").setup {
-    collect = {
-      find_files = function()
-        return vim.fn.globpath("spec", "**/*_test.lua", true, true)
-      end,
-    },
-  }
-end
+require("mini.test").setup {
+  collect = {
+    find_files = function()
+      return vim.fn.globpath("spec", "**/*_test.lua", true, true)
+    end,
+  },
+}
