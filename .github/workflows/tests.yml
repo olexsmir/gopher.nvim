@@ -37,6 +37,10 @@ jobs:
           neovim: true
           version: ${{ matrix.versions }}
 
+
+      - name: Once again, what does it say?
+        run: nvim --clean --headless -u ./scripts/minimal_init.lua +"echo &runtimepath" +q
+
       - name: Install Go bins
         run: |
           nvim --version
