@@ -16,7 +16,7 @@ local urls = {
 local function handle_intall_exit(opt, url)
   if opt.code ~= 0 then
     u.deferred_notify("go install failed: " .. url)
-    log.debug("go install failed:", "url", url, "stderr", opt.stderr)
+    log.error("go install failed:", "url", url, "opt", vim.inspect(opt))
     return
   end
 
