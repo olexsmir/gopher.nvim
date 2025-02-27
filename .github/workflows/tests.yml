@@ -40,8 +40,14 @@ jobs:
 
       - name: Once again, what does it say?
         run: |
-            nvim --clean --headless -u ./scripts/minimal_init.lua +"echo &runtimepath" +q
-            nvim --clean --headless -u ./scripts/minimal_init.lua +"=vim.system({'pwd'}):wait().stdout" +q
+          nvim --clean --headless -u ./scripts/minimal_init.lua +"=vim.system({'gotests'}):wait().stdout" +q
+          echo "PATH -- $PATH"
+          echo "GOBIN $GOBIN"
+          echo "GOPATH $GOPATH"
+          echo `whereis gotests`
+          echo `gotests -version`
+          ls /home/runner/go/bin
+          exit 1
 
       - name: Install Go bins
         run: |
