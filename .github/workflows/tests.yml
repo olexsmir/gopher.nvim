@@ -27,9 +27,6 @@ jobs:
           version: 3.x
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Go mod init
-        run: go mod init github.com/olexsmir/gopher.nvim
-
       - name: Install Go
         uses: actions/setup-go@v5
         with:
@@ -40,6 +37,20 @@ jobs:
         with:
           neovim: true
           version: ${{ matrix.versions }}
+
+      - name: Get Date
+        id: get-date
+        shell: bash
+        run: echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_OUTPUT
+
+      - name: Cache .tests
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/.tests
+            ~/go/pkg/mod
+            ~/go/bin
+          key: ${{ runner.os }}-tests-${{ steps.get-date.outputs.date }}
 
       - name: Install Go bins
         run: |
