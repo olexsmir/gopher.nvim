@@ -37,6 +37,13 @@ vim.notify = vim.print
 -- install go treesitter parse
 require("nvim-treesitter.install").ensure_installed_sync "go"
 
+require("gopher").setup {
+  -- ensures that all go deps are installed
+  timeout = 5000,
+  -- simply log everything
+  log_level = vim.log.levels.TRACE,
+}
+
 -- setup mini.test only when running headless nvim
 if #vim.api.nvim_list_uis() == 0 then
   require("mini.test").setup {
