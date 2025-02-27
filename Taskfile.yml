@@ -36,7 +36,7 @@ tasks:
 
   ci:install-deps:
     desc: install dependencies for CI
-    cmds: ['nvim --headless -u "./scripts/minimal_init.lua" -c "GoInstallDeps" -c "qa!"']
+    cmds: ['nvim --headless -u "./scripts/minimal_init.lua" -c "GoInstallDepsSync" -c "qa!"']
 
   docgen:
     desc: generate vimhelp
