@@ -17,6 +17,8 @@ jobs:
           - nightly
     runs-on: ${{ matrix.os }}
     steps:
+      - uses: actions/checkout@v3
+
       - name: Install Task
         uses: arduino/setup-task@v1
         with:
@@ -39,7 +41,8 @@ jobs:
           ./nvim.appimage --appimage-extract
           echo "/tmp/nvim/squashfs-root/usr/bin/" >> $GITHUB_PATH
 
-      - uses: actions/checkout@v3
+      - name: Show Neovim version
+        run: nvim --version
 
       - name: Cache .tests
         uses: actions/cache@v4
