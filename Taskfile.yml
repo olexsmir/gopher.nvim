@@ -30,21 +30,19 @@ tasks:
     desc: run all tests
     cmds:
       - |
-        nvim --headless \
+        nvim --clean --headless \
              -u ./scripts/minimal_init.lua \
-             -c "lua MiniTest.run()"
+             +"lua MiniTest.run()"
 
   ci:install-deps:
     desc: install dependencies for CI
-    cmds:
-      - nvim --headless -u "./scripts/minimal_init.lua" -c "GoInstallDeps" -c "qa!"
+    cmds: ['nvim --headless -u "./scripts/minimal_init.lua" -c "GoInstallDeps" -c "qa!"']
 
   docgen:
     desc: generate vimhelp
     cmds:
       - |
-        nvim --noplugin \
-             --headless \
+        nvim --clean  --headless \
              -u "./scripts/minimal_init.lua" \
-             -c "luafile ./scripts/docgen.lua" \
-             -c ":qa!"
+             +"luafile ./scripts/docgen.lua" \
+             +":qa!"

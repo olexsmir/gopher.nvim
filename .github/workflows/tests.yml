@@ -25,11 +25,11 @@ jobs:
           version: 3.x
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Install Go
-      #   uses: actions/setup-go@v5
-      #   with:
-      #     go-version: "1.24.0"
-      #     check-latest: false
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.24.0"
+          check-latest: false
 
       - name: Install Neovim
         uses: rhysd/action-setup-vim@v1
@@ -37,15 +37,12 @@ jobs:
           neovim: true
           version: ${{ matrix.versions }}
 
-      - name: Just stupid ass test
-        run: nvim --clean --headless -E +'= vim.system {"ls"}:wait().stdout' +q
+      - name: Install Go bins
+        run: |
+          nvim --version
+          task ci:install-deps
 
-      # - name: Install Go bins
-      #   run: |
-      #     nvim --version
-      #     task ci:install-deps
-      #
-      # - name: Run Tests
-      #   run: |
-      #     nvim --version
-      #     task tests
+      - name: Run Tests
+        run: |
+          nvim --version
+          task tests
