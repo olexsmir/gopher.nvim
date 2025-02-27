@@ -39,17 +39,11 @@ jobs:
           neovim: true
           version: ${{ matrix.versions }}
 
-      - name: Fix envs
-        id: fix-envs
-        run:
-          echo "GOPATH=/home/runner/go" >> $GITHUB_ENV
-          echo "GOBIN=$GOPATH/bin" >> $GITHUB_ENV
-          echo "$GOBIN" >> $GITHUB_PATH
-
       - name: Install Go bins
         run: |
           nvim --version
           task ci:install-deps
+          echo "$HOME/go/bin" >> $GITHUB_PATH
 
       - name: Run Tests
         run: |
