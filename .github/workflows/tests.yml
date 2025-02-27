@@ -9,6 +9,8 @@ on:
 
 jobs:
   tests:
+    env:
+      GOPHER_LOG_USE_FILE: false
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -43,7 +45,6 @@ jobs:
         run: |
           nvim --version
           task ci:install-deps
-          echo "$HOME/go/bin" >> $GITHUB_PATH
 
       - name: Run Tests
         run: |

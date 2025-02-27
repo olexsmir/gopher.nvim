@@ -28,7 +28,7 @@ local config = {
   highlights = true,
 
   -- Should write to a file
-  use_file = true,
+  use_file = vim.env.GOPHER_LOG_USE_FILE ~= "false",
 
   -- Level configuration
   modes = {
