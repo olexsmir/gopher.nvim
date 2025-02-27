@@ -39,7 +39,9 @@ jobs:
 
 
       - name: Once again, what does it say?
-        run: nvim --clean --headless -u ./scripts/minimal_init.lua +"echo &runtimepath" +q
+        run: |
+            nvim --clean --headless -u ./scripts/minimal_init.lua +"echo &runtimepath" +q
+            nvim --clean --headless -u ./scripts/minimal_init.lua +"=vim.system({'pwd'}):wait().stdout" +q
 
       - name: Install Go bins
         run: |
