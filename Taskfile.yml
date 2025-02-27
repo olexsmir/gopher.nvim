@@ -34,6 +34,11 @@ tasks:
              -u ./scripts/minimal_init.lua \
              -c "lua MiniTest.run()"
 
+  ci:install-deps:
+    desc: install dependencies for CI
+    cmds:
+      - nvim --headless -u "./scripts/minimal_init.lua" -c "GoInstallDeps" -c "qa!"
+
   docgen:
     desc: generate vimhelp
     cmds:

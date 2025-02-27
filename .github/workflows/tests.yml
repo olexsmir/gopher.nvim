@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        version:
+        versions:
           - stable
           - nightly
     runs-on: ${{ matrix.os }}
@@ -32,29 +32,15 @@ jobs:
           check-latest: false
 
       - name: Install Neovim
-        shell: bash
-        run: |
-          mkdir -p /tmp/nvim
-          wget -q https://github.com/neovim/neovim/releases/download/${{ matrix.version }}/nvim-linux-x86_64.appimage -O /tmp/nvim/nvim.appimage
-          cd /tmp/nvim
-          chmod a+x ./nvim.appimage
-          ./nvim.appimage --appimage-extract
-          echo "/tmp/nvim/squashfs-root/usr/bin/" >> $GITHUB_PATH
-
-      - name: Show Neovim version
-        run: nvim --version
-
-      - name: Cache .tests
-        uses: actions/cache@v4
+        uses: rhysd/action-setup-vim@v1
         with:
-          path: |
-            ${{ github.workspace }}/.tests
-            ~/.cache/go-build
-            ~/go/pkg/mod
-          key: ${{ runner.os }}-tests-${{ hashFiles('${{ github.workspace }}/.tests') }}
+          neovim: true
+          version: ${{ matrix.versions }}
 
       - name: Install Go bins
-        run: nvim --headless -u "./scripts/minimal_init.lua" -c "GoInstallDeps" -c "qa!"
+        run: |
+          nvim --version
+          task ci:install-deps
 
       - name: Run Tests
         run: |
