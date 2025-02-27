@@ -43,3 +43,7 @@ require("mini.test").setup {
     end,
   },
 }
+
+vim.print "--- mini start"
+vim.print(vim.system({ "echo", "hello" }):wait().stdout)
+vim.print "--- mini end "
