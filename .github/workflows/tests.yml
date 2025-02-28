@@ -9,8 +9,6 @@ on:
 
 jobs:
   tests:
-    env:
-      GOPHER_LOG_USE_FILE: false
     strategy:
       matrix:
         os: [ubuntu-latest]

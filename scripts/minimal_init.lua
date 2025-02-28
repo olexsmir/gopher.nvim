@@ -40,8 +40,8 @@ require("nvim-treesitter.install").ensure_installed_sync "go"
 require("gopher").setup {
   -- ensures that all go deps are installed
   timeout = 5000,
-  -- simply log everything
-  log_level = vim.log.levels.TRACE,
+  -- disable logs
+  log_level = vim.log.levels.OFF,
 }
 
 -- setup mini.test only when running headless nvim
