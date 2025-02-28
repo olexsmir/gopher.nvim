@@ -37,14 +37,15 @@ local function install_sync(url)
 end
 
 ---Install required go deps
----@param sync? boolean
-function installer.install_deps(sync)
-  sync = sync or false
+---@param opts? {sync:boolean}
+function installer.install_deps(opts)
+  opts = opts or {}
   for pkg, _ in pairs(urls) do
-    if sync then
-      install_sync(urls[pkg] .. "@latest")
+    local url = urls[pkg] .. "@latest"
+    if opts.sync then
+      install_sync(url)
     else
-      install(urls[pkg] .. "@latest")
+      install(url)
     end
   end
 end
