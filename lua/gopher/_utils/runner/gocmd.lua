@@ -1,22 +1,23 @@
 local r = require "gopher._utils.runner"
 local c = require("gopher.config").commands
 local u = require "gopher._utils"
+local log = require "gopher._utils.log"
 local gocmd = {}
 
 ---@param args string[]
 ---@return string[]
-local function if_get(args)
+local function handle_get_cmd(args)
   for i, arg in ipairs(args) do
-    local m = string.match(arg, "^https://(.*)$") or string.match(arg, "^http://(.*)$") or arg
+    local m = string.match(arg, "^https?://(.*)$") or arg
     table.remove(args, i)
     table.insert(args, i, m)
   end
   return args
 end
 
----@param args unknown[]
+---@param args string[]
 ---@return string[]
-local function if_generate(args)
+local function handle_generate_cmd(args)
   if #args == 1 and args[1] == "%" then
     args[1] = vim.fn.expand "%"
   end
@@ -25,29 +26,22 @@ end
 
 ---@param subcmd string
 ---@param args string[]
----@return string[]|nil
 function gocmd.run(subcmd, args)
-  if #args == 0 then
-    error "please provice any arguments"
-  end
-
+  args = args or {}
   if subcmd == "get" then
-    args = if_get(args)
+    args = handle_get_cmd(args)
+  elseif subcmd == "generate" then
+    args = handle_generate_cmd(args)
   end
 
-  if subcmd == "generate" then
-    args = if_generate(args)
-  end
+  r.async({ c.go, unpack(args) }, function(opt)
+    if opt.code ~= 0 then
+      log.error("go " .. subcmd .. "  failed: " .. opt.stderr)
+      error("go " .. subcmd .. "  failed: " .. opt.stderr)
+    end
 
-  return r.sync(c.go, {
-    args = { subcmd, unpack(args) },
-    on_exit = function(data, status)
-      if status ~= 0 then
-        error("gocmd failed: " .. data)
-      end
-      u.notify(c.go .. " " .. subcmd .. " successful runned")
-    end,
-  })
+    u.notify("go " .. subcmd .. " output: " .. opt.stdout)
+  end)
 end
 
 return gocmd
