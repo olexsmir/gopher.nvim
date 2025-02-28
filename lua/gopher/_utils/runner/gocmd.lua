@@ -34,13 +34,13 @@ function gocmd.run(subcmd, args)
     args = handle_generate_cmd(args)
   end
 
-  r.async({ c.go, unpack(args) }, function(opt)
+  r.async({ c.go, subcmd, unpack(args) }, function(opt)
     if opt.code ~= 0 then
-      log.error("go " .. subcmd .. "  failed: " .. opt.stderr)
+      log.error("go " .. subcmd .. "  failed: " .. vim.inspect(opt))
       error("go " .. subcmd .. "  failed: " .. opt.stderr)
     end
 
-    u.notify("go " .. subcmd .. " output: " .. opt.stdout)
+    u.deferred_notify("go " .. subcmd .. "ran successfully, output: " .. opt.stdout)
   end)
 end
 
