@@ -33,10 +33,15 @@ vim.env.XDG_CACHE_HOME = root ".tests/cache"
 vim.cmd [[set runtimepath=$VIMRUNTIME]]
 vim.opt.runtimepath:append(root())
 vim.opt.packpath = { root ".tests/site" }
-vim.notify = print
+vim.notify = vim.print
 
 -- install go treesitter parse
 require("nvim-treesitter.install").ensure_installed_sync "go"
+
+require("gopher").setup {
+  log_level = vim.log.levels.OFF,
+  timeout = 4000,
+}
 
 -- setup mini.test only when running headless nvim
 if #vim.api.nvim_list_uis() == 0 then

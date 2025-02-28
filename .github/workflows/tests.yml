@@ -47,7 +47,11 @@ jobs:
           key: ${{ runner.os }}-tests-${{ hashFiles('${{ github.workspace }}/.tests') }}
 
       - name: Install Go bins
-        run: nvim --headless -u "./scripts/minimal_init.lua" -c "GoInstallDeps" -c "qa!"
+        run: |
+          go install github.com/fatih/gomodifytags@latest
+          go install github.com/josharian/impl@latest
+          go install github.com/cweill/gotests/...@latest
+          go install github.com/koron/iferr@latest
 
       - name: Run Tests
         run: |
