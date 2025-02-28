@@ -43,7 +43,7 @@ local impl = {}
 local function get_struct()
   local ns = ts_utils.get_struct_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil then
-    u.deferred_notify("put cursor on a struct or specify a receiver", vim.log.levels.INFO)
+    u.notify "put cursor on a struct or specify a receiver"
     return ""
   end
 
@@ -82,21 +82,14 @@ function impl.impl(...)
     recv = string.format("%s %s", recv_name, recv)
   end
 
-  local output = r.sync(c.impl, {
-    args = {
-      "-dir",
-      vim.fn.fnameescape(vim.fn.expand "%:p:h" --[[@as string]]),
-      recv,
-      iface,
-    },
-    on_exit = function(data, status)
-      if not status == 0 then
-        error("impl failed: " .. data)
-      end
-    end,
-  })
+  local rs = r.sync { c.impl, "-dir", vim.fn.fnameescape(vim.fn.expand "%:p:h"), recv, iface }
+  if rs.code ~= 0 then
+    error("failed to implement interface: " .. rs.stderr)
+  end
 
   local pos = vim.fn.getcurpos()[2]
+  local output = u.remove_empty_lines(vim.split(rs.stdout, "\n"))
+
   table.insert(output, 1, "")
   vim.fn.append(pos, output)
 end
