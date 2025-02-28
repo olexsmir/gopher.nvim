@@ -1,6 +1,7 @@
 local c = require("gopher.config").commands
 local r = require "gopher._utils.runner"
 local u = require "gopher._utils"
+local log = require "gopher._utils.log"
 local installer = {}
 
 local urls = {
@@ -10,25 +11,43 @@ local urls = {
   iferr = "github.com/koron/iferr",
 }
 
----@param pkg string
-local function install(pkg)
-  local url = urls[pkg] .. "@latest"
-  r.sync(c.go, {
-    args = { "install", url },
-    on_exit = function(data, status)
-      if not status == 0 then
-        error("go install failed: " .. data)
-        return
-      end
-      u.notify("installed: " .. url)
-    end,
-  })
+---@param opt vim.SystemCompleted
+---@param url string
+local function handle_intall_exit(opt, url)
+  if opt.code ~= 0 then
+    u.deferred_notify("go install failed: " .. url)
+    log.error("go install failed:", "url", url, "opt", vim.inspect(opt))
+    return
+  end
+
+  u.deferred_notify("go install-ed: " .. url)
+end
+
+---@param url string
+local function install(url)
+  r.async({ c.go, "install", url }, function(opt)
+    handle_intall_exit(opt, url)
+  end)
+end
+
+---@param url string
+local function install_sync(url)
+  local rs = r.sync { c.go, "install", url }
+  handle_intall_exit(rs, url)
 end
 
 ---Install required go deps
-function installer.install_deps()
+---@param sync? boolean
+function installer.install_deps(sync)
+  sync = sync or false
+
   for pkg, _ in pairs(urls) do
-    install(pkg)
+    local url = urls[pkg] .. "@latest"
+    if sync then
+      install_sync(url)
+    else
+      install(url)
+    end
   end
 end
 
