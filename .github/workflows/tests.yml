@@ -48,6 +48,7 @@ jobs:
 
       - name: Install Go bins
         run: |
+          # TODO: install with :GoInstallDeps
           go install github.com/fatih/gomodifytags@latest
           go install github.com/josharian/impl@latest
           go install github.com/cweill/gotests/...@latest

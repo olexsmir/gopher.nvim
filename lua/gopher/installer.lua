@@ -40,13 +40,11 @@ end
 ---@param sync? boolean
 function installer.install_deps(sync)
   sync = sync or false
-
   for pkg, _ in pairs(urls) do
-    local url = urls[pkg] .. "@latest"
     if sync then
-      install_sync(url)
+      install_sync(urls[pkg] .. "@latest")
     else
-      install(url)
+      install(urls[pkg] .. "@latest")
     end
   end
 end
