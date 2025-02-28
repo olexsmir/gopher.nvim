@@ -8,16 +8,22 @@ local function install_plug(plugin)
   local package_root = root ".tests/site/pack/deps/start/"
   if not vim.uv.fs_stat(package_root .. name) then
     print("Installing " .. plugin)
-    vim.fn.mkdir(package_root, "p")
-    vim.fn.system {
-      "git",
-      "clone",
-      "--depth=1",
-      "https://github.com/" .. plugin .. ".git",
-      package_root .. "/" .. name,
-    }
+    vim
+      .system({
+        "git",
+        "clone",
+        "--depth=1",
+        "https://github.com/" .. plugin .. ".git",
+        package_root .. "/" .. name,
+      })
+      :wait()
   end
 end
+
+install_plug "nvim-lua/plenary.nvim"
+install_plug "nvim-treesitter/nvim-treesitter"
+install_plug "echasnovski/mini.doc" -- used for docs generation
+install_plug "echasnovski/mini.test"
 
 vim.env.XDG_CONFIG_HOME = root ".tests/config"
 vim.env.XDG_DATA_HOME = root ".tests/data"
@@ -28,11 +34,6 @@ vim.cmd [[set runtimepath=$VIMRUNTIME]]
 vim.opt.runtimepath:append(root())
 vim.opt.packpath = { root ".tests/site" }
 vim.notify = print
-
-install_plug "nvim-lua/plenary.nvim"
-install_plug "nvim-treesitter/nvim-treesitter"
-install_plug "echasnovski/mini.doc" -- used for docs generation
-install_plug "echasnovski/mini.test"
 
 -- install go treesitter parse
 require("nvim-treesitter.install").ensure_installed_sync "go"

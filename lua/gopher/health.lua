@@ -4,9 +4,7 @@ local u = require "gopher._utils.health_util"
 
 local deps = {
   plugin = {
-    { lib = "dap", msg = "required for `gopher.dap`", optional = true },
-    { lib = "plenary", msg = "required for everything in gopher.nvim", optional = false },
-    { lib = "nvim-treesitter", msg = "required for everything in gopher.nvim", optional = false },
+    { lib = "nvim-treesitter", msg = "required for everything in gopher.nvim" },
   },
   bin = {
     {
@@ -14,17 +12,17 @@ local deps = {
       msg = "required for `:GoGet`, `:GoMod`, `:GoGenerate`, `:GoWork`, `:GoInstallDeps`",
       optional = false,
     },
-    { bin = cmd.gomodifytags, msg = "required for `:GoTagAdd`, `:GoTagRm`", optional = false },
-    { bin = cmd.impl, msg = "required for `:GoImpl`", optional = false },
-    { bin = cmd.iferr, msg = "required for `:GoIfErr`", optional = false },
+    { bin = cmd.gomodifytags, msg = "required for `:GoTagAdd`, `:GoTagRm`", optional = true },
+    { bin = cmd.impl, msg = "required for `:GoImpl`", optional = true },
+    { bin = cmd.iferr, msg = "required for `:GoIfErr`", optional = true },
     {
       bin = cmd.gotests,
       msg = "required for `:GoTestAdd`, `:GoTestsAll`, `:GoTestsExp`",
-      optional = false,
+      optional = true,
     },
   },
   treesitter = {
-    { parser = "go", msg = "required for `gopher.nvim`", optional = false },
+    { parser = "go", msg = "required for `gopher.nvim`" },
   },
 }
 
@@ -34,11 +32,7 @@ function health.check()
     if u.is_lualib_found(plugin.lib) then
       u.ok(plugin.lib .. " installed")
     else
-      if plugin.optional then
-        u.warn(plugin.lib .. " not found, " .. plugin.msg)
-      else
-        u.error(plugin.lib .. " not found, " .. plugin.msg)
-      end
+      u.error(plugin.lib .. " not found, " .. plugin.msg)
     end
   end
 

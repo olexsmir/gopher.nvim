@@ -20,10 +20,8 @@ Requirements:
 {
   "olexsmir/gopher.nvim",
   ft = "go",
-  -- branch = "develop", -- if you want develop branch
-                         -- keep in mind, it might break everything
+  -- branch = "develop"
   dependencies = {
-    "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
   },
   -- (optional) will update plugin's deps on every update
