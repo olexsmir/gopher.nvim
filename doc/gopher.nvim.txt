@@ -55,6 +55,10 @@ You can look at default options |gopher.nvim-config-defaults|
     ---@type number
     log_level = vim.log.levels.INFO,
 
+    -- timeout for running commands
+    ---@type number
+    timeout = 2000,
+
     -- user specified paths to binaries
     ---@class gopher.ConfigCommand
     commands = {
@@ -80,6 +84,9 @@ You can look at default options |gopher.nvim-config-defaults|
     gotag = {
       ---@type gopher.ConfigGoTagTransform
       transform = "snakecase",
+
+      -- default tags to add to struct fields
+      default_tag = "json",
     },
   }
 <

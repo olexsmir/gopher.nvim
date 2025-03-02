@@ -62,6 +62,9 @@ local default_config = {
   gotag = {
     ---@type gopher.ConfigGoTagTransform
     transform = "snakecase",
+
+    -- default tags to add to struct fields
+    default_tag = "json",
   },
 }
 --minidoc_afterlines_end
