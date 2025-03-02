@@ -38,15 +38,8 @@ local function modify(...)
     return
   end
 
-  -- stylua: ignore
-  local cmd_args = {
-    "-transform", c.gotag.transform,
-    "-format", "json",
-    "-file", fpath,
-    "-w"
-  }
-
   -- by struct name of line pos
+  local cmd_args = {}
   if ns.name == nil then
     local _, csrow, _, _ = unpack(vim.fn.getpos ".")
     table.insert(cmd_args, "-line")
@@ -67,17 +60,24 @@ local function modify(...)
     table.insert(cmd_args, "json")
   end
 
-  local output = r.sync(c.commands.gomodifytags, {
-    args = cmd_args,
-    on_exit = function(data, status)
-      if not status == 0 then
-        error("gotag failed: " .. data)
-      end
-    end,
-  })
+  local rs = r.sync {
+    c.commands.gomodifytags,
+    "-transform",
+    c.gotag.transform,
+    "-format",
+    "json",
+    "-w",
+    "-file",
+    fpath,
+    unpack(cmd_args),
+  }
+
+  if rs.code ~= 0 then
+    error("failed to set tags " .. rs.stderr)
+  end
 
   -- decode value
-  local tagged = vim.json.decode(table.concat(output))
+  local tagged = vim.json.decode(rs.stdout)
   if
     tagged.errors ~= nil
     or tagged.lines == nil

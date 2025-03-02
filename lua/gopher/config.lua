@@ -33,6 +33,10 @@ local default_config = {
   ---@type number
   log_level = vim.log.levels.INFO,
 
+  -- timeout for running commands
+  ---@type number
+  timeout = 2000,
+
   -- user specified paths to binaries
   ---@class gopher.ConfigCommand
   commands = {
