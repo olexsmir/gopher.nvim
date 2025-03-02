@@ -1,6 +1,5 @@
 local health = {}
 local cmd = require("gopher.config").commands
-local u = require "gopher._utils.health_util"
 
 local deps = {
   plugin = {
@@ -26,36 +25,56 @@ local deps = {
   },
 }
 
+---@param module string
+---@return boolean
+local function is_lualib_found(module)
+  local is_found, _ = pcall(require, module)
+  return is_found
+end
+
+---@param bin string
+---@return boolean
+local function is_binary_found(bin)
+  return vim.fn.executable(bin) == 1
+end
+
+---@param ft string
+---@return boolean
+local function is_treesitter_parser_available(ft)
+  local ok, parser = pcall(vim.treesitter.get_parser, 0, ft)
+  return ok and parser ~= nil
+end
+
 function health.check()
-  u.start "required plugins"
+  vim.health.start "required plugins"
   for _, plugin in ipairs(deps.plugin) do
-    if u.is_lualib_found(plugin.lib) then
-      u.ok(plugin.lib .. " installed")
+    if is_lualib_found(plugin.lib) then
+      vim.health.ok(plugin.lib .. " installed")
     else
-      u.error(plugin.lib .. " not found, " .. plugin.msg)
+      vim.health.error(plugin.lib .. " not found, " .. plugin.msg)
     end
   end
 
-  u.start "required binaries"
-  u.info "all those binaries can be installed by `:GoInstallDeps`"
+  vim.health.start "required binaries"
+  vim.health.info "all those binaries can be installed by `:GoInstallDeps`"
   for _, bin in ipairs(deps.bin) do
-    if u.is_binary_found(bin.bin) then
-      u.ok(bin.bin .. " installed")
+    if is_binary_found(bin.bin) then
+      vim.health.ok(bin.bin .. " installed")
     else
       if bin.optional then
-        u.warn(bin.bin .. " not found, " .. bin.msg)
+        vim.health.warn(bin.bin .. " not found, " .. bin.msg)
       else
-        u.error(bin.bin .. " not found, " .. bin.msg)
+        vim.health.error(bin.bin .. " not found, " .. bin.msg)
       end
     end
   end
 
-  u.start "required treesitter parsers"
+  vim.health.start "required treesitter parsers"
   for _, parser in ipairs(deps.treesitter) do
-    if u.is_treesitter_parser_available(parser.parser) then
-      u.ok(parser.parser .. " parser installed")
+    if is_treesitter_parser_available(parser.parser) then
+      vim.health.ok(parser.parser .. " parser installed")
     else
-      u.error(parser.parser .. " parser not found, " .. parser.msg)
+      vim.health.error(parser.parser .. " parser not found, " .. parser.msg)
     end
   end
 end
