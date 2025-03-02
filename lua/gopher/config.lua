@@ -33,7 +33,7 @@ local default_config = {
   ---@type number
   log_level = vim.log.levels.INFO,
 
-  -- timeout for running commands
+  -- timeout for running commands BREAKING
   ---@type number
   timeout = 2000,
 
