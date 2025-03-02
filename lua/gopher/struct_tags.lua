@@ -94,13 +94,14 @@ end
 
 -- add tags to struct under cursor
 function struct_tags.add(...)
-  local arg = { ... }
-  if #arg == nil or arg == "" then
-    arg = { c.gotag.default_tag }
+  local user_tags = { ... }
+  if #user_tags == 0 then
+    vim.print("c.gotag.default_tag", c.gotag.default_tag)
+    user_tags = { c.gotag.default_tag }
   end
 
   local cmd_args = { "-add-tags" }
-  for _, v in ipairs(arg) do
+  for _, v in ipairs(user_tags) do
     table.insert(cmd_args, v)
   end
 
@@ -109,13 +110,13 @@ end
 
 -- remove tags to struct under cursor
 function struct_tags.remove(...)
-  local arg = { ... }
-  if #arg == nil or arg == "" then
-    arg = { c.gotag.default_tag }
+  local user_tags = { ... }
+  if #user_tags == 0 then
+    user_tags = { c.gotag.default_tag }
   end
 
   local cmd_args = { "-remove-tags" }
-  for _, v in ipairs(arg) do
+  for _, v in ipairs(user_tags) do
     table.insert(cmd_args, v)
   end
 
