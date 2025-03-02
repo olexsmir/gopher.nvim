@@ -35,10 +35,7 @@ end
 ---@param bin string
 ---@return boolean
 local function is_binary_found(bin)
-  if vim.fn.executable(bin) == 1 then
-    return true
-  end
-  return false
+  return vim.fn.executable(bin) == 1
 end
 
 ---@param ft string
