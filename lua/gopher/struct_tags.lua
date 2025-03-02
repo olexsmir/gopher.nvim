@@ -55,11 +55,6 @@ local function modify(...)
     table.insert(cmd_args, v)
   end
 
-  -- set default tag for "clear tags"
-  if #arg == 1 and arg[1] ~= "-clear-tags" then
-    table.insert(cmd_args, "json")
-  end
-
   local rs = r.sync {
     c.commands.gomodifytags,
     "-transform",
@@ -101,7 +96,7 @@ end
 function struct_tags.add(...)
   local arg = { ... }
   if #arg == nil or arg == "" then
-    arg = { "json" }
+    arg = { c.gotag.default_tag }
   end
 
   local cmd_args = { "-add-tags" }
@@ -116,7 +111,7 @@ end
 function struct_tags.remove(...)
   local arg = { ... }
   if #arg == nil or arg == "" then
-    arg = { "json" }
+    arg = { c.gotag.default_tag }
   end
 
   local cmd_args = { "-remove-tags" }
