@@ -13,7 +13,7 @@ It's **NOT** an LSP tool, the main goal of this plugin is to add go tooling supp
 Requirements:
 
 - **Neovim 0.10** or later
-- `go` treesitter parser, install by `:TSInstall go`
+- Treesitter `go` parser(`:TSInstall go`)
 - [Go](https://github.com/golang/go) installed (tested on 1.23)
 
 ```lua
