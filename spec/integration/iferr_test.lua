@@ -23,4 +23,18 @@ T["iferr"]["works"] = function()
   t.eq(t.readfile(tmp), fixtures.output)
 end
 
+T["iferr"]["works with custom message"] = function()
+  local tmp = t.tmpfile()
+  local fixtures = t.get_fixtures "iferr/message"
+  t.writefile(tmp, fixtures.input)
+
+  child.lua [[ require("gopher").setup { iferr = { message = 'fmt.Errorf("failed to %w", err)' } } ]]
+  child.cmd("silent edit " .. tmp)
+  child.fn.setpos(".", { child.fn.bufnr "%", 6, 2, 0 })
+  child.cmd "GoIfErr"
+  child.cmd "write"
+
+  t.eq(t.readfile(tmp), fixtures.output)
+end
+
 return T
