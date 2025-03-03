@@ -66,6 +66,11 @@ local default_config = {
     -- default tags to add to struct fields
     default_tag = "json",
   },
+  iferr = {
+    -- choose a custom error message
+    ---@type string|nil
+    message = nil,
+  },
 }
 --minidoc_afterlines_end
 
