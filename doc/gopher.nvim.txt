@@ -88,6 +88,11 @@ You can look at default options |gopher.nvim-config-defaults|
       -- default tags to add to struct fields
       default_tag = "json",
     },
+    iferr = {
+      -- choose a custom error message
+      ---@type string|nil
+      message = nil,
+    },
   }
 <
 Class ~
