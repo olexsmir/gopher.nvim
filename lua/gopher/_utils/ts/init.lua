@@ -27,18 +27,15 @@ end
 ---@param bufnr string|nil
 ---@param do_notify boolean|nil
 ---@return table|nil
-function ts.get_struct_node_at_pos(row, col, bufnr, do_notify)
-  local notify = do_notify or true
+function ts.get_struct_node_at_pos(row, col, bufnr)
   local query = ts.querys.struct_block .. " " .. ts.querys.em_struct_block
   local bufn = bufnr or vim.api.nvim_get_current_buf()
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
-    if notify then
-      u.deferred_notify("struct not found", vim.log.levels.WARN)
-    end
-  else
-    return ns[#ns]
+    u.deferred_notify("struct not found", vim.log.levels.WARN)
+    return
   end
+  return ns[#ns]
 end
 
 ---@param row string
@@ -46,18 +43,15 @@ end
 ---@param bufnr string|nil
 ---@param do_notify boolean|nil
 ---@return table|nil
-function ts.get_func_method_node_at_pos(row, col, bufnr, do_notify)
-  local notify = do_notify or true
+function ts.get_func_method_node_at_pos(row, col, bufnr)
   local query = ts.querys.func .. " " .. ts.querys.method_name
   local bufn = bufnr or vim.api.nvim_get_current_buf()
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
-    if notify then
-      u.deferred_notify("function not found", vim.log.levels.WARN)
-    end
-  else
-    return ns[#ns]
+    u.deferred_notify("function not found", vim.log.levels.WARN)
+    return
   end
+  return ns[#ns]
 end
 
 ---@param row string
@@ -65,21 +59,18 @@ end
 ---@param bufnr string|nil
 ---@param do_notify boolean|nil
 ---@return table|nil
-function ts.get_package_node_at_pos(row, col, bufnr, do_notify)
-  local notify = do_notify or true
-  -- stylua: ignore
-  if row > 10 then return end
+function ts.get_package_node_at_pos(row, col, bufnr)
+  if row > 10 then
+    return
+  end
   local query = ts.querys.package
   local bufn = bufnr or vim.api.nvim_get_current_buf()
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
-    if notify then
-      u.deferred_notify("package not found", vim.log.levels.WARN)
-      return nil
-    end
-  else
-    return ns[#ns]
+    u.deferred_notify("package not found", vim.log.levels.WARN)
+    return
   end
+  return ns[#ns]
 end
 
 ---@param row string
@@ -87,18 +78,15 @@ end
 ---@param bufnr string|nil
 ---@param do_notify boolean|nil
 ---@return table|nil
-function ts.get_interface_node_at_pos(row, col, bufnr, do_notify)
-  local notify = do_notify or true
+function ts.get_interface_node_at_pos(row, col, bufnr)
   local query = ts.querys.interface
   local bufn = bufnr or vim.api.nvim_get_current_buf()
   local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
   if ns == nil then
-    if notify then
-      u.deferred_notify("interface not found", vim.log.levels.WARN)
-    end
-  else
-    return ns[#ns]
+    u.deferred_notify("interface not found", vim.log.levels.WARN)
+    return
   end
+  return ns[#ns]
 end
 
 return ts

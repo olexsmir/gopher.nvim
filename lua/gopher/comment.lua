@@ -9,25 +9,25 @@ local function generate(row, col)
   local ts_utils = require "gopher._utils.ts"
   local comment, ns = nil, nil
 
-  ns = ts_utils.get_package_node_at_pos(row, col, nil, false)
+  ns = ts_utils.get_package_node_at_pos(row, col, nil)
   if ns ~= nil then
     comment = "// Package " .. ns.name .. " provides " .. ns.name
     return comment, ns
   end
 
-  ns = ts_utils.get_struct_node_at_pos(row, col, nil, false)
+  ns = ts_utils.get_struct_node_at_pos(row, col, nil)
   if ns ~= nil then
     comment = "// " .. ns.name .. " " .. ns.type .. " "
     return comment, ns
   end
 
-  ns = ts_utils.get_func_method_node_at_pos(row, col, nil, false)
+  ns = ts_utils.get_func_method_node_at_pos(row, col, nil)
   if ns ~= nil then
     comment = "// " .. ns.name .. " " .. ns.type .. " "
     return comment, ns
   end
 
-  ns = ts_utils.get_interface_node_at_pos(row, col, nil, false)
+  ns = ts_utils.get_interface_node_at_pos(row, col, nil)
   if ns ~= nil then
     comment = "// " .. ns.name .. " " .. ns.type .. " "
     return comment, ns
