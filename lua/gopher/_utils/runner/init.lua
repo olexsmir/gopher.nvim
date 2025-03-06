@@ -15,6 +15,7 @@ function runner.sync(cmd, opts)
     command = cmd,
     args = opts.args,
     cwd = opts.cwd,
+    env = vim.fn.environ(),
     on_stderr = function(_, data)
       vim.print(data)
     end,
