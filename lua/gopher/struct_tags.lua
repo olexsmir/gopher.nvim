@@ -96,7 +96,6 @@ end
 function struct_tags.add(...)
   local user_tags = { ... }
   if #user_tags == 0 then
-    vim.print("c.gotag.default_tag", c.gotag.default_tag)
     user_tags = { c.gotag.default_tag }
   end
 
