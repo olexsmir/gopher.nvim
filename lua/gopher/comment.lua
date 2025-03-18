@@ -24,7 +24,7 @@ local function generate(bufnr)
     return cmt
   end
 
-  ok, res = pcall(ts.get_interface_inder_cursor, bufnr)
+  ok, res = pcall(ts.get_interface_under_cursor, bufnr)
   if ok then
     cmt = cmt .. res.name .. " "
     return cmt

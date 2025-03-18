@@ -9,8 +9,7 @@ local queries = {
      (method_declaration   name: (field_identifier) @_name)]
   ]],
   package = [[
-    ((package_clause
-      (package_identifier)) @_name)
+    (package_identifier) @_name
   ]],
   interface = [[
     (type_spec
@@ -112,7 +111,7 @@ function ts.get_package_under_cursor(bufnr)
 end
 
 ---@param bufnr integer
-function ts.get_interface_inder_cursor(bufnr)
+function ts.get_interface_under_cursor(bufnr)
   return do_stuff(bufnr, "type_declaration", queries.interface)
 end
 
