@@ -1,88 +1,73 @@
----@diagnostic disable: param-type-mismatch
-local nodes = require "gopher._utils.ts.nodes"
-local u = require "gopher._utils"
 local ts = {
   queries = {
-    struct_block = [[((type_declaration (type_spec name:(type_identifier) @struct.name type: (struct_type)))@struct.declaration)]],
-    em_struct_block = [[(field_declaration name:(field_identifier)@struct.name type: (struct_type)) @struct.declaration]],
-    package = [[(package_clause (package_identifier)@package.name)@package.clause]],
-    interface = [[((type_declaration (type_spec name:(type_identifier) @interface.name type:(interface_type)))@interface.declaration)]],
-    method_name = [[((method_declaration receiver: (parameter_list)@method.receiver name: (field_identifier)@method.name body:(block))@method.declaration)]],
-    func = [[((function_declaration name: (identifier)@function.name) @function.declaration)]],
+    struct = [[
+(type_spec name: (type_identifier) @name
+           type: (struct_type))
+    ]],
+
+    -- struct_block = [[((type_declaration (type_spec name:(type_identifier) @struct.name type: (struct_type)))@struct.declaration)]],
+    -- package = [[(package_clause (package_identifier)@package.name)@package.clause]],
+    -- interface = [[((type_declaration (type_spec name:(type_identifier) @interface.name type:(interface_type)))@interface.declaration)]],
+    -- method_name = [[((method_declaration receiver: (parameter_list)@method.receiver name: (field_identifier)@method.name body:(block))@method.declaration)]],
+    -- func = [[((function_declaration name: (identifier)@function.name) @function.declaration)]],
   },
 }
 
----@return table
-local function get_name_defaults()
-  return {
-    ["func"] = "function",
-    ["if"] = "if",
-    ["else"] = "else",
-    ["for"] = "for",
+---@param parent_type string
+---@param node TSNode
+---@return TSNode?
+local function get_parrent_node(parent_type, node)
+  ---@type TSNode?
+  local current = node
+  while current do
+    if current:type() == parent_type then
+      break
+    end
+
+    current = current:parent()
+    if current == nil then
+      return nil
+    end
+  end
+  return current
+end
+
+---@param bufnr string
+---@return table|nil
+function ts.get_struct_node_at_pos(bufnr)
+  vim.validate {
+    bufnr = { bufnr, "number" },
   }
-end
 
----@param row string
----@param col string
----@param bufnr string|nil
----@return table|nil
-function ts.get_struct_node_at_pos(row, col, bufnr)
-  local query = ts.queries.struct_block .. " " .. ts.queries.em_struct_block
-  local bufn = bufnr or vim.api.nvim_get_current_buf()
-  local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
-  if ns == nil then
-    u.deferred_notify("struct not found", vim.log.levels.WARN)
-    return
+  local node = vim.treesitter.get_node()
+  if not node then
+    error "No nodes found under cursor"
   end
-  return ns[#ns]
-end
 
----@param row string
----@param col string
----@param bufnr string|nil
----@return table|nil
-function ts.get_func_method_node_at_pos(row, col, bufnr)
-  local query = ts.queries.func .. " " .. ts.queries.method_name
-  local bufn = bufnr or vim.api.nvim_get_current_buf()
-  local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
-  if ns == nil then
-    u.deferred_notify("function not found", vim.log.levels.WARN)
-    return
+  local res = {}
+  local r = get_parrent_node("type_declaration", node)
+  if not r then
+    error "No struct found under cursor"
   end
-  return ns[#ns]
-end
 
----@param row string
----@param col string
----@param bufnr string|nil
----@return table|nil
-function ts.get_package_node_at_pos(row, col, bufnr)
-  if row > 10 then
-    return
-  end
-  local query = ts.queries.package
-  local bufn = bufnr or vim.api.nvim_get_current_buf()
-  local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
-  if ns == nil then
-    u.deferred_notify("package not found", vim.log.levels.WARN)
-    return
-  end
-  return ns[#ns]
-end
+  local start_row, _, end_row, _ = r:range()
+  res["start_line"] = start_row + 1
+  res["end_line"] = end_row + 1
 
----@param row string
----@param col string
----@param bufnr string|nil
----@return table|nil
-function ts.get_interface_node_at_pos(row, col, bufnr)
-  local query = ts.queries.interface
-  local bufn = bufnr or vim.api.nvim_get_current_buf()
-  local ns = nodes.nodes_at_cursor(query, get_name_defaults(), bufn, row, col)
-  if ns == nil then
-    u.deferred_notify("interface not found", vim.log.levels.WARN)
-    return
+  local query = vim.treesitter.query.parse("go", ts.queries.struct)
+
+  for _, match, _ in query:iter_matches(r, bufnr) do
+    for capture_id, captured_node in pairs(match) do
+      local capture_name = query.captures[capture_id]
+      local text = vim.treesitter.get_node_text(captured_node, bufnr)
+
+      if capture_name == "name" then
+        res["name"] = text
+      end
+    end
   end
-  return ns[#ns]
+
+  return res
 end
 
 return ts
