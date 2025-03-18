@@ -8,11 +8,15 @@ local queries = {
     [(function_declaration name: (identifier)       @_name)
      (method_declaration   name: (field_identifier) @_name)]
   ]],
-
-  -- package = [[(package_clause (package_identifier)@package.name)@package.clause]],
-  -- interface = [[((type_declaration (type_spec name:(type_identifier) @interface.name type:(interface_type)))@interface.declaration)]],
-  -- method_name = [[((method_declaration receiver: (parameter_list)@method.receiver name: (field_identifier)@method.name body:(block))@method.declaration)]],
-  -- func = [[((function_declaration name: (identifier)@function.name) @function.declaration)]],
+  package = [[
+    ((package_clause
+      (package_identifier)) @_name)
+  ]],
+  interface = [[
+    (type_spec
+      name: (type_identifier) @_name
+      type: (interface_type))
+  ]],
 }
 
 ---@param parent_type string|[string]
@@ -100,6 +104,16 @@ end
 ---@param bufnr integer
 function ts.get_func_under_cursor(bufnr)
   return do_stuff(bufnr, { "function_declaration", "method_declaration" }, queries.func)
+end
+
+---@param bufnr integer
+function ts.get_package_under_cursor(bufnr)
+  return do_stuff(bufnr, "package_clause", queries.package)
+end
+
+---@param bufnr integer
+function ts.get_interface_inder_cursor(bufnr)
+  return do_stuff(bufnr, "type_declaration", queries.interface)
 end
 
 return ts

@@ -3,57 +3,51 @@
 ---@usage Execute `:GoCmt` to generate a comment for the current function/method/struct/etc on this line.
 ---@text This module provides a way to generate comments for Go code.
 
+local ts = require "gopher._utils.ts"
 local log = require "gopher._utils.log"
+local comment = {}
 
-local function generate(row, col)
-  local ts_utils = require "gopher._utils.ts"
-  local comment, ns = nil, nil
+---@param bufnr integer
+---@return string
+local function generate(bufnr)
+  local cmt = "// "
 
-  ns = ts_utils.get_package_node_at_pos(row, col, nil)
-  if ns ~= nil then
-    comment = "// Package " .. ns.name .. " provides " .. ns.name
-    return comment, ns
+  local ok, res = pcall(ts.get_struct_under_cursor, bufnr)
+  if ok then
+    cmt = cmt .. res.name .. " "
+    return cmt
   end
 
-  ns = ts_utils.get_struct_under_cursor(row, col, nil)
-  if ns ~= nil then
-    comment = "// " .. ns.name .. " " .. ns.type .. " "
-    return comment, ns
+  ok, res = pcall(ts.get_func_under_cursor, bufnr)
+  if ok then
+    cmt = cmt .. res.name .. " "
+    return cmt
   end
 
-  ns = ts_utils.get_func_method_node_at_pos(row, col, nil)
-  if ns ~= nil then
-    comment = "// " .. ns.name .. " " .. ns.type .. " "
-    return comment, ns
+  ok, res = pcall(ts.get_interface_inder_cursor, bufnr)
+  if ok then
+    cmt = cmt .. res.name .. " "
+    return cmt
   end
 
-  ns = ts_utils.get_interface_node_at_pos(row, col, nil)
-  if ns ~= nil then
-    comment = "// " .. ns.name .. " " .. ns.type .. " "
-    return comment, ns
+  ok, res = pcall(ts.get_package_under_cursor, bufnr)
+  if ok then
+    cmt = cmt .. "Package " .. res.name .. " provides "
+    return cmt
   end
 
-  return "// ", {}
+  return cmt
 end
 
-return function()
-  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-  local comment, ns = generate(row + 1, col + 1)
+function comment.comment()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local cmt = generate(bufnr)
+  log.debug("generated comment: " .. cmt)
 
-  log.debug("generated comment: " .. comment)
-
-  vim.api.nvim_win_set_cursor(0, {
-    ns.dim.s.r,
-    ns.dim.s.c,
-  })
-
-  ---@diagnostic disable-next-line: param-type-mismatch
-  vim.fn.append(row - 1, comment)
-
-  vim.api.nvim_win_set_cursor(0, {
-    ns.dim.s.r,
-    #comment + 1,
-  })
-
-  vim.cmd [[startinsert!]]
+  local pos = vim.fn.getcurpos()[2]
+  vim.fn.append(pos - 1, cmt)
+  vim.fn.setpos(".", { 0, pos, #cmt })
+  vim.cmd "startinsert!"
 end
+
+return comment
