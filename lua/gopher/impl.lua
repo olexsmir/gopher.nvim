@@ -41,7 +41,7 @@ local impl = {}
 ---@return string
 ---@private
 local function get_struct()
-  local ns = ts_utils.get_struct_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
+  local ns = ts_utils.get_struct_under_cursor(unpack(vim.api.nvim_win_get_cursor(0)))
   if ns == nil then
     u.notify "put cursor on a struct or specify a receiver"
     return ""

@@ -34,7 +34,7 @@ local struct_tags = {}
 local function modify(...)
   local fpath = vim.fn.expand "%" ---@diagnostic disable-line: missing-parameter
   local bufnr = vim.api.nvim_get_current_buf()
-  local struct = ts_utils.get_struct_node_at_pos(bufnr)
+  local struct = ts_utils.get_struct_under_cursor(bufnr)
 
   -- set user args for cmd
   local cmd_args = {}

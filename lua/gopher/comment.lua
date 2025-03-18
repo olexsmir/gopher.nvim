@@ -15,7 +15,7 @@ local function generate(row, col)
     return comment, ns
   end
 
-  ns = ts_utils.get_struct_node_at_pos(row, col, nil)
+  ns = ts_utils.get_struct_under_cursor(row, col, nil)
   if ns ~= nil then
     comment = "// " .. ns.name .. " " .. ns.type .. " "
     return comment, ns
