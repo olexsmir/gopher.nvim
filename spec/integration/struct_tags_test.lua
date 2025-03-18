@@ -34,4 +34,16 @@ T["struct_tags"]["works remove"] = function()
   t.eq(t.readfile(tmp), fixtures.output)
 end
 
+T["struct_tags"]["works many structs"] = function()
+  local tmp = t.tmpfile()
+  local fixtures = t.get_fixtures "tags/many"
+  t.writefile(tmp, fixtures.input)
+
+  child.cmd("silent edit " .. tmp)
+  child.fn.setpos(".", { child.fn.bufnr "%", 10, 3, 0 })
+  child.cmd "GoTagAdd testing"
+
+  t.eq(t.readfile(tmp), fixtures.output)
+end
+
 return T

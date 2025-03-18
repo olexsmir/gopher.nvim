@@ -45,7 +45,7 @@ function ts.get_struct_node_at_pos(bufnr)
   end
 
   local res = {}
-  local r = get_parrent_node("type_declaration", node)
+  local r = get_parrent_node("type_spec", node)
   if not r then
     error "No struct found under cursor"
   end
