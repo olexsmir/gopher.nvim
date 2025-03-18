@@ -33,23 +33,11 @@ local struct_tags = {}
 
 local function modify(...)
   local fpath = vim.fn.expand "%" ---@diagnostic disable-line: missing-parameter
-  local ns = ts_utils.get_struct_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
-  if ns == nil then
-    return
-  end
-
-  -- by struct name of line pos
-  local cmd_args = {}
-  if ns.name == nil then
-    local _, csrow, _, _ = unpack(vim.fn.getpos ".")
-    table.insert(cmd_args, "-line")
-    table.insert(cmd_args, csrow)
-  else
-    table.insert(cmd_args, "-struct")
-    table.insert(cmd_args, ns.name)
-  end
+  local bufnr = vim.api.nvim_get_current_buf()
+  local struct = ts_utils.get_struct_node_at_pos(bufnr)
 
   -- set user args for cmd
+  local cmd_args = {}
   local arg = { ... }
   for _, v in ipairs(arg) do
     table.insert(cmd_args, v)
@@ -61,6 +49,8 @@ local function modify(...)
     c.gotag.transform,
     "-format",
     "json",
+    "-struct",
+    struct.name,
     "-w",
     "-file",
     fpath,
