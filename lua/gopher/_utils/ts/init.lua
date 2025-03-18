@@ -67,7 +67,10 @@ function ts.get_struct_under_cursor(bufnr)
     error "No nodes found under cursor"
   end
 
-  local parent_node = get_parrent_node("type_spec", node)
+  --- should be both type_spec and type_declaration
+  --- because in cases like `type ( T struct{}, U strict{} )`
+  --- i will be choosing always last struct in the list
+  local parent_node = get_parrent_node({ "type_spec", "type_declaration" }, node)
   if not parent_node then
     error "No struct found under cursor"
   end
