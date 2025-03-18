@@ -18,21 +18,15 @@ local queries = {
   ]],
 }
 
----@param parent_type string|[string]
+---@param parent_type [string]
 ---@param node TSNode
 ---@return TSNode?
 local function get_parrent_node(parent_type, node)
   ---@type TSNode?
   local current = node
   while current do
-    if type(parent_type) == "string" then
-      if current:type() == parent_type then
-        break
-      end
-    elseif type(parent_type) == "table" then
-      if vim.tbl_contains(parent_type, current:type()) then
-        break
-      end
+    if vim.tbl_contains(parent_type, current:type()) then
+      break
     end
 
     current = current:parent()
@@ -67,7 +61,7 @@ end
 ---@field end_line integer
 
 ---@param bufnr integer
----@param parent_type string|[string]
+---@param parent_type [string]
 ---@param query string
 ---@return gopher.TsResult
 local function do_stuff(bufnr, parent_type, query)
@@ -107,12 +101,12 @@ end
 
 ---@param bufnr integer
 function ts.get_package_under_cursor(bufnr)
-  return do_stuff(bufnr, "package_clause", queries.package)
+  return do_stuff(bufnr, { "package_clause" }, queries.package)
 end
 
 ---@param bufnr integer
 function ts.get_interface_under_cursor(bufnr)
-  return do_stuff(bufnr, "type_declaration", queries.interface)
+  return do_stuff(bufnr, { "type_declaration" }, queries.interface)
 end
 
 return ts
