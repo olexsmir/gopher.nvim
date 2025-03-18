@@ -9,31 +9,28 @@ local comment = {}
 
 ---@param bufnr integer
 ---@return string
+---@private
 local function generate(bufnr)
   local cmt = "// "
 
   local ok, res = pcall(ts.get_struct_under_cursor, bufnr)
   if ok then
-    cmt = cmt .. res.name .. " "
-    return cmt
+    return cmt .. res.name .. " "
   end
 
   ok, res = pcall(ts.get_func_under_cursor, bufnr)
   if ok then
-    cmt = cmt .. res.name .. " "
-    return cmt
+    return cmt .. res.name .. " "
   end
 
   ok, res = pcall(ts.get_interface_under_cursor, bufnr)
   if ok then
-    cmt = cmt .. res.name .. " "
-    return cmt
+    return cmt .. res.name .. " "
   end
 
   ok, res = pcall(ts.get_package_under_cursor, bufnr)
   if ok then
-    cmt = cmt .. "Package " .. res.name .. " provides "
-    return cmt
+    return cmt .. "Package " .. res.name .. " provides "
   end
 
   return cmt
