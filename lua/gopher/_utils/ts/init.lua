@@ -1,7 +1,7 @@
 local ts = {
   queries = {
     struct = [[
-(type_spec name: (type_identifier) @name
+(type_spec name: (type_identifier) @_name
            type: (struct_type))
     ]],
 
@@ -55,14 +55,11 @@ function ts.get_struct_node_at_pos(bufnr)
   res["end_line"] = end_row + 1
 
   local query = vim.treesitter.query.parse("go", ts.queries.struct)
-
   for _, match, _ in query:iter_matches(r, bufnr) do
     for capture_id, captured_node in pairs(match) do
       local capture_name = query.captures[capture_id]
-      local text = vim.treesitter.get_node_text(captured_node, bufnr)
-
-      if capture_name == "name" then
-        res["name"] = text
+      if capture_name == "_name" then
+        res["name"] = vim.treesitter.get_node_text(captured_node, bufnr)
       end
     end
   end
