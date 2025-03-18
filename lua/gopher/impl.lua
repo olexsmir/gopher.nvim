@@ -38,48 +38,22 @@ local ts_utils = require "gopher._utils.ts"
 local u = require "gopher._utils"
 local impl = {}
 
----@return string
----@private
-local function get_struct()
-  local ns = ts_utils.get_struct_under_cursor(unpack(vim.api.nvim_win_get_cursor(0)))
-  if ns == nil then
-    u.notify "put cursor on a struct or specify a receiver"
-    return ""
-  end
-
-  vim.api.nvim_win_set_cursor(0, {
-    ns.dim.e.r,
-    ns.dim.e.c,
-  })
-
-  return ns.name
-end
-
 function impl.impl(...)
   local args = { ... }
-  local iface, recv_name = "", ""
-  local recv = get_struct()
+  local iface, recv = "", ""
+  local bufnr = vim.api.nvim_get_current_buf()
 
-  if #args == 0 then
-    iface = vim.fn.input "impl: generating method stubs for interface: "
-    vim.cmd "redraw!"
-    if iface == "" then
-      u.deferred_notify("usage: GoImpl f *File io.Reader", vim.log.levels.INFO)
-      return
-    end
-  elseif #args == 1 then -- :GoImpl io.Reader
-    recv = string.lower(recv) .. " *" .. recv
-    vim.cmd "redraw!"
-    iface = select(1, ...)
+  if #args == 1 then -- :GoImpl io.Reader
+    local st = ts_utils.get_struct_under_cursor(bufnr)
+    iface = args[1]
+    recv = string.lower(st.name) .. " *" .. st.name
   elseif #args == 2 then -- :GoImpl w io.Writer
-    recv_name = select(1, ...)
-    recv = string.format("%s *%s", recv_name, recv)
-    iface = select(#args, ...)
-  elseif #args > 2 then
-    iface = select(#args, ...)
-    recv = select(#args - 1, ...)
-    recv_name = select(#args - 2, ...)
-    recv = string.format("%s %s", recv_name, recv)
+    local st = ts_utils.get_struct_under_cursor(bufnr)
+    iface = args[2]
+    recv = args[1] .. " *" .. st.name
+  elseif #args == 3 then -- :GoImpl r Struct io.Reader
+    recv = args[1] .. " *" .. args[2]
+    iface = args[3]
   end
 
   local rs = r.sync { c.impl, "-dir", vim.fn.fnameescape(vim.fn.expand "%:p:h"), recv, iface }

@@ -16,7 +16,7 @@ T["impl"]["works w io.Writer"] = function()
   t.writefile(tmp, fixtures.input)
 
   child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr(tmp), 3, 6 })
+  child.fn.setpos(".", { child.fn.bufnr(tmp), 3, 0 })
   child.cmd "GoImpl w io.Writer"
   child.cmd "write"
 
