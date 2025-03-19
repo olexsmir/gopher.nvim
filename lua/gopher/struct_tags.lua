@@ -88,7 +88,7 @@ local function handler_user_args(args)
 end
 
 ---Adds tags to a struct under the cursor
----@param ... string Tags to add to the struct fields. If not provided, it will use [config.tag.default_tag]
+---@param ... string Tags to add to the struct fields. If not provided, it will use [config.gotag.default_tag]
 function struct_tags.add(...)
   local args = { ... }
   local fpath = vim.fn.expand "%"
@@ -99,7 +99,7 @@ function struct_tags.add(...)
 end
 
 ---Removes tags from a struct under the cursor
----@param ... string Tags to add to the struct fields. If not provided, it will use [config.tag.default_tag]
+---@param ... string Tags to add to the struct fields. If not provided, it will use [config.gotag.default_tag]
 function struct_tags.remove(...)
   local args = { ... }
   local fpath = vim.fn.expand "%"
