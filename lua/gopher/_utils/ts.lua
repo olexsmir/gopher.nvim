@@ -65,7 +65,9 @@ end
 ---@param query string
 ---@return gopher.TsResult
 local function do_stuff(bufnr, parent_type, query)
-  local node = vim.treesitter.get_node()
+  local node = vim.treesitter.get_node {
+    bufnr = bufnr,
+  }
   if not node then
     error "No nodes found under cursor"
   end
