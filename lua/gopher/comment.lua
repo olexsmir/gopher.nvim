@@ -11,7 +11,7 @@ local comment = {}
 ---@return string
 ---@private
 local function template(name)
-  return "// " .. (name or "") .. " "
+  return "// " .. name .. " "
 end
 
 ---@param bufnr integer
