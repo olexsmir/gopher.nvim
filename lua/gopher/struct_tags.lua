@@ -89,7 +89,8 @@ local function handler_user_args(args)
   return res
 end
 
--- add tags to struct under cursor
+---Adds tags to a struct under the cursor
+---@param ... string Tags to add to the struct fields. If not provided, it will use [config.tag.default_tag]
 function struct_tags.add(...)
   local args = { ... }
   local fpath = vim.fn.expand "%"
@@ -101,7 +102,8 @@ function struct_tags.add(...)
   handle_tags(fpath, bufnr, user_args)
 end
 
--- remove tags to struct under cursor
+---Removes tags from a struct under the cursor
+---@param ... string Tags to add to the struct fields. If not provided, it will use [config.tag.default_tag]
 function struct_tags.remove(...)
   local args = { ... }
   local fpath = vim.fn.expand "%"
@@ -111,6 +113,13 @@ function struct_tags.remove(...)
   table.insert(user_args, 1, "-remove-tags")
 
   handle_tags(fpath, bufnr, user_args)
+end
+
+---Removes all tags from a struct under the cursor
+function struct_tags.clear()
+  local fpath = vim.fn.expand "%"
+  local bufnr = vim.api.nvim_get_current_buf()
+  handle_tags(fpath, bufnr, { "-clear-tags" })
 end
 
 return struct_tags

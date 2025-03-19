@@ -1,5 +1,6 @@
 command! -nargs=* GoTagAdd :lua require"gopher".tags.add(<f-args>)
 command! -nargs=* GoTagRm :lua require"gopher".tags.rm(<f-args>)
+command! GoTagClear :lua require"gopher".tags.clear()
 command! GoTestAdd :lua require"gopher".test.add()
 command! GoTestsAll :lua require"gopher".test.all()
 command! GoTestsExp :lua require"gopher".test.exported()
