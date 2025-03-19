@@ -18,7 +18,7 @@ local queries = {
   ]],
 }
 
----@param parent_type [string]
+---@param parent_type string[]
 ---@param node TSNode
 ---@return TSNode?
 local function get_parrent_node(parent_type, node)
@@ -61,7 +61,7 @@ end
 ---@field end_line integer
 
 ---@param bufnr integer
----@param parent_type [string]
+---@param parent_type string[]
 ---@param query string
 ---@return gopher.TsResult
 local function do_stuff(bufnr, parent_type, query)
