@@ -35,6 +35,7 @@ local struct_tags = {}
 ---@param fpath string
 ---@param bufnr integer
 ---@param user_args string[]
+---@private
 local function handle_tags(fpath, bufnr, user_args)
   local st = ts.get_struct_under_cursor(bufnr)
 
@@ -80,6 +81,7 @@ end
 
 ---@param args string[]
 ---@return string
+---@private
 local function handler_user_args(args)
   if #args == 0 then
     return c.gotag.default_tag
