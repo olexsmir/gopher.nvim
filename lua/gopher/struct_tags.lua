@@ -76,14 +76,12 @@ local function handle_tags(fpath, bufnr, user_args)
   vim.cmd "write"
 end
 
+---@param args string[]
+---@return string
 local function handler_user_args(args)
-  local res = {}
-  if #args == 0 then
-    table.insert(res, c.gotag.default_tag)
-  else
-    for _, v in ipairs(args) do
-      table.insert(res, v)
-    end
+  local res = table.concat(args, ",")
+  if res == "" then
+    return c.gotag.default_tag
   end
 
   return res
@@ -96,10 +94,8 @@ function struct_tags.add(...)
   local fpath = vim.fn.expand "%"
   local bufnr = vim.api.nvim_get_current_buf()
 
-  local user_args = handler_user_args(args)
-  table.insert(user_args, 1, "-add-tags")
-
-  handle_tags(fpath, bufnr, user_args)
+  local user_tags = handler_user_args(args)
+  handle_tags(fpath, bufnr, { "-add-tags", user_tags })
 end
 
 ---Removes tags from a struct under the cursor
@@ -109,10 +105,8 @@ function struct_tags.remove(...)
   local fpath = vim.fn.expand "%"
   local bufnr = vim.api.nvim_get_current_buf()
 
-  local user_args = handler_user_args(args)
-  table.insert(user_args, 1, "-remove-tags")
-
-  handle_tags(fpath, bufnr, user_args)
+  local user_tags = handler_user_args(args)
+  handle_tags(fpath, bufnr, { "-remove-tags", user_tags })
 end
 
 ---Removes all tags from a struct under the cursor
