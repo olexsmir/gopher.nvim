@@ -1,4 +1,3 @@
 package main
 
-// Testinter 
-type Testinter interface{}
+type Testinger interface{}

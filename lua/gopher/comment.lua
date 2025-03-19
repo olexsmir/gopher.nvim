@@ -18,25 +18,24 @@ end
 ---@return string
 ---@private
 local function generate(bufnr)
-  local sok, sres = pcall(ts.get_struct_under_cursor, bufnr)
-  vim.print(sok, sres)
-  if sok then
-    return template(sres.name)
+  local s_ok, s_res = pcall(ts.get_struct_under_cursor, bufnr)
+  if s_ok then
+    return template(s_res.name)
   end
 
-  local fok, fres = pcall(ts.get_func_under_cursor, bufnr)
-  if fok then
-    return template(fres.name)
+  local f_ok, f_res = pcall(ts.get_func_under_cursor, bufnr)
+  if f_ok then
+    return template(f_res.name)
   end
 
-  local iok, ires = pcall(ts.get_interface_under_cursor, bufnr)
-  if iok then
-    return template(ires.name)
+  local i_ok, i_res = pcall(ts.get_interface_under_cursor, bufnr)
+  if i_ok then
+    return template(i_res.name)
   end
 
-  local pok, pres = pcall(ts.get_package_under_cursor, bufnr)
-  if pok then
-    return "// Package " .. pres.name .. " provides "
+  local p_ok, p_res = pcall(ts.get_package_under_cursor, bufnr)
+  if p_ok then
+    return "// Package " .. p_res.name .. " provides "
   end
 
   return "// "
