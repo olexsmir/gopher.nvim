@@ -9,7 +9,7 @@ on:
 
 jobs:
   linters:
-    name: linters
+    name: Lua
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,3 +23,34 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: .
+
+  docs:
+    name: Docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Task
+        uses: arduino/setup-task@v1
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install NeoVim
+        uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: stable
+
+      - name: Cache .tests
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/.tests
+          key: ${{ runner.os }}-tests-${{ hashFiles('${{ github.workspace }}/.tests') }}
+
+      - name: Generate docs
+        run: task docgen
+
+      - name: Diff
+        run: exit $(git status --porcelain doc | wc -l | tr -d " ")
