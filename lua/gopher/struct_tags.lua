@@ -70,7 +70,7 @@ local function handle_tags(fpath, bufnr, user_args)
     bufnr,
     res["start"] - 1,
     res["start"] - 1 + #res["lines"],
-    false,
+    true,
     res["lines"]
   )
   vim.cmd "write"
