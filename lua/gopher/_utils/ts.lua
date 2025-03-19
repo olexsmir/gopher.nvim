@@ -72,7 +72,7 @@ local function do_stuff(bufnr, parent_type, query)
 
   local parent_node = get_parrent_node(parent_type, node)
   if not parent_node then
-    error "No struct found under cursor"
+    error "No parent node found under cursor"
   end
 
   local q = vim.treesitter.query.parse("go", query)
@@ -86,7 +86,6 @@ local function do_stuff(bufnr, parent_type, query)
 end
 
 ---@param bufnr integer
----@return table
 function ts.get_struct_under_cursor(bufnr)
   --- should be both type_spec and type_declaration
   --- because in cases like `type ( T struct{}, U strict{} )`
@@ -96,6 +95,7 @@ end
 
 ---@param bufnr integer
 function ts.get_func_under_cursor(bufnr)
+  --- since this handles both and funcs and methods we should check for both parent nodes
   return do_stuff(bufnr, { "function_declaration", "method_declaration" }, queries.func)
 end
 
