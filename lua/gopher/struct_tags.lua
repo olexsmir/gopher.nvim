@@ -81,12 +81,10 @@ end
 ---@param args string[]
 ---@return string
 local function handler_user_args(args)
-  local res = table.concat(args, ",")
-  if res == "" then
+  if #args == 0 then
     return c.gotag.default_tag
   end
-
-  return res
+  return table.concat(args, ",")
 end
 
 ---Adds tags to a struct under the cursor
