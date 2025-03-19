@@ -62,6 +62,10 @@ local function handle_tags(fpath, bufnr, user_args)
     error("failed to set tags " .. vim.inspect(res["errors"]))
   end
 
+  for i, v in ipairs(res["lines"]) do
+    res["lines"][i] = string.gsub(v, "%s+$", "")
+  end
+
   vim.api.nvim_buf_set_lines(
     bufnr,
     res["start"] - 1,
