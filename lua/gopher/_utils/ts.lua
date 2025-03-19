@@ -77,6 +77,7 @@ local function do_stuff(bufnr, parent_type, query)
 
   local q = vim.treesitter.query.parse("go", query)
   local res = get_captures(q, parent_node, bufnr)
+  assert(res.name ~= nil, "No capture name found")
 
   local start_row, _, end_row, _ = parent_node:range()
   res["start_line"] = start_row + 1
