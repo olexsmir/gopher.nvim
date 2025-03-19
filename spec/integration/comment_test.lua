@@ -21,6 +21,9 @@ local function do_the_test(fixture, pos)
   child.cmd "write"
 
   t.eq(t.readfile(tmp), fixtures.output)
+
+  -- without it all other(not even from this module) tests are falling
+  t.deletefile(tmp)
 end
 
 T["comment"] = MiniTest.new_set {}
@@ -37,11 +40,11 @@ T["comment"]["should add comment to function"] = function()
 end
 
 T["comment"]["should add comment to method"] = function()
-  do_the_test("func", { 5, 1 })
+  do_the_test("method", { 5, 1 })
 end
 
 T["comment"]["should add comment to interface"] = function()
-  do_the_test("interface", { 3, 1 })
+  do_the_test("interface", { 3, 6 })
 end
 
 T["comment"]["otherwise should add // above cursor"] = function()

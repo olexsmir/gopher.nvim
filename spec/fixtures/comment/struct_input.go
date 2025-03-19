@@ -1,3 +1,3 @@
 package main
 
-type CommentStruct struct {}
+type CommentStruct struct{}

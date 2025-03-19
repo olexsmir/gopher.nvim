@@ -1,4 +1,4 @@
 package main
 
 // CommentStruct 
-type CommentStruct struct {}
+type CommentStruct struct{}

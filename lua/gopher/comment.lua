@@ -7,33 +7,39 @@ local ts = require "gopher._utils.ts"
 local log = require "gopher._utils.log"
 local comment = {}
 
+---@param name string
+---@return string
+---@private
+local function template(name)
+  return "// " .. (name or "") .. " "
+end
+
 ---@param bufnr integer
 ---@return string
 ---@private
 local function generate(bufnr)
-  local cmt = "// "
-
-  local ok, res = pcall(ts.get_struct_under_cursor, bufnr)
-  if ok then
-    return cmt .. res.name .. " "
+  local sok, sres = pcall(ts.get_struct_under_cursor, bufnr)
+  vim.print(sok, sres)
+  if sok then
+    return template(sres.name)
   end
 
-  ok, res = pcall(ts.get_func_under_cursor, bufnr)
-  if ok then
-    return cmt .. res.name .. " "
+  local fok, fres = pcall(ts.get_func_under_cursor, bufnr)
+  if fok then
+    return template(fres.name)
   end
 
-  ok, res = pcall(ts.get_interface_under_cursor, bufnr)
-  if ok then
-    return cmt .. res.name .. " "
+  local iok, ires = pcall(ts.get_interface_under_cursor, bufnr)
+  if iok then
+    return template(ires.name)
   end
 
-  ok, res = pcall(ts.get_package_under_cursor, bufnr)
-  if ok then
-    return cmt .. "Package " .. res.name .. " provides "
+  local pok, pres = pcall(ts.get_package_under_cursor, bufnr)
+  if pok then
+    return "// Package " .. pres.name .. " provides "
   end
 
-  return cmt
+  return "// "
 end
 
 function comment.comment()
