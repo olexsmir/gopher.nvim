@@ -134,14 +134,14 @@ Example:
                             `struct_tags.add`({...})
 tags to a struct under the cursor
 Parameters ~
-{...} `(string)` Tags to add to the struct fields. If not provided, it will use [config.tag.default_tag]
+{...} `(string)` Tags to add to the struct fields. If not provided, it will use [config.gotag.default_tag]
 
 ------------------------------------------------------------------------------
                                                           *struct_tags.remove()*
                           `struct_tags.remove`({...})
 tags from a struct under the cursor
 Parameters ~
-{...} `(string)` Tags to add to the struct fields. If not provided, it will use [config.tag.default_tag]
+{...} `(string)` Tags to add to the struct fields. If not provided, it will use [config.gotag.default_tag]
 
 ------------------------------------------------------------------------------
                                                            *struct_tags.clear()*
