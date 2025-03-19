@@ -32,6 +32,9 @@ local c = require "gopher.config"
 local log = require "gopher._utils.log"
 local struct_tags = {}
 
+---@param fpath string
+---@param bufnr integer
+---@param user_args string[]
 local function handle_tags(fpath, bufnr, user_args)
   local st = ts.get_struct_under_cursor(bufnr)
 
@@ -52,7 +55,7 @@ local function handle_tags(fpath, bufnr, user_args)
   local rs = r.sync(cmd)
   if rs.code ~= 0 then
     log.error("tags: failed to set tags " .. rs.stderr)
-    error("failed to set tags " .. rs.stdout)
+    error("failed to set tags " .. rs.stderr)
   end
 
   local res = vim.json.decode(rs.stdout)
@@ -73,7 +76,6 @@ local function handle_tags(fpath, bufnr, user_args)
     true,
     res["lines"]
   )
-  vim.cmd "write"
 end
 
 ---@param args string[]
