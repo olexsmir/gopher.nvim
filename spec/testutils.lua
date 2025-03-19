@@ -31,6 +31,11 @@ function testutils.writefile(fpath, contents)
   vim.fn.writefile(vim.split(contents, "\n"), fpath)
 end
 
+---@param fpath string
+function testutils.deletefile(fpath)
+  vim.fn.delete(fpath)
+end
+
 ---@param fixture string
 ---@return {input: string, output: string}
 function testutils.get_fixtures(fixture)

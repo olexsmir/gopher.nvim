@@ -3,57 +3,53 @@
 ---@usage Execute `:GoCmt` to generate a comment for the current function/method/struct/etc on this line.
 ---@text This module provides a way to generate comments for Go code.
 
+local ts = require "gopher._utils.ts"
 local log = require "gopher._utils.log"
+local comment = {}
 
-local function generate(row, col)
-  local ts_utils = require "gopher._utils.ts"
-  local comment, ns = nil, nil
-
-  ns = ts_utils.get_package_node_at_pos(row, col, nil, false)
-  if ns ~= nil then
-    comment = "// Package " .. ns.name .. " provides " .. ns.name
-    return comment, ns
-  end
-
-  ns = ts_utils.get_struct_node_at_pos(row, col, nil, false)
-  if ns ~= nil then
-    comment = "// " .. ns.name .. " " .. ns.type .. " "
-    return comment, ns
-  end
-
-  ns = ts_utils.get_func_method_node_at_pos(row, col, nil, false)
-  if ns ~= nil then
-    comment = "// " .. ns.name .. " " .. ns.type .. " "
-    return comment, ns
-  end
-
-  ns = ts_utils.get_interface_node_at_pos(row, col, nil, false)
-  if ns ~= nil then
-    comment = "// " .. ns.name .. " " .. ns.type .. " "
-    return comment, ns
-  end
-
-  return "// ", {}
+---@param name string
+---@return string
+---@private
+local function template(name)
+  return "// " .. name .. " "
 end
 
-return function()
-  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-  local comment, ns = generate(row + 1, col + 1)
+---@param bufnr integer
+---@return string
+---@private
+local function generate(bufnr)
+  local s_ok, s_res = pcall(ts.get_struct_under_cursor, bufnr)
+  if s_ok then
+    return template(s_res.name)
+  end
 
-  log.debug("generated comment: " .. comment)
+  local f_ok, f_res = pcall(ts.get_func_under_cursor, bufnr)
+  if f_ok then
+    return template(f_res.name)
+  end
 
-  vim.api.nvim_win_set_cursor(0, {
-    ns.dim.s.r,
-    ns.dim.s.c,
-  })
+  local i_ok, i_res = pcall(ts.get_interface_under_cursor, bufnr)
+  if i_ok then
+    return template(i_res.name)
+  end
 
-  ---@diagnostic disable-next-line: param-type-mismatch
-  vim.fn.append(row - 1, comment)
+  local p_ok, p_res = pcall(ts.get_package_under_cursor, bufnr)
+  if p_ok then
+    return "// Package " .. p_res.name .. " provides "
+  end
 
-  vim.api.nvim_win_set_cursor(0, {
-    ns.dim.s.r,
-    #comment + 1,
-  })
-
-  vim.cmd [[startinsert!]]
+  return "// "
 end
+
+function comment.comment()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local cmt = generate(bufnr)
+  log.debug("generated comment: " .. cmt)
+
+  local pos = vim.fn.getcurpos()[2]
+  vim.fn.append(pos - 1, cmt)
+  vim.fn.setpos(".", { 0, pos, #cmt })
+  vim.cmd "startinsert!"
+end
+
+return comment

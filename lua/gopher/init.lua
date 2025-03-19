@@ -38,7 +38,7 @@ gopher.install_deps = require("gopher.installer").install_deps
 
 gopher.impl = require("gopher.impl").impl
 gopher.iferr = require("gopher.iferr").iferr
-gopher.comment = require "gopher.comment"
+gopher.comment = require("gopher.comment").comment
 
 gopher.tags = {
   add = tags.add,

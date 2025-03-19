@@ -1,2 +1,2 @@
-// Package main provides main
+// Package main provides 
 package main

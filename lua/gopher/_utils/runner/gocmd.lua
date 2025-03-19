@@ -28,7 +28,7 @@ end
 ---@return string[]|nil
 function gocmd.run(subcmd, args)
   if #args == 0 then
-    error "please provice any arguments"
+    error "please provide any arguments"
   end
 
   if subcmd == "get" then
@@ -45,7 +45,7 @@ function gocmd.run(subcmd, args)
       if status ~= 0 then
         error("gocmd failed: " .. data)
       end
-      u.notify(c.go .. " " .. subcmd .. " successful runned")
+      u.notify(c.go .. " " .. subcmd .. " ran successful")
     end,
   })
 end

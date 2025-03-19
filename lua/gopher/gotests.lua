@@ -77,13 +77,10 @@ end
 
 -- generate unit test for one function
 function gotests.func_test()
-  local ns = ts_utils.get_func_method_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
-  if ns == nil or ns.name == nil then
-    u.notify("cursor on func/method and execute the command again", vim.log.levels.WARN)
-    return
-  end
+  local bufnr = vim.api.nvim_get_current_buf()
+  local func = ts_utils.get_func_under_cursor(bufnr)
 
-  add_test { "-only", ns.name }
+  add_test { "-only", func.name }
 end
 
 -- generate unit tests for all functions in current file
