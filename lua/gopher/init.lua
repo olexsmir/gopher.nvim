@@ -43,6 +43,7 @@ gopher.comment = require("gopher.comment").comment
 gopher.tags = {
   add = tags.add,
   rm = tags.remove,
+  clear = tags.clear,
 }
 
 gopher.test = {

@@ -129,6 +129,25 @@ Example:
        Name string `yaml:name`
    }
 <
+------------------------------------------------------------------------------
+                                                             *struct_tags.add()*
+                            `struct_tags.add`({...})
+tags to a struct under the cursor
+Parameters ~
+{...} `(string)` Tags to add to the struct fields. If not provided, it will use [config.gotag.default_tag]
+
+------------------------------------------------------------------------------
+                                                          *struct_tags.remove()*
+                          `struct_tags.remove`({...})
+tags from a struct under the cursor
+Parameters ~
+{...} `(string)` Tags to add to the struct fields. If not provided, it will use [config.gotag.default_tag]
+
+------------------------------------------------------------------------------
+                                                           *struct_tags.clear()*
+                             `struct_tags.clear`()
+all tags from a struct under the cursor
+
 
 ==============================================================================
 ------------------------------------------------------------------------------
