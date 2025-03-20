@@ -22,7 +22,8 @@ Table of Contents
                          `gopher.setup`({user_config})
 Setup function. This method simply merges default config with opts table.
 You can read more about configuration at |gopher.nvim-config|
-Calling this function is optional, if you ok with default settings. Look |gopher.nvim.config-defaults|
+Calling this function is optional, if you ok with default settings.
+See |gopher.nvim.config-defaults|
 
 Usage ~
 `require("gopher").setup {}` (replace `{}` with your `config` table)
@@ -35,6 +36,7 @@ Parameters ~
 Gopher.nvim implements most of its features using third-party tools.
 To install these tools, you can run `:GoInstallDeps` command
 or call `require("gopher").install_deps()` if you want to use lua api.
+By default dependencies will be installed asynchronously, to install them synchronously pass `{sync = true}` as an argument.
 
 
 ==============================================================================
@@ -77,7 +79,6 @@ You can look at default options |gopher.nvim-config-defaults|
       ---@type string|nil
       template_dir = nil,
       -- switch table tests from using slice to map (with test name for the key)
-      -- works only with gotests installed from develop branch
       named = false,
     },
     ---@class gopher.ConfigGoTag
@@ -207,25 +208,8 @@ More details about templates can be found at: https://github.com/cweill/gotests
 ------------------------------------------------------------------------------
                                                      *gopher.nvim-gotests-named*
 
-You can enable named tests in the config if you prefer using named tests.
-But you must install `gotests@develop` because the stable version doesn't support this feature.
+You can enable named tests in the config if you prefer using named tests. See |gopher.nvim-config|.
 
->lua
-  -- simply run go get in your shell:
-  go install github.com/cweill/gotests/...@develop
-
-  -- if you want to install it within neovim, you can use one of this:
-  -- if you choose to install gotests this way i reocmmend adding it to your `build` section in your |lazy.nvim|
-
-  vim.fn.jobstart("go install github.com/cweill/gotests/...@develop")
-
-  -- or if you want to use mason:
-  require("mason-tool-installer").setup {
-    ensure_installed = {
-      { "gotests", version = "develop" },
-    }
-  }
-<
 
 ==============================================================================
 ------------------------------------------------------------------------------

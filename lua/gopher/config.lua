@@ -55,7 +55,6 @@ local default_config = {
     ---@type string|nil
     template_dir = nil,
     -- switch table tests from using slice to map (with test name for the key)
-    -- works only with gotests installed from develop branch
     named = false,
   },
   ---@class gopher.ConfigGoTag
