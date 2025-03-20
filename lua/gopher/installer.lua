@@ -5,10 +5,10 @@ local log = require "gopher._utils.log"
 local installer = {}
 
 local urls = {
-  gomodifytags = "github.com/fatih/gomodifytags",
-  impl = "github.com/josharian/impl",
-  gotests = "github.com/cweill/gotests/...",
-  iferr = "github.com/koron/iferr",
+  gomodifytags = "github.com/fatih/gomodifytags@latest",
+  impl = "github.com/josharian/impl@latest",
+  gotests = "github.com/cweill/gotests/...@develop",
+  iferr = "github.com/koron/iferr@latest",
 }
 
 ---@param opt vim.SystemCompleted
@@ -40,8 +40,7 @@ end
 ---@param opts? {sync:boolean}
 function installer.install_deps(opts)
   opts = opts or {}
-  for pkg, _ in pairs(urls) do
-    local url = urls[pkg] .. "@latest"
+  for url, _ in pairs(urls) do
     if opts.sync then
       install_sync(url)
     else

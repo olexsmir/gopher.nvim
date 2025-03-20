@@ -19,24 +19,7 @@
 ---@tag gopher.nvim-gotests-named
 ---@text
 --- You can enable named tests in the config if you prefer using named tests.
---- But you must install `gotests@develop` because the stable version doesn't support this feature.
----
---- >lua
----   -- simply run go get in your shell:
----   go install github.com/cweill/gotests/...@develop
----
----   -- if you want to install it within neovim, you can use one of this:
----   -- if you choose to install gotests this way i reocmmend adding it to your `build` section in your |lazy.nvim|
----
----   vim.fn.jobstart("go install github.com/cweill/gotests/...@develop")
----
----   -- or if you want to use mason:
----   require("mason-tool-installer").setup {
----     ensure_installed = {
----       { "gotests", version = "develop" },
----     }
----   }
---- <
+--- See |gopher.nvim-config|.
 
 local c = require "gopher.config"
 local ts_utils = require "gopher._utils.ts"
