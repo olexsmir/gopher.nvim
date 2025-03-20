@@ -18,7 +18,8 @@
 
 ---@tag gopher.nvim-gotests-named
 ---@text
---- You can enable named tests in the config if you prefer using named tests. See |gopher.nvim-config|.
+--- You can enable named tests in the config if you prefer using named tests.
+--- See |gopher.nvim-config|.
 
 local c = require "gopher.config"
 local ts_utils = require "gopher._utils.ts"

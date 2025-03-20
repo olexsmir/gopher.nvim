@@ -208,7 +208,8 @@ More details about templates can be found at: https://github.com/cweill/gotests
 ------------------------------------------------------------------------------
                                                      *gopher.nvim-gotests-named*
 
-You can enable named tests in the config if you prefer using named tests. See |gopher.nvim-config|.
+You can enable named tests in the config if you prefer using named tests.
+See |gopher.nvim-config|.
 
 
 ==============================================================================
