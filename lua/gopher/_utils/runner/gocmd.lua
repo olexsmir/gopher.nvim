@@ -27,7 +27,7 @@ end
 ---@param args string[]
 ---@return string
 function gocmd.run(subcmd, args)
-  if #args == 0 then
+  if #args == 0 and subcmd ~= "generate" then
     error "please provide any arguments"
   end
 
@@ -41,7 +41,7 @@ function gocmd.run(subcmd, args)
 
   local rs = r.sync { c.go, subcmd, unpack(args) }
   if rs.code ~= 0 then
-    error("go " .. subcmd .. "failed: " .. rs.stderr)
+    error("go " .. subcmd .. " failed: " .. rs.stderr)
   end
 
   u.notify(c.go .. " " .. subcmd .. " ran successful")
