@@ -9,7 +9,7 @@ if c.setup_commands then
     vim.cmd("tabnew " .. require("gopher._utils.log").get_outfile())
   end, { nargs = 0 })
 
-  vim.api.nvim_create_user_command("GoIferr", function()
+  vim.api.nvim_create_user_command("GoIfErr", function()
     require("gopher").iferr()
   end, { nargs = 0 })
 
