@@ -58,7 +58,7 @@ if c.setup_commands then
 
   -- :Go
   vim.api.nvim_create_user_command("GoMod", function(opts)
-    require("gopher").mod(unpack(opts.fargs))
+    require("gopher").mod(opts.fargs)
   end, { nargs = "*" })
 
   vim.api.nvim_create_user_command("GoGet", function(opts)
@@ -67,11 +67,10 @@ if c.setup_commands then
   end, { nargs = "*" })
 
   vim.api.nvim_create_user_command("GoWork", function(opts)
-    vim.print(opts)
-    require("gopher").get(unpack(opts.fargs))
+    require("gopher").get(opts.fargs)
   end, { nargs = "*" })
 
   vim.api.nvim_create_user_command("GoGenerate", function(opts)
-    require("gopher").generate(unpack(opts.fargs))
-  end, { nargs = 1 })
+    require("gopher").generate(opts.fargs or "")
+  end, { nargs = "?" })
 end
