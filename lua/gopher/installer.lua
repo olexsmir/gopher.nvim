@@ -15,12 +15,17 @@ local urls = {
 ---@param url string
 local function handle_intall_exit(opt, url)
   if opt.code ~= 0 then
-    u.deferred_notify("go install failed: " .. url)
+    vim.schedule(function()
+      u.notify("go install failed: " .. url)
+    end)
+
     log.error("go install failed:", "url", url, "opt", vim.inspect(opt))
     return
   end
 
-  u.deferred_notify("go install-ed: " .. url)
+  vim.schedule(function()
+    u.notify("go install-ed: " .. url)
+  end)
 end
 
 ---@param url string
