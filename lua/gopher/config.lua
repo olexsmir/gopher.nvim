@@ -93,10 +93,17 @@ function config.setup(user_config)
   _config = vim.tbl_deep_extend("force", default_config, user_config or {})
 end
 
+---@return boolean
+---@private
+function config.should_setup_commands()
+  return config.setup_commands
+end
+
 setmetatable(config, {
   __index = function(_, key)
     return _config[key]
   end,
 })
 
+---@return gopher.Config
 return config
