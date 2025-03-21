@@ -37,6 +37,9 @@ local default_config = {
   ---@type number
   timeout = 2000,
 
+  ---@type boolean
+  setup_commands = true,
+
   -- user specified paths to binaries
   ---@class gopher.ConfigCommand
   commands = {
