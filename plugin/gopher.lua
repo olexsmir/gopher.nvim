@@ -1,8 +1,3 @@
-if vim.g.gopher_loaded == 1 then
-  return
-end
-vim.g.gopher_loaded = 1
-
 --- NOTE: runs in defer since this file before gopher.config
 --- I'm not sure if this is the best to do this
 vim.schedule(function()
