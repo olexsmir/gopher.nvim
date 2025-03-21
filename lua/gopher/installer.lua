@@ -45,7 +45,7 @@ end
 ---@param opts? {sync:boolean}
 function installer.install_deps(opts)
   opts = opts or {}
-  for url, _ in pairs(urls) do
+  for _, url in pairs(urls) do
     if opts.sync then
       install_sync(url)
     else
