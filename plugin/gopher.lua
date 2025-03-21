@@ -5,7 +5,7 @@ vim.g.gopher_loaded = 1
 
 --- NOTE: runs in defer since this file before gopher.config
 --- I'm not sure if this is the best to do this
-vim.defer_fn(function()
+vim.schedule(function()
   if require("gopher.config").should_setup_commands() then
     vim.api.nvim_create_user_command("GopherLog", function()
       vim.cmd("tabnew " .. require("gopher._utils.log").get_outfile())
@@ -76,4 +76,4 @@ vim.defer_fn(function()
       require("gopher").generate(opts.fargs or "")
     end, { nargs = "?" })
   end
-end, 0)
+end)
