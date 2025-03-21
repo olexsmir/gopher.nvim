@@ -55,19 +55,19 @@ gopher.test = {
 }
 
 gopher.get = function(...)
-  gocmd("get", { ... })
+  gocmd("get", ...)
 end
 
 gopher.mod = function(...)
-  gocmd("mod", { ... })
+  gocmd("mod", ...)
 end
 
 gopher.generate = function(...)
-  gocmd("generate", { ... })
+  gocmd("generate", ...)
 end
 
 gopher.work = function(...)
-  gocmd("work", { ... })
+  gocmd("work", ...)
 end
 
 return gopher

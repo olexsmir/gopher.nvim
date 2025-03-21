@@ -61,6 +61,10 @@ You can look at default options |gopher.nvim-config-defaults|
     ---@type number
     timeout = 2000,
 
+    --- whether to setup plugin commands or not
+    ---@type boolean
+    setup_commands = true,
+
     -- user specified paths to binaries
     ---@class gopher.ConfigCommand
     commands = {

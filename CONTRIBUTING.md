@@ -22,9 +22,8 @@ sudo pacman -S selene stylua
 
 For formatting use this following commands, or setup your editor to integrate with selene/stylua:
 ```bash
-task format
-task format:check  # will check if your code formatted
-task lint
+task stylua
+task lint # lintering and format chewing
 ```
 
 ### Documentation
@@ -43,8 +42,8 @@ We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/), p
 
 ### Testing
 
-For testing this plugins uses [plenary.nvim](https://github.com/nvim-lua/plenary.nvim).
-All tests live in [/spec](https://github.com/olexsmir/gopher.nvim/tree/main/spec) dir.
+For testing this plugins uses [mini.test](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-test.md).
+All tests live in [/spec](./spec) dir.
 
 You can run tests with:
 ```bash

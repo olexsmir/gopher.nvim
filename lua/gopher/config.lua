@@ -37,6 +37,10 @@ local default_config = {
   ---@type number
   timeout = 2000,
 
+  --- whether to setup plugin commands or not
+  ---@type boolean
+  setup_commands = true,
+
   -- user specified paths to binaries
   ---@class gopher.ConfigCommand
   commands = {
@@ -90,10 +94,18 @@ function config.setup(user_config)
   _config = vim.tbl_deep_extend("force", default_config, user_config or {})
 end
 
+---@return boolean
+---@private
+function config.should_setup_commands()
+  return config.setup_commands
+end
+
 setmetatable(config, {
   __index = function(_, key)
     return _config[key]
   end,
 })
 
+---@return gopher.Config
+---@private
 return config
