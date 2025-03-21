@@ -37,6 +37,7 @@ local default_config = {
   ---@type number
   timeout = 2000,
 
+  --- whether to setup plugin commands or not
   ---@type boolean
   setup_commands = true,
 
@@ -106,4 +107,5 @@ setmetatable(config, {
 })
 
 ---@return gopher.Config
+---@private
 return config
