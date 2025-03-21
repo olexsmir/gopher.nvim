@@ -12,7 +12,7 @@
 local log = require "gopher._utils.log"
 local tags = require "gopher.struct_tags"
 local tests = require "gopher.gotests"
-local gocmd = require("gopher._utils.runner.gocmd").run
+local gocmd = require("gopher._utils.gocmd").run
 local gopher = {}
 
 ---@toc_entry Setup
