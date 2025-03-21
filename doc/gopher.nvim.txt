@@ -57,7 +57,7 @@ You can look at default options |gopher.nvim-config-defaults|
     ---@type number
     log_level = vim.log.levels.INFO,
 
-    -- timeout for running commands
+    -- timeout for running internal commands
     ---@type number
     timeout = 2000,
 
@@ -73,7 +73,6 @@ You can look at default options |gopher.nvim-config-defaults|
       gotests = "gotests",
       impl = "impl",
       iferr = "iferr",
-      dlv = "dlv",
     },
     ---@class gopher.ConfigGotests
     gotests = {

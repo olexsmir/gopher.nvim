@@ -33,7 +33,7 @@ local default_config = {
   ---@type number
   log_level = vim.log.levels.INFO,
 
-  -- timeout for running commands
+  -- timeout for running internal commands
   ---@type number
   timeout = 2000,
 
@@ -49,7 +49,6 @@ local default_config = {
     gotests = "gotests",
     impl = "impl",
     iferr = "iferr",
-    dlv = "dlv",
   },
   ---@class gopher.ConfigGotests
   gotests = {
