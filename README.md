@@ -39,17 +39,19 @@ Requirements:
 >
 > If you need more info look `:h gopher.nvim`
 
-**Take a look at default options**
+**Take a look at default options (might be a bit outdated, look `:h gopher.nvim-config-defaults`)**
 
 ```lua
 require("gopher").setup {
+  log_level = vim.log.levels.INFO,
+  timeout = 2000,
+  setup_commands = true,
   commands = {
     go = "go",
     gomodifytags = "gomodifytags",
     gotests = "gotests",
     impl = "impl",
     iferr = "iferr",
-    dlv = "dlv",
   },
   gotests = {
     -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
@@ -61,6 +63,10 @@ require("gopher").setup {
   },
   gotag = {
     transform = "snakecase",
+    default_tag = "json",
+  },
+  iferr = {
+    message = nil,
   },
 }
 ```
@@ -84,7 +90,6 @@ require("gopher").setup {
   - [impl](https://github.com/josharian/impl)
   - [gotests](https://github.com/cweill/gotests)
   - [iferr](https://github.com/koron/iferr)
-  - [dlv](github.com/go-delve/delve/cmd/dlv)
 </details>
 
 <details>

@@ -73,7 +73,6 @@ You can look at default options |gopher.nvim-config-defaults|
       gotests = "gotests",
       impl = "impl",
       iferr = "iferr",
-      dlv = "dlv",
     },
     ---@class gopher.ConfigGotests
     gotests = {

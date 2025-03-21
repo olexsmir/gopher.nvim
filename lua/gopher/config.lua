@@ -49,7 +49,6 @@ local default_config = {
     gotests = "gotests",
     impl = "impl",
     iferr = "iferr",
-    dlv = "dlv",
   },
   ---@class gopher.ConfigGotests
   gotests = {
