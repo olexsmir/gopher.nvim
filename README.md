@@ -29,7 +29,7 @@ Requirements:
     vim.cmd.GoInstallDeps()
   end,
   ---@type gopher.Config
-  opts = {},
+  opts = {}, -- required
 }
 ```
 
