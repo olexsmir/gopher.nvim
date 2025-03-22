@@ -1,7 +1,5 @@
 local t = require "spec.testutils"
-
-local child, T = t.setup()
-T["gotests"] = MiniTest.new_set {}
+local child, T = t.setup "gotests"
 
 --- NOTE: :GoTestAdd is the only place that has actual logic
 --- All other parts are handled `gotests` itself.

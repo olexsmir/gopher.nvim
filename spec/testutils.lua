@@ -6,8 +6,9 @@ local testutils = {}
 testutils.mininit_path = vim.fs.joinpath(base_dir, "scripts", "minimal_init.lua")
 testutils.fixtures_dir = vim.fs.joinpath(base_dir, "spec/fixtures")
 
+---@param name string
 ---@return MiniTest.child, table
-function testutils.setup()
+function testutils.setup(name)
   local child = MiniTest.new_child_neovim()
   local T = MiniTest.new_set {
     hooks = {
@@ -18,6 +19,7 @@ function testutils.setup()
     },
   }
 
+  T[name] = MiniTest.new_set {}
   return child, T
 end
 

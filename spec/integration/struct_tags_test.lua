@@ -1,7 +1,6 @@
 local t = require "spec.testutils"
+local child, T = t.setup "struct_tags"
 
-local child, T = t.setup()
-T["struct_tags"] = MiniTest.new_set {}
 T["struct_tags"]["should add tag"] = function()
   local rs = t.setup_test("tags/add", child, { 3, 6 })
   child.cmd "GoTagAdd json"

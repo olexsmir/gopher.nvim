@@ -1,6 +1,5 @@
 local t = require "spec.testutils"
-
-local child, T = t.setup()
+local child, T = t.setup "comment"
 
 local function do_the_test(fixture, pos)
   local rs = t.setup_test("comment/" .. fixture, child, pos)
@@ -11,7 +10,6 @@ local function do_the_test(fixture, pos)
   t.cleanup(rs)
 end
 
-T["comment"] = MiniTest.new_set {}
 T["comment"]["should add comment to package"] = function()
   do_the_test("package", { 1, 1 })
 end

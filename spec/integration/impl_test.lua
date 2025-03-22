@@ -1,7 +1,6 @@
 local t = require "spec.testutils"
+local child, T = t.setup "impl"
 
-local child, T = t.setup()
-T["impl"] = MiniTest.new_set {}
 T["impl"]["works w io.Writer"] = function()
   local rs = t.setup_test("impl/writer", child, { 3, 0 })
   child.cmd "GoImpl w io.Writer"

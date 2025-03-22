@@ -1,7 +1,6 @@
 local t = require "spec.testutils"
+local child, T = t.setup "iferr"
 
-local child, T = t.setup()
-T["iferr"] = MiniTest.new_set {}
 T["iferr"]["works"] = function()
   local rs = t.setup_test("iferr/iferr", child, { 8, 2 })
   child.cmd "GoIfErr"
