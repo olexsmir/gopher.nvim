@@ -1,3 +1,9 @@
+---@toc_entry Commands
+---@tag gopher.nvim-commands
+---@text
+--- If don't want to automatically register plugins' commands,
+--- you can set `vim.g.gopher_register_commands` to `false`, before loading the plugin.
+
 if vim.g.gopher_register_commands == false then
   return
 end
@@ -5,6 +11,7 @@ end
 ---@param name string
 ---@param fn fun(args: table)
 ---@param nargs? number|"*"|"?"
+---@private
 local function cmd(name, fn, nargs)
   nargs = nargs or 0
   vim.api.nvim_create_user_command(name, fn, { nargs = nargs })
@@ -35,7 +42,7 @@ cmd("GoInstallDepsSync", function()
   require("gopher").install_deps { sync = true }
 end)
 
---- :GoTag
+-- :GoTag
 cmd("GoTagAdd", function(opts)
   require("gopher").tags.add(unpack(opts.fargs))
 end, "*")
@@ -48,7 +55,7 @@ cmd("GoTagClear", function()
   require("gopher").tags.clear()
 end)
 
---- :GoTest
+-- :GoTest
 cmd("GoTestAdd", function()
   require("gopher").test.add()
 end)
