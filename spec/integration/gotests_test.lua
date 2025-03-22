@@ -21,27 +21,17 @@ local function read_testfile(fpath)
 end
 
 T["gotests"]["should add test for function under cursor"] = function()
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures "tests/function"
-  t.writefile(tmp, fixtures.input)
-
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr "%", 3, 6 })
+  local rs = t.setup("tests/function", child, { 3, 5 })
   child.cmd "GoTestAdd"
 
-  t.eq(fixtures.output, read_testfile(tmp))
+  t.eq(rs.fixtures.output, read_testfile(rs.tmp))
 end
 
 T["gotests"]["should add test for method under cursor"] = function()
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures "tests/method"
-  t.writefile(tmp, fixtures.input)
-
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr "%", 5, 19 })
+  local rs = t.setup("tests/method", child, { 5, 19 })
   child.cmd "GoTestAdd"
 
-  t.eq(fixtures.output, read_testfile(tmp))
+  t.eq(rs.fixtures.output, read_testfile(rs.tmp))
 end
 
 return T

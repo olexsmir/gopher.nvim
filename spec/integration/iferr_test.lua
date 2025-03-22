@@ -11,30 +11,24 @@ local T = MiniTest.new_set {
 }
 T["iferr"] = MiniTest.new_set {}
 T["iferr"]["works"] = function()
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures "iferr/iferr"
-  t.writefile(tmp, fixtures.input)
-
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr "%", 8, 2, 0 })
+  local rs = t.setup("iferr/iferr", child, { 8, 2 })
   child.cmd "GoIfErr"
   child.cmd "write"
 
-  t.eq(t.readfile(tmp), fixtures.output)
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
 end
 
 T["iferr"]["works with custom message"] = function()
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures "iferr/message"
-  t.writefile(tmp, fixtures.input)
+  child.lua [[
+    require("gopher").setup {
+      iferr = { message = 'fmt.Errorf("failed to %w", err)' }
+  } ]]
 
-  child.lua [[ require("gopher").setup { iferr = { message = 'fmt.Errorf("failed to %w", err)' } } ]]
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr "%", 6, 2, 0 })
+  local rs = t.setup("iferr/message", child, { 6, 2 })
   child.cmd "GoIfErr"
   child.cmd "write"
 
-  t.eq(t.readfile(tmp), fixtures.output)
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
 end
 
 return T

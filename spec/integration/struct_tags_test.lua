@@ -11,55 +11,35 @@ local T = MiniTest.new_set {
 }
 T["struct_tags"] = MiniTest.new_set {}
 T["struct_tags"]["should add tag"] = function()
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures "tags/add"
-  t.writefile(tmp, fixtures.input)
-
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr(tmp), 3, 6, 0 })
+  local rs = t.setup("tags/add", child, { 3, 6 })
   child.cmd "GoTagAdd json"
   child.cmd "write"
 
-  t.eq(t.readfile(tmp), fixtures.output)
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
 end
 
 T["struct_tags"]["should remove tag"] = function()
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures "tags/remove"
-  t.writefile(tmp, fixtures.input)
-
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr(tmp), 4, 6, 0 })
+  local rs = t.setup("tags/remove", child, { 4, 6 })
   child.cmd "GoTagRm json"
   child.cmd "write"
 
-  t.eq(t.readfile(tmp), fixtures.output)
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
 end
 
 T["struct_tags"]["should be able to handle many structs"] = function()
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures "tags/many"
-  t.writefile(tmp, fixtures.input)
-
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr(tmp), 10, 3, 0 })
+  local rs = t.setup("tags/many", child, { 10, 3 })
   child.cmd "GoTagAdd testing"
   child.cmd "write"
 
-  t.eq(t.readfile(tmp), fixtures.output)
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
 end
 
 T["struct_tags"]["should clear struct"] = function()
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures "tags/clear"
-  t.writefile(tmp, fixtures.input)
-
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr(tmp), 3, 1, 0 })
+  local rs = t.setup("tags/clear", child, { 3, 1 })
   child.cmd "GoTagClear"
   child.cmd "write"
 
-  t.eq(t.readfile(tmp), fixtures.output)
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
 end
 
 T["struct_tags"]["should add more than one tag"] = function()
@@ -83,29 +63,19 @@ T["struct_tags"]["should add more than one tag"] = function()
 end
 
 T["struct_tags"]["should add tags on var"] = function()
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures "tags/var"
-  t.writefile(tmp, fixtures.input)
-
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr(tmp), 5, 3 })
+  local rs = t.setup("tags/var", child, { 5, 6 })
   child.cmd "GoTagAdd yaml"
   child.cmd "write"
 
-  t.eq(t.readfile(tmp), fixtures.output)
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
 end
 
 T["struct_tags"]["should add tags on short declr var"] = function()
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures "tags/svar"
-  t.writefile(tmp, fixtures.input)
-
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr(tmp), 4, 3 })
+  local rs = t.setup("tags/svar", child, { 4, 3 })
   child.cmd "GoTagAdd xml"
   child.cmd "write"
 
-  t.eq(t.readfile(tmp), fixtures.output)
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
 end
 
 return T
