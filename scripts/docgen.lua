@@ -10,6 +10,7 @@ end
 local files = {
   "lua/gopher/init.lua",
   "lua/gopher/config.lua",
+  "plugin/gopher.lua",
   "lua/gopher/struct_tags.lua",
   "lua/gopher/impl.lua",
   "lua/gopher/gotests.lua",
