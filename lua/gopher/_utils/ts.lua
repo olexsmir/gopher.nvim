@@ -106,7 +106,7 @@ function ts.get_struct_under_cursor(bufnr)
   --- because in cases like `type ( T struct{}, U strict{} )`
   --- i will be choosing always last struct in the list
   ---
-  --- var_spec is for cases like `var x struct{}`
+  --- var_declaration is for cases like `var x struct{}`
   --- short_var_declaration is for cases like `x := struct{}{}`
   return do_stuff(bufnr, {
     "type_spec",
