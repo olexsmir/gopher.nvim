@@ -114,6 +114,10 @@ function config.setup(user_config)
     ["iferr"] = { _config.iferr, "table" },
     ["iferr.message"] = { _config.iferr.message, "string", true },
   }
+
+  if _config.setup_commands then
+    require("gopher.commands").register()
+  end
 end
 
 ---@return boolean
