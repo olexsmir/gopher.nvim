@@ -88,8 +88,7 @@ T["struct_tags"]["should add more than one tag"] = function()
 end
 
 T["struct_tags"]["should add tags on var"] = function()
-  -- local tmp = t.tmpfile()
-  local tmp = "/tmp/test.go"
+  local tmp = t.tmpfile()
   local fixtures = t.get_fixtures "tags/var"
   t.writefile(tmp, fixtures.input)
 
