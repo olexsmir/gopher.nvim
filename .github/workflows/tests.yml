@@ -35,7 +35,7 @@ jobs:
           neovim: true
           version: ${{ matrix.version }}
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Cache .tests
         uses: actions/cache@v4
