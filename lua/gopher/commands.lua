@@ -1,74 +1,82 @@
 local commands = {}
 
+---@param name string
+---@param fn fun(args: table)
+---@param nargs? number|"*"|"?"
+local function cmd(name, fn, nargs)
+  nargs = nargs or 0
+  vim.api.nvim_create_user_command(name, fn, { nargs = nargs })
+end
+
 function commands.register()
-  vim.api.nvim_create_user_command("GopherLog", function()
+  cmd("GopherLog", function()
     vim.cmd("tabnew " .. require("gopher._utils.log").get_outfile())
-  end, { nargs = 0 })
+  end)
 
-  vim.api.nvim_create_user_command("GoIfErr", function()
+  cmd("GoIfErr", function()
     require("gopher").iferr()
-  end, { nargs = 0 })
+  end)
 
-  vim.api.nvim_create_user_command("GoCmt", function()
+  cmd("GoCmt", function()
     require("gopher").comment()
-  end, { nargs = 0 })
+  end)
 
-  vim.api.nvim_create_user_command("GoImpl", function(args)
+  cmd("GoImpl", function(args)
     require("gopher").impl(unpack(args.fargs))
-  end, { nargs = "*" })
+  end, "*")
 
   -- :GoInstall
-  vim.api.nvim_create_user_command("GoInstallDeps", function()
+  cmd("GoInstallDeps", function()
     require("gopher").install_deps()
-  end, { nargs = 0 })
+  end)
 
-  vim.api.nvim_create_user_command("GoInstallDepsSync", function()
+  cmd("GoInstallDepsSync", function()
     require("gopher").install_deps { sync = true }
-  end, { nargs = 0 })
+  end)
 
   --- :GoTag
-  vim.api.nvim_create_user_command("GoTagAdd", function(opts)
+  cmd("GoTagAdd", function(opts)
     require("gopher").tags.add(unpack(opts.fargs))
-  end, { nargs = "*" })
+  end, "*")
 
-  vim.api.nvim_create_user_command("GoTagRm", function(opts)
+  cmd("GoTagRm", function(opts)
     require("gopher").tags.rm(unpack(opts.fargs))
-  end, { nargs = "*" })
+  end, "*")
 
-  vim.api.nvim_create_user_command("GoTagClear", function()
+  cmd("GoTagClear", function()
     require("gopher").tags.clear()
-  end, { nargs = 0 })
+  end)
 
   --- :GoTest
-  vim.api.nvim_create_user_command("GoTestAdd", function()
+  cmd("GoTestAdd", function()
     require("gopher").test.add()
-  end, { nargs = 0 })
+  end)
 
-  vim.api.nvim_create_user_command("GoTestsAll", function()
+  cmd("GoTestsAll", function()
     require("gopher").test.all()
-  end, { nargs = 0 })
+  end)
 
-  vim.api.nvim_create_user_command("GoTestsExp", function()
+  cmd("GoTestsExp", function()
     require("gopher").test.exported()
-  end, { nargs = 0 })
+  end)
 
   -- :Go
-  vim.api.nvim_create_user_command("GoMod", function(opts)
+  cmd("GoMod", function(opts)
     require("gopher").mod(opts.fargs)
-  end, { nargs = "*" })
+  end, "*")
 
-  vim.api.nvim_create_user_command("GoGet", function(opts)
+  cmd("GoGet", function(opts)
     vim.print(opts)
     require("gopher").get(opts.fargs)
-  end, { nargs = "*" })
+  end, "*")
 
-  vim.api.nvim_create_user_command("GoWork", function(opts)
+  cmd("GoWork", function(opts)
     require("gopher").get(opts.fargs)
-  end, { nargs = "*" })
+  end, "*")
 
-  vim.api.nvim_create_user_command("GoGenerate", function(opts)
+  cmd("GoGenerate", function(opts)
     require("gopher").generate(opts.fargs or "")
-  end, { nargs = "?" })
+  end, "?")
 end
 
 return commands
