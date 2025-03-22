@@ -1,8 +1,14 @@
 local ts = {}
 local queries = {
   struct = [[
-    (type_spec name: (type_identifier) @_name
-               type: (struct_type))
+    [(type_spec name: (type_identifier) @_name
+                type: (struct_type))
+     (var_spec  name: (identifier) @_name
+                type: (struct_type))
+     (short_var_declaration
+       left:  (expression_list (identifier) @_name @_var)
+       right: (expression_list (composite_literal
+                                 type: (struct_type))))]
   ]],
   func = [[
     [(function_declaration name: (identifier)       @_name)
@@ -49,6 +55,10 @@ local function get_captures(query, node, bufnr)
       if capture_name == "_name" then
         res["name"] = vim.treesitter.get_node_text(captured_node, bufnr)
       end
+
+      if capture_name == "_var" then
+        res["is_varstruct"] = true
+      end
     end
   end
 
@@ -59,6 +69,7 @@ end
 ---@field name string
 ---@field start_line integer
 ---@field end_line integer
+---@field is_varstruct boolean
 
 ---@param bufnr integer
 ---@param parent_type string[]
@@ -93,7 +104,15 @@ function ts.get_struct_under_cursor(bufnr)
   --- should be both type_spec and type_declaration
   --- because in cases like `type ( T struct{}, U strict{} )`
   --- i will be choosing always last struct in the list
-  return do_stuff(bufnr, { "type_spec", "type_declaration" }, queries.struct)
+  ---
+  --- var_spec is for cases like `var x struct{}`
+  --- short_var_declaration is for cases like `x := struct{}{}`
+  return do_stuff(bufnr, {
+    "type_spec",
+    "type_declaration",
+    "var_spec",
+    "short_var_declaration",
+  }, queries.struct)
 end
 
 ---@param bufnr integer
