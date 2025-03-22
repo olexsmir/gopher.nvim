@@ -1,17 +1,9 @@
 local t = require "spec.testutils"
 
-local child = MiniTest.new_child_neovim()
-local T = MiniTest.new_set {
-  hooks = {
-    post_once = child.stop,
-    pre_case = function()
-      child.restart { "-u", t.mininit_path }
-    end,
-  },
-}
+local child, T = t.setup()
 T["iferr"] = MiniTest.new_set {}
 T["iferr"]["works"] = function()
-  local rs = t.setup("iferr/iferr", child, { 8, 2 })
+  local rs = t.setup_test("iferr/iferr", child, { 8, 2 })
   child.cmd "GoIfErr"
   child.cmd "write"
 
@@ -25,7 +17,7 @@ T["iferr"]["works with custom message"] = function()
       iferr = { message = 'fmt.Errorf("failed to %w", err)' }
   } ]]
 
-  local rs = t.setup("iferr/message", child, { 6, 2 })
+  local rs = t.setup_test("iferr/message", child, { 6, 2 })
   child.cmd "GoIfErr"
   child.cmd "write"
 

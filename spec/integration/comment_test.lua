@@ -1,17 +1,9 @@
 local t = require "spec.testutils"
 
-local child = MiniTest.new_child_neovim()
-local T = MiniTest.new_set {
-  hooks = {
-    post_once = child.stop,
-    pre_case = function()
-      child.restart { "-u", t.mininit_path }
-    end,
-  },
-}
+local child, T = t.setup()
 
 local function do_the_test(fixture, pos)
-  local rs = t.setup("comment/" .. fixture, child, pos)
+  local rs = t.setup_test("comment/" .. fixture, child, pos)
   child.cmd "GoCmt"
   child.cmd "write"
 

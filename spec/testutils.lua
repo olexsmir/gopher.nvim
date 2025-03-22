@@ -6,6 +6,21 @@ local testutils = {}
 testutils.mininit_path = vim.fs.joinpath(base_dir, "scripts", "minimal_init.lua")
 testutils.fixtures_dir = vim.fs.joinpath(base_dir, "spec/fixtures")
 
+---@return MiniTest.child, table
+function testutils.setup()
+  local child = MiniTest.new_child_neovim()
+  local T = MiniTest.new_set {
+    hooks = {
+      post_once = child.stop,
+      pre_case = function()
+        child.restart { "-u", testutils.mininit_path }
+      end,
+    },
+  }
+
+  return child, T
+end
+
 ---@generic T
 ---@param a T
 ---@param b T
@@ -57,7 +72,7 @@ end
 ---@param child MiniTest.child
 ---@param pos? number[]
 ---@return gopher.TestUtilsSetup
-function testutils.setup(fixture, child, pos)
+function testutils.setup_test(fixture, child, pos)
   local tmp = testutils.tmpfile()
   local fixtures = testutils.get_fixtures(fixture)
 

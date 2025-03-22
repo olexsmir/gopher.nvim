@@ -1,17 +1,9 @@
 local t = require "spec.testutils"
 
-local child = MiniTest.new_child_neovim()
-local T = MiniTest.new_set {
-  hooks = {
-    post_once = child.stop,
-    pre_case = function()
-      child.restart { "-u", t.mininit_path }
-    end,
-  },
-}
+local child, T = t.setup()
 T["struct_tags"] = MiniTest.new_set {}
 T["struct_tags"]["should add tag"] = function()
-  local rs = t.setup("tags/add", child, { 3, 6 })
+  local rs = t.setup_test("tags/add", child, { 3, 6 })
   child.cmd "GoTagAdd json"
   child.cmd "write"
 
@@ -20,7 +12,7 @@ T["struct_tags"]["should add tag"] = function()
 end
 
 T["struct_tags"]["should remove tag"] = function()
-  local rs = t.setup("tags/remove", child, { 4, 6 })
+  local rs = t.setup_test("tags/remove", child, { 4, 6 })
   child.cmd "GoTagRm json"
   child.cmd "write"
 
@@ -29,7 +21,7 @@ T["struct_tags"]["should remove tag"] = function()
 end
 
 T["struct_tags"]["should be able to handle many structs"] = function()
-  local rs = t.setup("tags/many", child, { 10, 3 })
+  local rs = t.setup_test("tags/many", child, { 10, 3 })
   child.cmd "GoTagAdd testing"
   child.cmd "write"
 
@@ -38,7 +30,7 @@ T["struct_tags"]["should be able to handle many structs"] = function()
 end
 
 T["struct_tags"]["should clear struct"] = function()
-  local rs = t.setup("tags/clear", child, { 3, 1 })
+  local rs = t.setup_test("tags/clear", child, { 3, 1 })
   child.cmd "GoTagClear"
   child.cmd "write"
 
@@ -70,7 +62,7 @@ T["struct_tags"]["should add more than one tag"] = function()
 end
 
 T["struct_tags"]["should add tags on var"] = function()
-  local rs = t.setup("tags/var", child, { 5, 6 })
+  local rs = t.setup_test("tags/var", child, { 5, 6 })
   child.cmd "GoTagAdd yaml"
   child.cmd "write"
 
@@ -79,7 +71,7 @@ T["struct_tags"]["should add tags on var"] = function()
 end
 
 T["struct_tags"]["should add tags on short declr var"] = function()
-  local rs = t.setup("tags/svar", child, { 4, 3 })
+  local rs = t.setup_test("tags/svar", child, { 4, 3 })
   child.cmd "GoTagAdd xml"
   child.cmd "write"
 
