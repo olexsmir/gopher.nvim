@@ -35,7 +35,8 @@ end
 ---@text Gopher.nvim implements most of its features using third-party tools.
 --- To install these tools, you can run `:GoInstallDeps` command
 --- or call `require("gopher").install_deps()` if you want to use lua api.
---- By default dependencies will be installed asynchronously, to install them synchronously pass `{sync = true}` as an argument.
+--- By default dependencies will be installed asynchronously,
+--- to install them synchronously pass `{sync = true}` as an argument.
 gopher.install_deps = require("gopher.installer").install_deps
 
 gopher.impl = require("gopher.impl").impl

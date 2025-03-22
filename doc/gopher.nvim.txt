@@ -11,6 +11,7 @@ Table of Contents
   Setup....................................................|gopher.nvim-setup|
   Install dependencies..............................|gopher.nvim-install-deps|
   Configuration...........................................|gopher.nvim-config|
+  Commands..............................................|gopher.nvim-commands|
   Modify struct tags.................................|gopher.nvim-struct-tags|
   Auto implementation of interface methods..................|gopher.nvim-impl|
   Generating unit tests boilerplate......................|gopher.nvim-gotests|
@@ -36,7 +37,8 @@ Parameters ~
 Gopher.nvim implements most of its features using third-party tools.
 To install these tools, you can run `:GoInstallDeps` command
 or call `require("gopher").install_deps()` if you want to use lua api.
-By default dependencies will be installed asynchronously, to install them synchronously pass `{sync = true}` as an argument.
+By default dependencies will be installed asynchronously,
+to install them synchronously pass `{sync = true}` as an argument.
 
 
 ==============================================================================
@@ -60,10 +62,6 @@ You can look at default options |gopher.nvim-config-defaults|
     -- timeout for running internal commands
     ---@type number
     timeout = 2000,
-
-    --- whether to setup plugin commands or not
-    ---@type boolean
-    setup_commands = true,
 
     -- user specified paths to binaries
     ---@class gopher.ConfigCommand
@@ -101,6 +99,14 @@ You can look at default options |gopher.nvim-config-defaults|
 <
 Class ~
 {gopher.Config}
+
+
+==============================================================================
+------------------------------------------------------------------------------
+                                                          *gopher.nvim-commands*
+
+If don't want to automatically register plugins' commands,
+you can set `vim.g.gopher_register_commands` to `false`, before loading the plugin.
 
 
 ==============================================================================

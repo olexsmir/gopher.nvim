@@ -37,10 +37,6 @@ local default_config = {
   ---@type number
   timeout = 2000,
 
-  --- whether to setup plugin commands or not
-  ---@type boolean
-  setup_commands = true,
-
   -- user specified paths to binaries
   ---@class gopher.ConfigCommand
   commands = {
@@ -97,7 +93,6 @@ function config.setup(user_config)
   vim.validate {
     log_level = { _config.log_level, "number" },
     timeout = { _config.timeout, "number" },
-    setup_commands = { _config.setup_commands, "boolean" },
     ["commands"] = { _config.commands, "table" },
     ["commands.go"] = { _config.commands.go, "string" },
     ["commands.gomodifytags"] = { _config.commands.gomodifytags, "string" },
@@ -114,16 +109,6 @@ function config.setup(user_config)
     ["iferr"] = { _config.iferr, "table" },
     ["iferr.message"] = { _config.iferr.message, "string", true },
   }
-
-  if _config.setup_commands then
-    require("gopher.commands").register()
-  end
-end
-
----@return boolean
----@private
-function config.should_setup_commands()
-  return config.setup_commands
 end
 
 setmetatable(config, {
