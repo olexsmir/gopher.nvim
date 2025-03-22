@@ -3,8 +3,9 @@ local queries = {
   struct = [[
     [(type_spec name: (type_identifier) @_name
                 type: (struct_type))
-     (var_spec  name: (identifier) @_name
-                type: (struct_type))
+     (var_declaration (var_spec
+                        name: (identifier) @_name @_var
+                        type: (struct_type)))
      (short_var_declaration
        left:  (expression_list (identifier) @_name @_var)
        right: (expression_list (composite_literal
@@ -46,7 +47,7 @@ end
 ---@param query vim.treesitter.Query
 ---@param node TSNode
 ---@param bufnr integer
----@return {name:string}
+---@return {name:string, is_varstruct:boolean}
 local function get_captures(query, node, bufnr)
   local res = {}
   for _, match, _ in query:iter_matches(node, bufnr) do
@@ -110,7 +111,7 @@ function ts.get_struct_under_cursor(bufnr)
   return do_stuff(bufnr, {
     "type_spec",
     "type_declaration",
-    "var_spec",
+    "var_declaration",
     "short_var_declaration",
   }, queries.struct)
 end
