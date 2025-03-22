@@ -18,6 +18,7 @@ local c = require "gopher.config"
 
 local config = {
   -- Name of the plugin. Prepended to log messages
+  ---@diagnostic disable-next-line:undefined-field
   name = c.___plugin_name,
 
   -- Should print the output to neovim while running

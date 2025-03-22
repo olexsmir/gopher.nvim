@@ -1,5 +1,3 @@
----@type gopher.Config
----@dochide
 local config = {}
 
 ---@tag gopher.nvim-config.ConfigGoTagTransform
@@ -107,6 +105,6 @@ setmetatable(config, {
   end,
 })
 
----@return gopher.Config
 ---@dochide
+---@return gopher.Config
 return config
