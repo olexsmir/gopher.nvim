@@ -16,6 +16,7 @@ T["iferr"]["works"] = function()
   child.cmd "write"
 
   t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
 end
 
 T["iferr"]["works with custom message"] = function()
@@ -29,6 +30,7 @@ T["iferr"]["works with custom message"] = function()
   child.cmd "write"
 
   t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
 end
 
 return T

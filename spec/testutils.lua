@@ -36,8 +36,12 @@ function testutils.deletefile(fpath)
   vim.fn.delete(fpath)
 end
 
+---@class gopher.TestUtilsFixtures
+---@field input string
+---@field output string
+
 ---@param fixture string
----@return {input: string, output: string}
+---@return gopher.TestUtilsFixtures
 function testutils.get_fixtures(fixture)
   return {
     input = testutils.readfile(vim.fs.joinpath(testutils.fixtures_dir, fixture) .. "_input.go"),
@@ -45,10 +49,14 @@ function testutils.get_fixtures(fixture)
   }
 end
 
+---@class gopher.TestUtilsSetup
+---@field tmp string
+---@field fixtures gopher.TestUtilsFixtures
+
 ---@param fixture string
 ---@param child MiniTest.child
 ---@param pos? number[]
----@return {tmp: string, fixtures: {input: string, output: string}}
+---@return gopher.TestUtilsSetup
 function testutils.setup(fixture, child, pos)
   local tmp = testutils.tmpfile()
   local fixtures = testutils.get_fixtures(fixture)
@@ -66,8 +74,9 @@ function testutils.setup(fixture, child, pos)
   }
 end
 
-function testutils.cleanup(tmp)
-  testutils.deletefile(tmp)
+---@param inp gopher.TestUtilsSetup
+function testutils.cleanup(inp)
+  testutils.deletefile(inp.tmp)
 end
 
 return testutils

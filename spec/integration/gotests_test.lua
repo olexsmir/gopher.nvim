@@ -25,6 +25,7 @@ T["gotests"]["should add test for function under cursor"] = function()
   child.cmd "GoTestAdd"
 
   t.eq(rs.fixtures.output, read_testfile(rs.tmp))
+  t.cleanup(rs)
 end
 
 T["gotests"]["should add test for method under cursor"] = function()
@@ -32,6 +33,7 @@ T["gotests"]["should add test for method under cursor"] = function()
   child.cmd "GoTestAdd"
 
   t.eq(rs.fixtures.output, read_testfile(rs.tmp))
+  t.cleanup(rs)
 end
 
 return T

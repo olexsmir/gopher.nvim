@@ -16,9 +16,7 @@ local function do_the_test(fixture, pos)
   child.cmd "write"
 
   t.eq(t.readfile(rs.tmp), rs.fixtures.output)
-
-  -- without it all other(not even from this module) tests are falling
-  t.deletefile(rs.tmp)
+  t.cleanup(rs)
 end
 
 T["comment"] = MiniTest.new_set {}

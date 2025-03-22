@@ -18,6 +18,7 @@ T["impl"]["works w io.Writer"] = function()
   -- NOTE: since "impl" won't implement interface if it's already implemented i went with this hack
   local rhs = rs.fixtures.output:gsub("Test2", "Test")
   t.eq(t.readfile(rs.tmp), rhs)
+  t.cleanup(rs)
 end
 
 T["impl"]["works r Read io.Reader"] = function()
@@ -27,6 +28,7 @@ T["impl"]["works r Read io.Reader"] = function()
 
   local rhs = rs.fixtures.output:gsub("Read2", "Read")
   t.eq(t.readfile(rs.tmp), rhs)
+  t.cleanup(rs)
 end
 
 T["impl"]["works io.Closer"] = function()
@@ -36,6 +38,7 @@ T["impl"]["works io.Closer"] = function()
 
   local rhs = rs.fixtures.output:gsub("Test2", "Test")
   t.eq(t.readfile(rs.tmp), rhs)
+  t.cleanup(rs)
 end
 
 return T

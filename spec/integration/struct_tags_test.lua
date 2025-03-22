@@ -16,6 +16,7 @@ T["struct_tags"]["should add tag"] = function()
   child.cmd "write"
 
   t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
 end
 
 T["struct_tags"]["should remove tag"] = function()
@@ -24,6 +25,7 @@ T["struct_tags"]["should remove tag"] = function()
   child.cmd "write"
 
   t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
 end
 
 T["struct_tags"]["should be able to handle many structs"] = function()
@@ -32,6 +34,7 @@ T["struct_tags"]["should be able to handle many structs"] = function()
   child.cmd "write"
 
   t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
 end
 
 T["struct_tags"]["should clear struct"] = function()
@@ -40,6 +43,7 @@ T["struct_tags"]["should clear struct"] = function()
   child.cmd "write"
 
   t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
 end
 
 T["struct_tags"]["should add more than one tag"] = function()
@@ -60,6 +64,9 @@ T["struct_tags"]["should add more than one tag"] = function()
   child.cmd "write"
 
   t.eq(t.readfile(tmp), fixtures.output)
+
+  ---@diagnostic disable-next-line:missing-fields
+  t.cleanup { tmp = tmp }
 end
 
 T["struct_tags"]["should add tags on var"] = function()
@@ -68,6 +75,7 @@ T["struct_tags"]["should add tags on var"] = function()
   child.cmd "write"
 
   t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
 end
 
 T["struct_tags"]["should add tags on short declr var"] = function()
@@ -76,6 +84,7 @@ T["struct_tags"]["should add tags on short declr var"] = function()
   child.cmd "write"
 
   t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
 end
 
 return T
