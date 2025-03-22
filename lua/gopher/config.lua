@@ -90,7 +90,30 @@ _config.___plugin_name = "gopher.nvim" ---@diagnostic disable-line: inject-field
 ---@param user_config? gopher.Config
 ---@private
 function config.setup(user_config)
-  _config = vim.tbl_deep_extend("force", default_config, user_config or {})
+  vim.validate { user_config = { user_config, "table", true } }
+
+  _config = vim.tbl_deep_extend("force", vim.deepcopy(default_config), user_config or {})
+
+  vim.validate {
+    log_level = { _config.log_level, "number" },
+    timeout = { _config.timeout, "number" },
+    setup_commands = { _config.setup_commands, "boolean" },
+    ["commands"] = { _config.commands, "table" },
+    ["commands.go"] = { _config.commands.go, "string" },
+    ["commands.gomodifytags"] = { _config.commands.gomodifytags, "string" },
+    ["commands.gotests"] = { _config.commands.gotests, "string" },
+    ["commands.impl"] = { _config.commands.impl, "string" },
+    ["commands.iferr"] = { _config.commands.iferr, "string" },
+    ["gotests"] = { _config.gotests, "table" },
+    ["gotests.template"] = { _config.gotests.template, "string" },
+    ["gotests.template_dir"] = { _config.gotests.template, "string", true },
+    ["gotests.named"] = { _config.gotests.named, "boolean" },
+    ["gotag"] = { _config.gotag, "table" },
+    ["gotag.transform"] = { _config.gotag.transform, "string" },
+    ["gotag.default_tag"] = { _config.gotag.default_tag, "string" },
+    ["iferr"] = { _config.iferr, "table" },
+    ["iferr.message"] = { _config.iferr.message, "string", true },
+  }
 end
 
 ---@return boolean
