@@ -30,4 +30,8 @@ hooks.write_pre = function(lines)
   return lines
 end
 
+hooks.sections["@dochide"] = function(s)
+  s.parent:clear_lines()
+end
+
 MiniDoc.generate(files, "doc/gopher.nvim.txt", { hooks = hooks })
