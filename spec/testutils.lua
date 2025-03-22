@@ -45,4 +45,29 @@ function testutils.get_fixtures(fixture)
   }
 end
 
+---@param fixture string
+---@param child MiniTest.child
+---@param pos? number[]
+---@return {tmp: string, fixtures: {input: string, output: string}}
+function testutils.setup(fixture, child, pos)
+  local tmp = testutils.tmpfile()
+  local fixtures = testutils.get_fixtures(fixture)
+
+  testutils.writefile(tmp, fixtures.input)
+  child.cmd("silent edit " .. tmp)
+
+  if pos then
+    child.fn.setpos(".", { child.fn.bufnr(tmp), unpack(pos) })
+  end
+
+  return {
+    tmp = tmp,
+    fixtures = fixtures,
+  }
+end
+
+function testutils.cleanup(tmp)
+  testutils.deletefile(tmp)
+end
+
 return testutils
