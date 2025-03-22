@@ -39,7 +39,7 @@ Requirements:
 >
 > If you need more info look `:h gopher.nvim`
 
-**Take a look at default options (might be a bit outdated, look `:h gopher.nvim-config-defaults`)**
+**Take a look at default options (might be a bit outdated, look `:h gopher.nvim-config`)**
 
 ```lua
 require("gopher").setup {

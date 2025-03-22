@@ -1,17 +1,11 @@
----@toc_entry Configuration
----@tag gopher.nvim-config
----@text config it is the place where you can configure the plugin.
---- also this is optional is you're ok with default settings.
---- You can look at default options |gopher.nvim-config-defaults|
-
 ---@type gopher.Config
----@private
+---@dochide
 local config = {}
 
 ---@tag gopher.nvim-config.ConfigGoTagTransform
 ---@text Possible values for |gopher.Config|.gotag.transform:
 ---
----@private
+---@dochide
 ---@alias gopher.ConfigGoTagTransform
 ---| "snakecase"  "GopherUser" -> "gopher_user"
 ---| "camelcase"  "GopherUser" -> "gopherUser"
@@ -20,15 +14,11 @@ local config = {}
 ---| "titlecase"  "GopherUser" -> "Gopher User"
 ---| "keep"       keeps the original field name
 
---minidoc_replace_start {
-
----@tag gopher.nvim-config-defaults
+---@toc_entry Config
+---@tag gopher.nvim-config
 ---@eval return MiniDoc.afterlines_to_code(MiniDoc.current.eval_section)
----
 ---@class gopher.Config
 local default_config = {
-  --minidoc_replace_end
-
   -- log level, you might consider using DEBUG or TRACE for debugging the plugin
   ---@type number
   log_level = vim.log.levels.INFO,
@@ -73,7 +63,7 @@ local default_config = {
 --minidoc_afterlines_end
 
 ---@type gopher.Config
----@private
+---@dochide
 local _config = default_config
 
 -- I am kinda secret so don't tell anyone about me even dont use me
@@ -84,7 +74,7 @@ local _config = default_config
 _config.___plugin_name = "gopher.nvim" ---@diagnostic disable-line: inject-field
 
 ---@param user_config? gopher.Config
----@private
+---@dochide
 function config.setup(user_config)
   vim.validate { user_config = { user_config, "table", true } }
 
@@ -118,5 +108,5 @@ setmetatable(config, {
 })
 
 ---@return gopher.Config
----@private
+---@dochide
 return config

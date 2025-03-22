@@ -1,6 +1,11 @@
+-- Thanks https://github.com/koron/iferr for vim implementation
+
 ---@toc_entry Iferr
 ---@tag gopher.nvim-iferr
----@text If you're using `iferr` tool, this module provides a way to automatically insert `if err != nil` check.
+---@text
+--- `iferr` provides a way to way to automatically insert `if err != nil` check.
+--- If you want to change `-message` option of `iferr` tool, see |gopher.nvim-config|
+---
 ---@usage Execute `:GoIfErr` near any `err` variable to insert the check
 
 local c = require "gopher.config"
@@ -9,7 +14,6 @@ local r = require "gopher._utils.runner"
 local log = require "gopher._utils.log"
 local iferr = {}
 
--- That's Lua implementation: https://github.com/koron/iferr
 function iferr.iferr()
   local curb = vim.fn.wordcount().cursor_bytes
   local pos = vim.fn.getcurpos()[2]

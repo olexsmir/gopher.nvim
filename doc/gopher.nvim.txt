@@ -1,16 +1,16 @@
-*gopher.nvim*
+*gopher.nvim* Enhance your golang experience
+
+MIT License Copyright (c) 2025 Oleksandr Smirnov
 
 ==============================================================================
 
 gopher.nvim is a minimalistic plugin for Go development in Neovim written in Lua.
 It's not an LSP tool, the main goal of this plugin is add go tooling support in Neovim.
 
-------------------------------------------------------------------------------
-                                                 *gopher.nvim-table-of-contents*
 Table of Contents
-  Setup....................................................|gopher.nvim-setup|
-  Install dependencies..............................|gopher.nvim-install-deps|
-  Configuration...........................................|gopher.nvim-config|
+  Setup..................................................|gopher.nvim-setup()|
+  Install dependencies..............................|gopher.nvim-dependencies|
+  Config..................................................|gopher.nvim-config|
   Commands..............................................|gopher.nvim-commands|
   Modify struct tags.................................|gopher.nvim-struct-tags|
   Auto implementation of interface methods..................|gopher.nvim-impl|
@@ -19,20 +19,22 @@ Table of Contents
   Generate comments.....................................|gopher.nvim-comments|
 
 ------------------------------------------------------------------------------
-                                                             *gopher.nvim-setup*
+                                                           *gopher.nvim-setup()*
                          `gopher.setup`({user_config})
 Setup function. This method simply merges default config with opts table.
 You can read more about configuration at |gopher.nvim-config|
 Calling this function is optional, if you ok with default settings.
-See |gopher.nvim.config-defaults|
+See |gopher.nvim.config|
 
 Usage ~
-`require("gopher").setup {}` (replace `{}` with your `config` table)
+>lua
+ require("gopher").setup {} -- use default config or replace {} with your own
+<
 Parameters ~
-{user_config} `(gopher.Config)`
+{user_config} `(gopher.Config)` See |gopher.nvim-config|
 
 ------------------------------------------------------------------------------
-                                                      *gopher.nvim-install-deps*
+                                                      *gopher.nvim-dependencies*
                              `gopher.install_deps`
 Gopher.nvim implements most of its features using third-party tools.
 To install these tools, you can run `:GoInstallDeps` command
@@ -44,17 +46,9 @@ to install them synchronously pass `{sync = true}` as an argument.
 ==============================================================================
 ------------------------------------------------------------------------------
                                                             *gopher.nvim-config*
-config it is the place where you can configure the plugin.
-also this is optional is you're ok with default settings.
-You can look at default options |gopher.nvim-config-defaults|
-
-------------------------------------------------------------------------------
-                                                   *gopher.nvim-config-defaults*
                                 `default_config`
 >lua
   local default_config = {
-    --minidoc_replace_end
-
     -- log level, you might consider using DEBUG or TRACE for debugging the plugin
     ---@type number
     log_level = vim.log.levels.INFO,
@@ -112,14 +106,17 @@ you can set `vim.g.gopher_register_commands` to `false`, before loading the plug
 ==============================================================================
 ------------------------------------------------------------------------------
                                                        *gopher.nvim-struct-tags*
-struct-tags is utilizing the `gomodifytags` tool to add or remove tags to struct fields.
+
+`struct_tags` is utilizing the `gomodifytags` tool to add or remove tags to struct fields.
+
 Usage ~
 
 How to add/remove tags to struct fields:
-
-------------------------------------------------------------------------------
+1. Place cursor on the struct
 2. Run `:GoTagAdd json` to add json tags to struct fields
 3. Run `:GoTagRm json` to remove json tags to struct fields
+
+To clear all tags from struct run: `:GoTagClear`
 
 NOTE: if you dont specify the tag it will use `json` as default
 
@@ -139,30 +136,13 @@ Example:
        Name string `yaml:name`
    }
 <
-------------------------------------------------------------------------------
-                                                             *struct_tags.add()*
-                            `struct_tags.add`({...})
-tags to a struct under the cursor
-Parameters ~
-{...} `(string)` Tags to add to the struct fields. If not provided, it will use [config.gotag.default_tag]
-
-------------------------------------------------------------------------------
-                                                          *struct_tags.remove()*
-                          `struct_tags.remove`({...})
-tags from a struct under the cursor
-Parameters ~
-{...} `(string)` Tags to add to the struct fields. If not provided, it will use [config.gotag.default_tag]
-
-------------------------------------------------------------------------------
-                                                           *struct_tags.clear()*
-                             `struct_tags.clear`()
-all tags from a struct under the cursor
-
 
 ==============================================================================
 ------------------------------------------------------------------------------
                                                               *gopher.nvim-impl*
+
 impl is utilizing the `impl` tool to generate method stubs for interfaces.
+
 Usage ~
 
 1. Automatically implement an interface for a struct:
@@ -214,17 +194,16 @@ Usage ~
 You can also specify the template to use for generating the tests. See |gopher.nvim-config|
 More details about templates can be found at: https://github.com/cweill/gotests
 
-------------------------------------------------------------------------------
-                                                     *gopher.nvim-gotests-named*
-
-You can enable named tests in the config if you prefer using named tests.
-See |gopher.nvim-config|.
+If you prefer named tests, you can enable them in |gopher.nvim-config|.
 
 
 ==============================================================================
 ------------------------------------------------------------------------------
                                                              *gopher.nvim-iferr*
-If you're using `iferr` tool, this module provides a way to automatically insert `if err != nil` check.
+
+`iferr` provides a way to way to automatically insert `if err != nil` check.
+If you want to change `-message` option of `iferr` tool, see |gopher.nvim-config|
+
 Usage ~
 Execute `:GoIfErr` near any `err` variable to insert the check
 
@@ -232,9 +211,11 @@ Execute `:GoIfErr` near any `err` variable to insert the check
 ==============================================================================
 ------------------------------------------------------------------------------
                                                           *gopher.nvim-comments*
-Usage ~
-Execute `:GoCmt` to generate a comment for the current function/method/struct/etc on this line.
+
 This module provides a way to generate comments for Go code.
+
+Usage ~
+Set cursor on line with function/method/struct/etc and run `:GoCmt` to generate a comment.
 
 
  vim:tw=78:ts=8:noet:ft=help:norl:

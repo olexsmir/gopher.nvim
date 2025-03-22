@@ -1,7 +1,9 @@
 ---@toc_entry Generate comments
 ---@tag gopher.nvim-comments
----@usage Execute `:GoCmt` to generate a comment for the current function/method/struct/etc on this line.
----@text This module provides a way to generate comments for Go code.
+---@text
+--- This module provides a way to generate comments for Go code.
+---
+---@usage Set cursor on line with function/method/struct/etc and run `:GoCmt` to generate a comment.
 
 local ts = require "gopher._utils.ts"
 local log = require "gopher._utils.log"
@@ -9,14 +11,14 @@ local comment = {}
 
 ---@param name string
 ---@return string
----@private
+---@dochide
 local function template(name)
   return "// " .. name .. " "
 end
 
 ---@param bufnr integer
 ---@return string
----@private
+---@dochide
 local function generate(bufnr)
   local s_ok, s_res = pcall(ts.get_struct_under_cursor, bufnr)
   if s_ok then
