@@ -1,65 +1,40 @@
 local t = require "spec.testutils"
+local child, T = t.setup "struct_tags"
 
-local child = MiniTest.new_child_neovim()
-local T = MiniTest.new_set {
-  hooks = {
-    post_once = child.stop,
-    pre_case = function()
-      child.restart { "-u", t.mininit_path }
-    end,
-  },
-}
-T["struct_tags"] = MiniTest.new_set {}
 T["struct_tags"]["should add tag"] = function()
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures "tags/add"
-  t.writefile(tmp, fixtures.input)
-
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr(tmp), 3, 6, 0 })
+  local rs = t.setup_test("tags/add", child, { 3, 6 })
   child.cmd "GoTagAdd json"
   child.cmd "write"
 
-  t.eq(t.readfile(tmp), fixtures.output)
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
 end
 
 T["struct_tags"]["should remove tag"] = function()
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures "tags/remove"
-  t.writefile(tmp, fixtures.input)
-
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr(tmp), 4, 6, 0 })
+  local rs = t.setup_test("tags/remove", child, { 4, 6 })
   child.cmd "GoTagRm json"
   child.cmd "write"
 
-  t.eq(t.readfile(tmp), fixtures.output)
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
 end
 
 T["struct_tags"]["should be able to handle many structs"] = function()
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures "tags/many"
-  t.writefile(tmp, fixtures.input)
-
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr(tmp), 10, 3, 0 })
+  local rs = t.setup_test("tags/many", child, { 10, 3 })
   child.cmd "GoTagAdd testing"
   child.cmd "write"
 
-  t.eq(t.readfile(tmp), fixtures.output)
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
 end
 
 T["struct_tags"]["should clear struct"] = function()
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures "tags/clear"
-  t.writefile(tmp, fixtures.input)
-
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr(tmp), 3, 1, 0 })
+  local rs = t.setup_test("tags/clear", child, { 3, 1 })
   child.cmd "GoTagClear"
   child.cmd "write"
 
-  t.eq(t.readfile(tmp), fixtures.output)
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
 end
 
 T["struct_tags"]["should add more than one tag"] = function()
@@ -80,32 +55,27 @@ T["struct_tags"]["should add more than one tag"] = function()
   child.cmd "write"
 
   t.eq(t.readfile(tmp), fixtures.output)
+
+  ---@diagnostic disable-next-line:missing-fields
+  t.cleanup { tmp = tmp }
 end
 
 T["struct_tags"]["should add tags on var"] = function()
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures "tags/var"
-  t.writefile(tmp, fixtures.input)
-
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr(tmp), 5, 3 })
+  local rs = t.setup_test("tags/var", child, { 5, 6 })
   child.cmd "GoTagAdd yaml"
   child.cmd "write"
 
-  t.eq(t.readfile(tmp), fixtures.output)
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
 end
 
 T["struct_tags"]["should add tags on short declr var"] = function()
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures "tags/svar"
-  t.writefile(tmp, fixtures.input)
-
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr(tmp), 4, 3 })
+  local rs = t.setup_test("tags/svar", child, { 4, 3 })
   child.cmd "GoTagAdd xml"
   child.cmd "write"
 
-  t.eq(t.readfile(tmp), fixtures.output)
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
 end
 
 return T

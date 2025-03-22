@@ -1,32 +1,15 @@
 local t = require "spec.testutils"
-
-local child = MiniTest.new_child_neovim()
-local T = MiniTest.new_set {
-  hooks = {
-    post_once = child.stop,
-    pre_case = function()
-      child.restart { "-u", t.mininit_path }
-    end,
-  },
-}
+local child, T = t.setup "comment"
 
 local function do_the_test(fixture, pos)
-  local tmp = t.tmpfile()
-  local fixtures = t.get_fixtures("comment/" .. fixture)
-  t.writefile(tmp, fixtures.input)
-
-  child.cmd("silent edit " .. tmp)
-  child.fn.setpos(".", { child.fn.bufnr "%", unpack(pos) })
+  local rs = t.setup_test("comment/" .. fixture, child, pos)
   child.cmd "GoCmt"
   child.cmd "write"
 
-  t.eq(t.readfile(tmp), fixtures.output)
-
-  -- without it all other(not even from this module) tests are falling
-  t.deletefile(tmp)
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
 end
 
-T["comment"] = MiniTest.new_set {}
 T["comment"]["should add comment to package"] = function()
   do_the_test("package", { 1, 1 })
 end
