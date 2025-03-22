@@ -33,6 +33,7 @@
 local ts = require "gopher._utils.ts"
 local r = require "gopher._utils.runner"
 local c = require "gopher.config"
+local u = require "gopher._utils"
 local log = require "gopher._utils.log"
 local struct_tags = {}
 
@@ -77,7 +78,7 @@ local function handle_tags(fpath, bufnr, user_args)
   end
 
   for i, v in ipairs(res["lines"]) do
-    res["lines"][i] = string.gsub(v, "%s+$", "")
+    res["lines"][i] = u.trimend(v)
   end
 
   vim.api.nvim_buf_set_lines(

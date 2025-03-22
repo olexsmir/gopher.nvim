@@ -30,4 +30,11 @@ function utils.remove_empty_lines(t)
   return res
 end
 
+---@param s string
+---@return string
+function utils.trimend(s)
+  local r, _ = string.gsub(s, "%s+$", "")
+  return r
+end
+
 return utils
