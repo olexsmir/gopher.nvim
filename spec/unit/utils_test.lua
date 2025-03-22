@@ -1,7 +1,6 @@
 local t = require "spec.testutils"
 local _, T = t.setup "utils"
 
-T["utils"] = MiniTest.new_set()
 T["utils"]["should .remove_empty_lines()"] = function()
   local u = require "gopher._utils"
   local inp = { "hi", "", "a", "", "", "asdf" }
