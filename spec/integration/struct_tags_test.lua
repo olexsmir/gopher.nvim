@@ -82,4 +82,30 @@ T["struct_tags"]["should add more than one tag"] = function()
   t.eq(t.readfile(tmp), fixtures.output)
 end
 
+T["struct_tags"]["should add tags on var"] = function()
+  local tmp = t.tmpfile()
+  local fixtures = t.get_fixtures "tags/var"
+  t.writefile(tmp, fixtures.input)
+
+  child.cmd("silent edit " .. tmp)
+  child.fn.setpos(".", { child.fn.bufnr(tmp), 5, 3 })
+  child.cmd "GoTagAdd yaml"
+  child.cmd "write"
+
+  t.eq(t.readfile(tmp), fixtures.output)
+end
+
+T["struct_tags"]["should add tags on short declr var"] = function()
+  local tmp = t.tmpfile()
+  local fixtures = t.get_fixtures "tags/svar"
+  t.writefile(tmp, fixtures.input)
+
+  child.cmd("silent edit " .. tmp)
+  child.fn.setpos(".", { child.fn.bufnr(tmp), 4, 3 })
+  child.cmd "GoTagAdd xml"
+  child.cmd "write"
+
+  t.eq(t.readfile(tmp), fixtures.output)
+end
+
 return T

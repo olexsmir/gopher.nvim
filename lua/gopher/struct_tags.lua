@@ -44,10 +44,17 @@ local function handle_tags(fpath, bufnr, user_args)
     c.commands.gomodifytags,
     "-transform", c.gotag.transform,
     "-format", "json",
-    "-struct", st.name,
     "-file", fpath,
     "-w",
   }
+
+  if st.is_varstruct then
+    table.insert(cmd, "-line")
+    table.insert(cmd, string.format("%d,%d", st.start_line, st.end_line))
+  else
+    table.insert(cmd, "-struct")
+    table.insert(cmd, st.name)
+  end
 
   for _, v in ipairs(user_args) do
     table.insert(cmd, v)
@@ -60,7 +67,6 @@ local function handle_tags(fpath, bufnr, user_args)
   end
 
   local res = vim.json.decode(rs.stdout)
-
   if res["errors"] then
     log.error("tags: got an error " .. vim.inspect(res))
     error("failed to set tags " .. vim.inspect(res["errors"]))
