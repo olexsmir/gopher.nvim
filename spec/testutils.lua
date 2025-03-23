@@ -69,6 +69,7 @@ end
 ---@class gopher.TestUtilsSetup
 ---@field tmp string
 ---@field fixtures gopher.TestUtilsFixtures
+---@field bufnr number
 
 ---@param fixture string
 ---@param child MiniTest.child
@@ -81,12 +82,14 @@ function testutils.setup_test(fixture, child, pos)
   testutils.writefile(tmp, fixtures.input)
   child.cmd("silent edit " .. tmp)
 
+  local bufnr = child.fn.bufnr(tmp)
   if pos then
-    child.fn.setpos(".", { child.fn.bufnr(tmp), unpack(pos) })
+    child.fn.setpos(".", { bufnr, unpack(pos) })
   end
 
   return {
     tmp = tmp,
+    bufnr = bufnr,
     fixtures = fixtures,
   }
 end

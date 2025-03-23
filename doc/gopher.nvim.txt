@@ -8,15 +8,15 @@ gopher.nvim is a minimalistic plugin for Go development in Neovim written in Lua
 It's not an LSP tool, the main goal of this plugin is add go tooling support in Neovim.
 
 Table of Contents
-  Setup..................................................|gopher.nvim-setup()|
-  Install dependencies..............................|gopher.nvim-dependencies|
-  Config..................................................|gopher.nvim-config|
-  Commands..............................................|gopher.nvim-commands|
-  Modify struct tags.................................|gopher.nvim-struct-tags|
-  Auto implementation of interface methods..................|gopher.nvim-impl|
-  Generating unit tests boilerplate......................|gopher.nvim-gotests|
-  Iferr....................................................|gopher.nvim-iferr|
-  Generate comments.....................................|gopher.nvim-comments|
+  Setup ................................................ |gopher.nvim-setup()|
+  Install dependencies ............................ |gopher.nvim-dependencies|
+  Config ................................................ |gopher.nvim-config|
+  Commands ............................................ |gopher.nvim-commands|
+  Modify struct tags ............................... |gopher.nvim-struct-tags|
+  Auto implementation of interface methods ................ |gopher.nvim-impl|
+  Generating unit tests boilerplate .................... |gopher.nvim-gotests|
+  Iferr .................................................. |gopher.nvim-iferr|
+  Generate comments ................................... |gopher.nvim-comments|
 
 ------------------------------------------------------------------------------
                                                            *gopher.nvim-setup()*

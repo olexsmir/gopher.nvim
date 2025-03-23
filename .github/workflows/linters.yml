@@ -53,4 +53,6 @@ jobs:
         run: task docgen
 
       - name: Diff
-        run: exit $(git status --porcelain doc | wc -l | tr -d " ")
+        run: |
+          git diff doc
+          exit $(git status --porcelain doc | wc -l | tr -d " ")

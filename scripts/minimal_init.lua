@@ -30,9 +30,8 @@ vim.env.XDG_DATA_HOME = root ".tests/data"
 vim.env.XDG_STATE_HOME = root ".tests/state"
 vim.env.XDG_CACHE_HOME = root ".tests/cache"
 
-vim.cmd [[set runtimepath=$VIMRUNTIME]]
 vim.opt.runtimepath:append(root())
-vim.opt.packpath = { root ".tests/site" }
+vim.opt.packpath:append(root ".tests/site")
 vim.notify = vim.print
 
 -- install go treesitter parse
@@ -53,3 +52,12 @@ if #vim.api.nvim_list_uis() == 0 then
     },
   }
 end
+
+-- needed for tests, i dont know the reason why, but on start
+-- vim is not able to use treesitter for go by default
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "go",
+  callback = function(args)
+    vim.treesitter.start(args.buf, "go")
+  end,
+})
