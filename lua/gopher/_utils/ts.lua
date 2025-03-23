@@ -50,16 +50,13 @@ end
 ---@return {name:string, is_varstruct:boolean}
 local function get_captures(query, node, bufnr)
   local res = {}
-  for _, match, _ in query:iter_matches(node, bufnr) do
-    for capture_id, captured_node in pairs(match) do
-      local capture_name = query.captures[capture_id]
-      if capture_name == "_name" then
-        res["name"] = vim.treesitter.get_node_text(captured_node, bufnr)
-      end
+  for id, n in query:iter_captures(node, bufnr) do
+    if query.captures[id] == "_name" then
+      res["name"] = vim.treesitter.get_node_text(n, bufnr)
+    end
 
-      if capture_name == "_var" then
-        res["is_varstruct"] = true
-      end
+    if query.captures[id] == "_var" then
+      res["is_varstruct"] = true
     end
   end
 
