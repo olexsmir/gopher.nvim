@@ -81,7 +81,6 @@ function testutils.setup_test(fixture, child, pos)
 
   testutils.writefile(tmp, fixtures.input)
   child.cmd("silent edit " .. tmp)
-  child.lua "vim.treesitter.start()"
 
   local bufnr = child.fn.bufnr(tmp)
   if pos then

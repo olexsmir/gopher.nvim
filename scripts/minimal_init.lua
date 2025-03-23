@@ -52,3 +52,12 @@ if #vim.api.nvim_list_uis() == 0 then
     },
   }
 end
+
+-- needed for tests, i dont know the reason why, but on start
+-- vim is not able to use treesitter for go by default
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "go",
+  callback = function(args)
+    vim.treesitter.start(args.buf, "go")
+  end,
+})
