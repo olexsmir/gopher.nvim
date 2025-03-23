@@ -7,6 +7,7 @@ local utils = {}
 function utils.notify(msg, lvl)
   lvl = lvl or vim.log.levels.INFO
   vim.notify(msg, lvl, {
+    ---@diagnostic disable-next-line:undefined-field
     title = c.___plugin_name,
   })
   log.debug(msg)
@@ -28,6 +29,13 @@ function utils.remove_empty_lines(t)
     end
   end
   return res
+end
+
+---@param s string
+---@return string
+function utils.trimend(s)
+  local r, _ = string.gsub(s, "%s+$", "")
+  return r
 end
 
 return utils

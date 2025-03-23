@@ -1,8 +1,9 @@
 ---@toc_entry Auto implementation of interface methods
 ---@tag gopher.nvim-impl
----@text impl is utilizing the `impl` tool to generate method stubs for interfaces.
----@usage
---- 1. Automatically implement an interface for a struct:
+---@text
+--- Integration of `impl` tool to generate method stubs for interfaces.
+---
+---@usage 1. Automatically implement an interface for a struct:
 ---    - Place your cursor on the struct where you want to implement the interface.
 ---    - Run `:GoImpl io.Reader`
 ---    - This will automatically determine the receiver and implement the `io.Reader` interface.

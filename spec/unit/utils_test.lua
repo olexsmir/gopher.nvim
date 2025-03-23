@@ -1,15 +1,6 @@
 local t = require "spec.testutils"
-local child = MiniTest.new_child_neovim()
-local T = MiniTest.new_set {
-  hooks = {
-    post_once = child.stop,
-    pre_case = function()
-      child.restart { "-u", t.mininit_path }
-    end,
-  },
-}
+local _, T = t.setup "utils"
 
-T["utils"] = MiniTest.new_set()
 T["utils"]["should .remove_empty_lines()"] = function()
   local u = require "gopher._utils"
   local inp = { "hi", "", "a", "", "", "asdf" }
@@ -24,6 +15,11 @@ T["utils"]["should .readfile_joined()"] = function()
 
   t.writefile(tmp, data)
   t.eq(u.readfile_joined(tmp), data)
+end
+
+T["utils"]["should .trimend()"] = function()
+  local u = require "gopher._utils"
+  t.eq(u.trimend "  hi   ", "  hi")
 end
 
 return T

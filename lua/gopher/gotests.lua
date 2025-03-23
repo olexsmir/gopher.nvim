@@ -15,11 +15,7 @@
 --- You can also specify the template to use for generating the tests. See |gopher.nvim-config|
 --- More details about templates can be found at: https://github.com/cweill/gotests
 ---
-
----@tag gopher.nvim-gotests-named
----@text
---- You can enable named tests in the config if you prefer using named tests.
---- See |gopher.nvim-config|.
+--- If you prefer named tests, you can enable them in |gopher.nvim-config|.
 
 local c = require "gopher.config"
 local ts_utils = require "gopher._utils.ts"
@@ -29,7 +25,7 @@ local log = require "gopher._utils.log"
 local gotests = {}
 
 ---@param args table
----@private
+---@dochide
 local function add_test(args)
   if c.gotests.named then
     table.insert(args, "-named")
