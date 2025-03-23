@@ -50,9 +50,9 @@ end
 ---@return {name:string, is_varstruct:boolean}
 local function get_captures(query, node, bufnr)
   local res = {}
-  for id, n in query:iter_captures(node, bufnr) do
+  for id, _node in query:iter_captures(node, bufnr) do
     if query.captures[id] == "_name" then
-      res["name"] = vim.treesitter.get_node_text(n, bufnr)
+      res["name"] = vim.treesitter.get_node_text(_node, bufnr)
     end
 
     if query.captures[id] == "_var" then
@@ -74,8 +74,7 @@ end
 ---@param query string
 ---@return gopher.TsResult
 local function do_stuff(bufnr, parent_type, query)
-  local parser = vim.treesitter.get_parser(bufnr, "go")
-  if not parser then
+  if not vim.treesitter.get_parser(bufnr, "go") then
     error "No treesitter parser found for go"
   end
 
