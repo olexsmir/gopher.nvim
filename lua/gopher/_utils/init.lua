@@ -3,32 +3,39 @@ local log = require "gopher._utils.log"
 local utils = {}
 
 ---@param msg string
----@param lvl number
-function utils.deferred_notify(msg, lvl)
-  vim.defer_fn(function()
-    vim.notify(msg, lvl, {
-      title = c.___plugin_name,
-    })
-    log.debug(msg)
-  end, 0)
-end
-
----@param msg string
 ---@param lvl? number
 function utils.notify(msg, lvl)
   lvl = lvl or vim.log.levels.INFO
   vim.notify(msg, lvl, {
+    ---@diagnostic disable-next-line:undefined-field
     title = c.___plugin_name,
   })
   log.debug(msg)
 end
 
--- safe require
----@param  module string module name
-function utils.sreq(module)
-  local ok, m = pcall(require, module)
-  assert(ok, string.format("gopher.nvim dependency error: %s not installed", module))
-  return m
+---@param path string
+---@return string
+function utils.readfile_joined(path)
+  return table.concat(vim.fn.readfile(path), "\n")
+end
+
+---@param t string[]
+---@return string[]
+function utils.remove_empty_lines(t)
+  local res = {}
+  for _, line in ipairs(t) do
+    if line ~= "" then
+      table.insert(res, line)
+    end
+  end
+  return res
+end
+
+---@param s string
+---@return string
+function utils.trimend(s)
+  local r, _ = string.gsub(s, "%s+$", "")
+  return r
 end
 
 return utils

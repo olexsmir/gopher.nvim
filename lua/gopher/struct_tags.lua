@@ -1,13 +1,19 @@
----@toc_entry Modifty struct tags
+---@toc_entry Modify struct tags
 ---@tag gopher.nvim-struct-tags
----@text struct-tags is utilizing the `gomodifytags` tool to add or remove tags to struct fields.
----@usage - put your coursor on the struct
---- - run `:GoTagAdd json` to add json tags to struct fields
---- - run `:GoTagRm json` to remove json tags to struct fields
+---@text
+--- `struct_tags` is utilizing the `gomodifytags` tool to add or remove tags to struct fields.
 ---
---- note: if you dont spesify the tag it will use `json` as default
+---@usage
+--- How to add/remove tags to struct fields:
+--- 1. Place cursor on the struct
+--- 2. Run `:GoTagAdd json` to add json tags to struct fields
+--- 3. Run `:GoTagRm json` to remove json tags to struct fields
 ---
---- simple example:
+--- To clear all tags from struct run: `:GoTagClear`
+---
+--- NOTE: if you dont specify the tag it will use `json` as default
+---
+--- Example:
 --- >go
 ---    // before
 ---    type User struct {
@@ -24,105 +30,109 @@
 ---    }
 --- <
 
-local ts_utils = require "gopher._utils.ts"
+local ts = require "gopher._utils.ts"
 local r = require "gopher._utils.runner"
 local c = require "gopher.config"
+local u = require "gopher._utils"
+local log = require "gopher._utils.log"
 local struct_tags = {}
 
-local function modify(...)
-  local fpath = vim.fn.expand "%" ---@diagnostic disable-line: missing-parameter
-  local ns = ts_utils.get_struct_node_at_pos(unpack(vim.api.nvim_win_get_cursor(0)))
-  if ns == nil then
-    return
-  end
+---@param fpath string
+---@param bufnr integer
+---@param user_args string[]
+---@dochide
+local function handle_tags(fpath, bufnr, user_args)
+  local st = ts.get_struct_under_cursor(bufnr)
 
   -- stylua: ignore
-  local cmd_args = {
+  local cmd = {
+    c.commands.gomodifytags,
     "-transform", c.gotag.transform,
     "-format", "json",
     "-file", fpath,
-    "-w"
+    "-w",
   }
 
-  -- by struct name of line pos
-  if ns.name == nil then
-    local _, csrow, _, _ = unpack(vim.fn.getpos ".")
-    table.insert(cmd_args, "-line")
-    table.insert(cmd_args, csrow)
+  if st.is_varstruct then
+    table.insert(cmd, "-line")
+    table.insert(cmd, string.format("%d,%d", st.start_line, st.end_line))
   else
-    table.insert(cmd_args, "-struct")
-    table.insert(cmd_args, ns.name)
+    table.insert(cmd, "-struct")
+    table.insert(cmd, st.name)
   end
 
-  -- set user args for cmd
-  local arg = { ... }
-  for _, v in ipairs(arg) do
-    table.insert(cmd_args, v)
+  for _, v in ipairs(user_args) do
+    table.insert(cmd, v)
   end
 
-  -- set default tag for "clear tags"
-  if #arg == 1 and arg[1] ~= "-clear-tags" then
-    table.insert(cmd_args, "json")
+  local rs = r.sync(cmd)
+  if rs.code ~= 0 then
+    log.error("tags: failed to set tags " .. rs.stderr)
+    error("failed to set tags " .. rs.stderr)
   end
 
-  local output = r.sync(c.commands.gomodifytags, {
-    args = cmd_args,
-    on_exit = function(data, status)
-      if not status == 0 then
-        error("gotag failed: " .. data)
-      end
-    end,
-  })
+  local res = vim.json.decode(rs.stdout)
+  if res["errors"] then
+    log.error("tags: got an error " .. vim.inspect(res))
+    error("failed to set tags " .. vim.inspect(res["errors"]))
+  end
 
-  -- decode goted value
-  local tagged = vim.json.decode(table.concat(output))
-  if
-    tagged.errors ~= nil
-    or tagged.lines == nil
-    or tagged["start"] == nil
-    or tagged["start"] == 0
-  then
-    error("failed to set tags " .. vim.inspect(tagged))
+  for i, v in ipairs(res["lines"]) do
+    res["lines"][i] = u.trimend(v)
   end
 
   vim.api.nvim_buf_set_lines(
-    0,
-    tagged.start - 1,
-    tagged.start - 1 + #tagged.lines,
-    false,
-    tagged.lines
+    bufnr,
+    res["start"] - 1,
+    res["start"] - 1 + #res["lines"],
+    true,
+    res["lines"]
   )
-  vim.cmd "write"
 end
 
--- add tags to struct under cursor
+---@param args string[]
+---@return string
+---@dochide
+local function handler_user_args(args)
+  if #args == 0 then
+    return c.gotag.default_tag
+  end
+  return table.concat(args, ",")
+end
+
+-- Adds tags to a struct under the cursor
+-- See |gopher.nvim-struct-tags|
+---@param ... string Tags to add to the struct fields. If not provided, it will use [config.gotag.default_tag]
+---@dochide
 function struct_tags.add(...)
-  local arg = { ... }
-  if #arg == nil or arg == "" then
-    arg = { "json" }
-  end
+  local args = { ... }
+  local fpath = vim.fn.expand "%"
+  local bufnr = vim.api.nvim_get_current_buf()
 
-  local cmd_args = { "-add-tags" }
-  for _, v in ipairs(arg) do
-    table.insert(cmd_args, v)
-  end
-
-  modify(unpack(cmd_args))
+  local user_tags = handler_user_args(args)
+  handle_tags(fpath, bufnr, { "-add-tags", user_tags })
 end
 
--- remove tags to struct under cursor
+-- Removes tags from a struct under the cursor
+-- See `:h gopher.nvim-struct-tags`
+---@dochide
+---@param ... string Tags to add to the struct fields. If not provided, it will use [config.gotag.default_tag]
 function struct_tags.remove(...)
-  local arg = { ... }
-  if #arg == nil or arg == "" then
-    arg = { "json" }
-  end
+  local args = { ... }
+  local fpath = vim.fn.expand "%"
+  local bufnr = vim.api.nvim_get_current_buf()
 
-  local cmd_args = { "-remove-tags" }
-  for _, v in ipairs(arg) do
-    table.insert(cmd_args, v)
-  end
+  local user_tags = handler_user_args(args)
+  handle_tags(fpath, bufnr, { "-remove-tags", user_tags })
+end
 
-  modify(unpack(cmd_args))
+-- Removes all tags from a struct under the cursor
+-- See `:h gopher.nvim-struct-tags`
+---@dochide
+function struct_tags.clear()
+  local fpath = vim.fn.expand "%"
+  local bufnr = vim.api.nvim_get_current_buf()
+  handle_tags(fpath, bufnr, { "-clear-tags" })
 end
 
 return struct_tags

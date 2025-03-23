@@ -10,12 +10,12 @@ end
 local files = {
   "lua/gopher/init.lua",
   "lua/gopher/config.lua",
+  "plugin/gopher.lua",
   "lua/gopher/struct_tags.lua",
   "lua/gopher/impl.lua",
   "lua/gopher/gotests.lua",
   "lua/gopher/iferr.lua",
   "lua/gopher/comment.lua",
-  "lua/gopher/dap.lua",
 }
 
 minidoc.setup()
@@ -28,6 +28,10 @@ hooks.write_pre = function(lines)
   table.remove(lines, 1)
 
   return lines
+end
+
+hooks.sections["@dochide"] = function(s)
+  s.parent:clear_lines()
 end
 
 MiniDoc.generate(files, "doc/gopher.nvim.txt", { hooks = hooks })

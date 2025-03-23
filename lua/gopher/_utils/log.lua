@@ -18,6 +18,7 @@ local c = require "gopher.config"
 
 local config = {
   -- Name of the plugin. Prepended to log messages
+  ---@diagnostic disable-next-line:undefined-field
   name = c.___plugin_name,
 
   -- Should print the output to neovim while running
@@ -91,7 +92,7 @@ do
   local log_at_level = function(level_config, message_maker, ...)
     -- Return early if we're below the current_log_level
     --
-    -- the log level source get from config directly because otherwise it doesnt work
+    -- the log level source get from config directly because otherwise it doesn't work
     if level_config.level < c.log_level then
       return
     end

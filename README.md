@@ -10,21 +10,19 @@ It's **NOT** an LSP tool, the main goal of this plugin is to add go tooling supp
 
 ## Install (using [lazy.nvim](https://github.com/folke/lazy.nvim))
 
-Pre-dependency:
+Requirements:
 
-- [Go](https://github.com/golang/go)
-- `go` treesitter parser, install by `:TSInstall go`
+- **Neovim 0.10** or later
+- Treesitter `go` parser(`:TSInstall go`)
+- [Go](https://github.com/golang/go) installed (tested on 1.23)
 
 ```lua
 {
   "olexsmir/gopher.nvim",
   ft = "go",
-  -- branch = "develop", -- if you want develop branch
-                         -- keep in mind, it might break everything
+  -- branch = "develop"
   dependencies = {
-    "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
-    "mfussenegger/nvim-dap", -- (optional) only if you use `gopher.dap`
   },
   -- (optional) will update plugin's deps on every update
   build = function()
@@ -35,23 +33,28 @@ Pre-dependency:
 }
 ```
 
-## Configuratoin
+## Configuration
 
 > [!IMPORTANT]
 >
 > If you need more info look `:h gopher.nvim`
 
-**Take a look at default options**
+**Take a look at default options (might be a bit outdated, look `:h gopher.nvim-config`)**
 
 ```lua
 require("gopher").setup {
+  -- log level, you might consider using DEBUG or TRACE for debugging the plugin
+  log_level = vim.log.levels.INFO,
+
+  -- timeout for running internal commands
+  timeout = 2000,
+
   commands = {
     go = "go",
     gomodifytags = "gomodifytags",
     gotests = "gotests",
     impl = "impl",
     iferr = "iferr",
-    dlv = "dlv",
   },
   gotests = {
     -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
@@ -59,11 +62,16 @@ require("gopher").setup {
     -- path to a directory containing custom test code templates
     template_dir = nil,
     -- switch table tests from using slice to map (with test name for the key)
-    -- works only with gotests installed from develop branch
     named = false,
   },
   gotag = {
     transform = "snakecase",
+    -- default tags to add to struct fields
+    default_tag = "json",
+  },
+  iferr = {
+    -- choose a custom error message
+    message = nil,
   },
 }
 ```
@@ -87,7 +95,6 @@ require("gopher").setup {
   - [impl](https://github.com/josharian/impl)
   - [gotests](https://github.com/cweill/gotests)
   - [iferr](https://github.com/koron/iferr)
-  - [dlv](github.com/go-delve/delve/cmd/dlv)
 </details>
 
 <details>
@@ -215,20 +222,6 @@ require("gopher").setup {
   ```
 </details>
 
-<details>
-  <summary>
-    <b>Setup <a href="https://github.com/mfussenegger/nvim-dap">nvim-dap</a> for go in one line</b>
-  </summary>
-
-  THIS FEATURE WILL BE REMOVED IN `0.1.6`
-
-  note [nvim-dap](https://github.com/mfussenegger/nvim-dap) has to be installed
-
-  ```lua
-  require("gopher.dap").setup()
-  ```
-</details>
-
 ## Contributing
 
 PRs are always welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md)
@@ -236,5 +229,4 @@ PRs are always welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md)
 ## Thanks
 
 - [go.nvim](https://github.com/ray-x/go.nvim)
-- [nvim-dap-go](https://github.com/leoluz/nvim-dap-go)
 - [iferr](https://github.com/koron/iferr)
