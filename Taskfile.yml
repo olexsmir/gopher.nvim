@@ -20,7 +20,7 @@ tasks:
     desc: run all tests
     cmds:
       - |
-        nvim --headless \
+        nvim --clean --headless \
              -u ./scripts/minimal_init.lua \
              -c "lua MiniTest.run()"
 
@@ -28,8 +28,7 @@ tasks:
     desc: generate vimhelp
     cmds:
       - |
-        nvim --noplugin \
-             --headless \
+        nvim --clean --headless \
              -u "./scripts/minimal_init.lua" \
              -c "luafile ./scripts/docgen.lua" \
              -c ":qa!"
