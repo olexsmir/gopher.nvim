@@ -30,7 +30,6 @@ vim.env.XDG_DATA_HOME = root ".tests/data"
 vim.env.XDG_STATE_HOME = root ".tests/state"
 vim.env.XDG_CACHE_HOME = root ".tests/cache"
 
-vim.cmd [[set runtimepath=$VIMRUNTIME]]
 vim.opt.runtimepath:append(root())
 vim.opt.packpath:append(root ".tests/site")
 vim.notify = vim.print

@@ -44,12 +44,16 @@ T["struct_tags"]["should add more than one tag"] = function()
 
   --- with comma, like gomodifytags
   child.cmd("silent edit " .. tmp)
+  child.lua "vim.treesitter.start()"
+
   child.fn.setpos(".", { child.fn.bufnr(tmp), 3, 1 })
   child.cmd "GoTagAdd test4,test5"
   child.cmd "write"
 
   -- without comma
   child.cmd("silent edit " .. tmp)
+  child.lua "vim.treesitter.start()"
+
   child.fn.setpos(".", { child.fn.bufnr(tmp), 3, 1 })
   child.cmd "GoTagAdd test1 test2"
   child.cmd "write"
