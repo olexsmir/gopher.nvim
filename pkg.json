@@ -1,0 +1,13 @@
+{
+  "name": "gopher.nvim",
+  "engines": {
+    "nvim": "^0.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/olexsmir/gopher.nvim"
+  },
+  "dependencies": {
+    "https://github.com/nvim-treesitter/nvim-treesitter": "*"
+  }
+}
