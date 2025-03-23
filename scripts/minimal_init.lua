@@ -32,7 +32,7 @@ vim.env.XDG_CACHE_HOME = root ".tests/cache"
 
 vim.cmd [[set runtimepath=$VIMRUNTIME]]
 vim.opt.runtimepath:append(root())
-vim.opt.packpath = { root ".tests/site" }
+vim.opt.packpath:append(root ".tests/site")
 vim.notify = vim.print
 
 -- install go treesitter parse
