@@ -74,6 +74,11 @@ end
 ---@param query string
 ---@return gopher.TsResult
 local function do_stuff(bufnr, parent_type, query)
+  local parser = vim.treesitter.get_parser(bufnr, "go")
+  if not parser then
+    error "No treesitter parser found for go"
+  end
+
   local node = vim.treesitter.get_node {
     bufnr = bufnr,
   }
