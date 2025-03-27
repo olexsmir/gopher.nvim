@@ -2,13 +2,10 @@ local health = {}
 local cmd = require("gopher.config").commands
 
 local deps = {
-  plugin = {
-    { lib = "nvim-treesitter", msg = "required for everything in gopher.nvim" },
-  },
   bin = {
     {
       bin = cmd.go,
-      msg = "required for `:GoGet`, `:GoMod`, `:GoGenerate`, `:GoWork`, `:GoInstallDeps`",
+      msg = "required for `:GoGet`, `:GoMod`, `:GoGenerate`, `:GoWork`, `:GoInstallDeps`, `:GoInstallDepsSync`",
       optional = false,
     },
     { bin = cmd.gomodifytags, msg = "required for `:GoTagAdd`, `:GoTagRm`", optional = true },
@@ -21,16 +18,9 @@ local deps = {
     },
   },
   treesitter = {
-    { parser = "go", msg = "required for `gopher.nvim`" },
+    { parser = "go", msg = "required for most of the parts of `gopher.nvim`" },
   },
 }
-
----@param module string
----@return boolean
-local function is_lualib_found(module)
-  local is_found, _ = pcall(require, module)
-  return is_found
-end
 
 ---@param bin string
 ---@return boolean
@@ -46,15 +36,6 @@ local function is_treesitter_parser_available(ft)
 end
 
 function health.check()
-  vim.health.start "required plugins"
-  for _, plugin in ipairs(deps.plugin) do
-    if is_lualib_found(plugin.lib) then
-      vim.health.ok(plugin.lib .. " installed")
-    else
-      vim.health.error(plugin.lib .. " not found, " .. plugin.msg)
-    end
-  end
-
   vim.health.start "required binaries"
   vim.health.info "all those binaries can be installed by `:GoInstallDeps`"
   for _, bin in ipairs(deps.bin) do
