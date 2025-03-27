@@ -5,7 +5,7 @@ local deps = {
   bin = {
     {
       bin = cmd.go,
-      msg = "required for `:GoGet`, `:GoMod`, `:GoGenerate`, `:GoWork`, `:GoInstallDeps`",
+      msg = "required for `:GoGet`, `:GoMod`, `:GoGenerate`, `:GoWork`, `:GoInstallDeps`, `:GoInstallDepsSync`",
       optional = false,
     },
     { bin = cmd.gomodifytags, msg = "required for `:GoTagAdd`, `:GoTagRm`", optional = true },
@@ -18,7 +18,7 @@ local deps = {
     },
   },
   treesitter = {
-    { parser = "go", msg = "required for `gopher.nvim`" },
+    { parser = "go", msg = "required for most of the parts of `gopher.nvim`" },
   },
 }
 
