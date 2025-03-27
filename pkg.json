@@ -6,8 +6,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/olexsmir/gopher.nvim"
-  },
-  "dependencies": {
-    "https://github.com/nvim-treesitter/nvim-treesitter": "*"
   }
 }

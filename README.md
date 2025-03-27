@@ -13,7 +13,7 @@ It's **NOT** an LSP tool, the main goal of this plugin is to add go tooling supp
 Requirements:
 
 - **Neovim 0.10** or later
-- Treesitter `go` parser(`:TSInstall go`)
+- Treesitter `go` parser(`:TSInstall go` if you use [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter))
 - [Go](https://github.com/golang/go) installed (tested on 1.23)
 
 ```lua
@@ -21,9 +21,6 @@ Requirements:
   "olexsmir/gopher.nvim",
   ft = "go",
   -- branch = "develop"
-  dependencies = {
-    "nvim-treesitter/nvim-treesitter",
-  },
   -- (optional) will update plugin's deps on every update
   build = function()
     vim.cmd.GoInstallDeps()
