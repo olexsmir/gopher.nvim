@@ -57,6 +57,9 @@ to install them synchronously pass `{sync = true}` as an argument.
     ---@type number
     timeout = 2000,
 
+    --- timeout for running installer commands(e.g :GoDepsInstall, :GoDepsInstallSync)
+    installer_timeout = 999999,
+
     -- user specified paths to binaries
     ---@class gopher.ConfigCommand
     commands = {
