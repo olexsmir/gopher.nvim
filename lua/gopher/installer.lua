@@ -1,4 +1,4 @@
-local c = require("gopher.config").commands
+local c = require "gopher.config"
 local r = require "gopher._utils.runner"
 local u = require "gopher._utils"
 local log = require "gopher._utils.log"
@@ -30,14 +30,22 @@ end
 
 ---@param url string
 local function install(url)
-  r.async({ c.go, "install", url }, function(opt)
-    handle_intall_exit(opt, url)
+  vim.schedule(function()
+    u.notify("go install-ing: " .. url)
   end)
+
+  r.async({ c.commands.go, "install", url }, function(opt)
+    handle_intall_exit(opt, url)
+  end, { timeout = c.installer_timeout })
 end
 
 ---@param url string
 local function install_sync(url)
-  local rs = r.sync { c.go, "install", url }
+  vim.schedule(function()
+    u.notify("go install-ing: " .. url)
+  end)
+
+  local rs = r.sync({ c.commands.go, "install", url }, { timeout = c.installer_timeout })
   handle_intall_exit(rs, url)
 end
 

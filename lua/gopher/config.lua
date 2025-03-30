@@ -25,6 +25,9 @@ local default_config = {
   ---@type number
   timeout = 2000,
 
+  --- timeout for running installer commands(e.g :GoDepsInstall, :GoDepsInstallSync)
+  installer_timeout = 999999,
+
   -- user specified paths to binaries
   ---@class gopher.ConfigCommand
   commands = {

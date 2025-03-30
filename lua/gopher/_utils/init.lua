@@ -3,7 +3,7 @@ local log = require "gopher._utils.log"
 local utils = {}
 
 ---@param msg string
----@param lvl? number
+---@param lvl? number by default `vim.log.levels.INFO`
 function utils.notify(msg, lvl)
   lvl = lvl or vim.log.levels.INFO
   vim.notify(msg, lvl, {
