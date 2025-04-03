@@ -44,7 +44,10 @@ function impl.impl(...)
   local iface, recv = "", ""
   local bufnr = vim.api.nvim_get_current_buf()
 
-  if #args == 1 then -- :GoImpl io.Reader
+  if #args == 0 then
+    u.notify("arguments not provided. usage: :GoImpl f *File io.Reader", vim.log.levels.ERROR)
+    return
+  elseif #args == 1 then -- :GoImpl io.Reader
     local st = ts_utils.get_struct_under_cursor(bufnr)
     iface = args[1]
     recv = string.lower(st.name) .. " *" .. st.name
@@ -57,7 +60,11 @@ function impl.impl(...)
     iface = args[3]
   end
 
-  local rs = r.sync { c.impl, "-dir", vim.fn.fnameescape(vim.fn.expand "%:p:h"), recv, iface }
+  assert(iface ~= "", "interface not provided")
+  assert(recv ~= "", "receiver not provided")
+
+  local dir = vim.fn.fnameescape(vim.fn.expand "%:p:h")
+  local rs = r.sync { c.impl, "-dir", dir, recv, iface }
   if rs.code ~= 0 then
     error("failed to implement interface: " .. rs.stderr)
   end

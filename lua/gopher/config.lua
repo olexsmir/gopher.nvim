@@ -84,6 +84,7 @@ function config.setup(user_config)
   vim.validate {
     log_level = { _config.log_level, "number" },
     timeout = { _config.timeout, "number" },
+    installer_timeout = { _config.installer_timeout, "number" },
     ["commands"] = { _config.commands, "table" },
     ["commands.go"] = { _config.commands.go, "string" },
     ["commands.gomodifytags"] = { _config.commands.gomodifytags, "string" },
