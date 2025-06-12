@@ -77,30 +77,28 @@ _config.___plugin_name = "gopher.nvim" ---@diagnostic disable-line: inject-field
 ---@param user_config? gopher.Config
 ---@dochide
 function config.setup(user_config)
-  vim.validate { user_config = { user_config, "table", true } }
+  vim.validate("user_config", user_config, "table", true)
 
   _config = vim.tbl_deep_extend("force", vim.deepcopy(default_config), user_config or {})
 
-  vim.validate {
-    log_level = { _config.log_level, "number" },
-    timeout = { _config.timeout, "number" },
-    installer_timeout = { _config.installer_timeout, "number" },
-    ["commands"] = { _config.commands, "table" },
-    ["commands.go"] = { _config.commands.go, "string" },
-    ["commands.gomodifytags"] = { _config.commands.gomodifytags, "string" },
-    ["commands.gotests"] = { _config.commands.gotests, "string" },
-    ["commands.impl"] = { _config.commands.impl, "string" },
-    ["commands.iferr"] = { _config.commands.iferr, "string" },
-    ["gotests"] = { _config.gotests, "table" },
-    ["gotests.template"] = { _config.gotests.template, "string" },
-    ["gotests.template_dir"] = { _config.gotests.template, "string", true },
-    ["gotests.named"] = { _config.gotests.named, "boolean" },
-    ["gotag"] = { _config.gotag, "table" },
-    ["gotag.transform"] = { _config.gotag.transform, "string" },
-    ["gotag.default_tag"] = { _config.gotag.default_tag, "string" },
-    ["iferr"] = { _config.iferr, "table" },
-    ["iferr.message"] = { _config.iferr.message, "string", true },
-  }
+  vim.validate("log_level", _config.log_level, "number")
+  vim.validate("timeout", _config.timeout, "number")
+  vim.validate("installer_timeout", _config.timeout, "number")
+  vim.validate("commands", _config.commands, "table")
+  vim.validate("commands.go", _config.commands.go, "string")
+  vim.validate("commands.gomodifytags", _config.commands.gomodifytags, "string")
+  vim.validate("commands.gotests", _config.commands.gotests, "string")
+  vim.validate("commands.impl", _config.commands.impl, "string")
+  vim.validate("commands.iferr", _config.commands.iferr, "string")
+  vim.validate("gotests", _config.gotests, "table")
+  vim.validate("gotests.template", _config.gotests.template, "string")
+  vim.validate("gotests.template_dir", _config.gotests.template_dir, "string", true)
+  vim.validate("gotests.named", _config.gotests.named, "boolean")
+  vim.validate("gotag", _config.gotag, "table")
+  vim.validate("gotag.transform", _config.gotag.transform, "string")
+  vim.validate("gotag.default_tag", _config.gotag.default_tag, "string")
+  vim.validate("iferr", _config.iferr, "table")
+  vim.validate("iferr.message", _config.iferr.message, "string", true)
 end
 
 setmetatable(config, {
