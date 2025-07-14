@@ -148,7 +148,7 @@ require("gopher").setup {
   </summary>
 
   ```vim
-  " Open alternate test file (if _test file does not exist it will create it)
+  " Open alternate test file
   :GoAlt
 
   " Open test file in horizontal split

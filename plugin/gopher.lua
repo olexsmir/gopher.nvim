@@ -88,13 +88,13 @@ end, "?")
 
 -- :GoAlt
 cmd("GoAlt", function()
-  require("gopher.alternate").switch(true, "")
+  require("gopher.alternate").switch()
 end)
 
 cmd("GoAltV", function()
-  require("gopher.alternate").switch(true, "vsplit")
+  require("gopher.alternate").switch "vsplit"
 end)
 
 cmd("GoAltS", function()
-  require("gopher.alternate").switch(true, "split")
+  require("gopher.alternate").switch "split"
 end)
