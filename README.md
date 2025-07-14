@@ -144,6 +144,23 @@ require("gopher").setup {
 
 <details>
   <summary>
+    <b>Alternate between current and test file</b>
+  </summary>
+
+  ```vim
+  " Open alternate test file
+  :GoAlt
+
+  " Open test file in horizontal split
+  :GoAltS
+
+  " Open test file in vertical split
+  :GoAltV
+  ```
+</details>
+
+<details>
+  <summary>
     <b>Run commands like <code>go mod/get/etc</code> inside of nvim</b>
   </summary>
 
