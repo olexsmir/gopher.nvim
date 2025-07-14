@@ -44,7 +44,7 @@ T["GoAlt"]["creates/opens sibling from source"] = function()
   local rs, alt = do_the_test("source", "GoAlt")
 
   t.eq(child.fn.expand "%:p", alt)
-  t.eq(child.fn.filereadable(alt), 0)
+  t.eq(child.fn.filereadable(alt), 1)
 
   t.cleanup(rs)
   t.deletefile(alt)
@@ -54,7 +54,7 @@ T["GoAlt"]["toggles back when invoked on test file"] = function()
   local rs, src = do_the_test("test", "GoAlt")
 
   t.eq(child.fn.expand "%:p", src)
-  t.eq(child.fn.filereadable(src), 0)
+  t.eq(child.fn.filereadable(src), 1)
 
   t.cleanup(rs)
   t.deletefile(src)

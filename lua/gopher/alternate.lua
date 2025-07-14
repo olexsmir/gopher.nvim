@@ -1,6 +1,4 @@
-local alt = {}
-
-function alt.is_test_file()
+local function is_test_file()
   local file = vim.fn.expand "%"
 
   if #file <= 1 then
@@ -14,8 +12,8 @@ function alt.is_test_file()
   return file, (not is_test and is_source), is_test
 end
 
-function alt.alternate()
-  local file, is_source, is_test = alt.is_test_file()
+local function alternate()
+  local file, is_source, is_test = is_test_file()
   if not file then
     return nil
   end
@@ -33,10 +31,12 @@ function alt.alternate()
   return alt_file
 end
 
+local alt = {}
+
 function alt.switch(cmd)
   cmd = cmd or ""
 
-  local alt_file = alt.alternate()
+  local alt_file = alternate()
 
   if #cmd <= 1 then
     local ocmd = "e " .. alt_file
