@@ -85,3 +85,16 @@ end, "*")
 cmd("GoGenerate", function(opts)
   require("gopher").generate(opts.fargs or "")
 end, "?")
+
+-- :GoAlt
+cmd("GoAlt", function()
+  require("gopher.alternate").switch(true, "")
+end)
+
+cmd("GoAltV", function()
+  require("gopher.alternate").switch(true, "vsplit")
+end)
+
+cmd("GoAltS", function()
+  require("gopher.alternate").switch(true, "split")
+end)
