@@ -1,17 +1,6 @@
--- spec/integration/alternate_test.lua
---
--- Integration tests for the GoAlt family of commands after removing the
--- `bang` flag.  The commands now *always* open or create the sibling file.
---
--- Conventions match comment/iferr/impl suites: use `t.setup_test()`,
--- run the Ex-command via `child.cmd`, then `write`, then assertions.
-
 local t = require "spec.testutils"
 local child, T = t.setup "alternate"
 
--- ── small helpers ────────────────────────────────────────────────────────
-
----foo.go ⇄ foo_test.go
 local function sibling(path)
   if path:find "_test%.go$" then
     return path:gsub("_test%.go$", ".go")
