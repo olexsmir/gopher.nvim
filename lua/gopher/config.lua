@@ -109,4 +109,4 @@ setmetatable(config, {
 
 ---@dochide
 ---@return gopher.Config
-return config
+return config --[[ @as gopher.Config ]]
