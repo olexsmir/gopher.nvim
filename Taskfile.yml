@@ -1,17 +1,14 @@
 version: "3"
 tasks:
   lint:
-    desc: run all linters
     cmds:
       - selene .
       - stylua --check .
 
   format:
-    desc: run formatter
     cmd: stylua .
 
   test:
-    desc: run all tests
     cmds:
       - |
         nvim --clean --headless \
@@ -27,3 +24,11 @@ tasks:
              -u "./scripts/minimal_init.lua" \
              -c "luafile ./scripts/docgen.lua" \
              -c ":qa!"
+
+  install-deps:
+    desc: installs go bin (used in CI)
+    cmds:
+      - |
+        nvim --clean --headless \
+             -u "./scripts/minimal_init.lua" \
+             +GoInstallDepsSync +qa
