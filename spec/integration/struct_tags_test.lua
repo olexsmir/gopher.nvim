@@ -1,7 +1,7 @@
 local t = require "spec.testutils"
-local child, T = t.setup "struct_tags"
+local child, T, struct_tags = t.setup "struct_tags"
 
-T["struct_tags"]["should add tag"] = function()
+struct_tags["should add tag"] = function()
   local rs = t.setup_test("tags/add", child, { 3, 6 })
   child.cmd "GoTagAdd json"
   child.cmd "write"
@@ -10,7 +10,7 @@ T["struct_tags"]["should add tag"] = function()
   t.cleanup(rs)
 end
 
-T["struct_tags"]["should remove tag"] = function()
+struct_tags["should remove tag"] = function()
   local rs = t.setup_test("tags/remove", child, { 4, 6 })
   child.cmd "GoTagRm json"
   child.cmd "write"
@@ -19,7 +19,7 @@ T["struct_tags"]["should remove tag"] = function()
   t.cleanup(rs)
 end
 
-T["struct_tags"]["should be able to handle many structs"] = function()
+struct_tags["should be able to handle many structs"] = function()
   local rs = t.setup_test("tags/many", child, { 10, 3 })
   child.cmd "GoTagAdd testing"
   child.cmd "write"
@@ -28,7 +28,7 @@ T["struct_tags"]["should be able to handle many structs"] = function()
   t.cleanup(rs)
 end
 
-T["struct_tags"]["should clear struct"] = function()
+struct_tags["should clear struct"] = function()
   local rs = t.setup_test("tags/clear", child, { 3, 1 })
   child.cmd "GoTagClear"
   child.cmd "write"
@@ -37,7 +37,7 @@ T["struct_tags"]["should clear struct"] = function()
   t.cleanup(rs)
 end
 
-T["struct_tags"]["should add more than one tag"] = function()
+struct_tags["should add more than one tag"] = function()
   local tmp = t.tmpfile()
   local fixtures = t.get_fixtures "tags/add_many"
   t.writefile(tmp, fixtures.input)
@@ -60,7 +60,7 @@ T["struct_tags"]["should add more than one tag"] = function()
   t.cleanup { tmp = tmp }
 end
 
-T["struct_tags"]["should add tags on var"] = function()
+struct_tags["should add tags on var"] = function()
   local rs = t.setup_test("tags/var", child, { 5, 6 })
   child.cmd "GoTagAdd yaml"
   child.cmd "write"
@@ -69,7 +69,7 @@ T["struct_tags"]["should add tags on var"] = function()
   t.cleanup(rs)
 end
 
-T["struct_tags"]["should add tags on short declr var"] = function()
+struct_tags["should add tags on short declr var"] = function()
   local rs = t.setup_test("tags/svar", child, { 4, 3 })
   child.cmd "GoTagAdd xml"
   child.cmd "write"

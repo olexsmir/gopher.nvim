@@ -6,9 +6,11 @@ local testutils = {}
 testutils.mininit_path = vim.fs.joinpath(base_dir, "scripts", "minimal_init.lua")
 testutils.fixtures_dir = vim.fs.joinpath(base_dir, "spec/fixtures")
 
----@param name string
----@return MiniTest.child, table
-function testutils.setup(name)
+---@param mod string Module name for which to create a nested test set.
+---@return MiniTest.child child nvim client.
+---@return table T root test set created by `MiniTest.new_set()`.
+---@return table mod_name nested set of tests in `T[mod]`.
+function testutils.setup(mod)
   local child = MiniTest.new_child_neovim()
   local T = MiniTest.new_set {
     hooks = {
@@ -19,8 +21,8 @@ function testutils.setup(name)
     },
   }
 
-  T[name] = MiniTest.new_set {}
-  return child, T
+  T[mod] = MiniTest.new_set {}
+  return child, T, T[mod]
 end
 
 ---@generic T
