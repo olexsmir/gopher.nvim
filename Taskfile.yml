@@ -1,28 +1,23 @@
 version: "3"
 tasks:
   lint:
-    desc: runs all linters
-    cmds:
-      - task: selene
-      - stylua --check .
-
-  selene:
-    desc: runs lua linter(selene)
+    desc: run all linters
     cmds:
       - selene .
+      - stylua --check .
 
-  stylua:
-    desc: runs lua formatter
-    cmds:
-      - stylua .
+  format:
+    desc: run formatter
+    cmd: stylua .
 
-  tests:
+  test:
     desc: run all tests
     cmds:
       - |
         nvim --clean --headless \
              -u ./scripts/minimal_init.lua \
-             -c "lua MiniTest.run()"
+             -c "lua MiniTest.run()" \
+             -c ":qa!"
 
   docgen:
     desc: generate vimhelp
