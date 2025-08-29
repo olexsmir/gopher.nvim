@@ -72,7 +72,7 @@ local function handle_tags(fpath, bufnr, range, user_args)
   else
     if st.is_varstruct then
       table.insert(cmd, "-line")
-      table.insert(cmd, string.format("%d,%d", st.start_line, st.end_line))
+      table.insert(cmd, string.format("%d,%d", st.start, st.end_))
     else
       table.insert(cmd, "-struct")
       table.insert(cmd, st.name)
