@@ -78,4 +78,22 @@ struct_tags["should add tags on short declr var"] = function()
   t.cleanup(rs)
 end
 
+struct_tags["should add tag with range"] = function()
+  local rs = t.setup_test("tags/add_range", child, { 5, 1 })
+  child.cmd ".,+2GoTagAdd gopher"
+  child.cmd "write"
+
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
+end
+
+struct_tags["should remove tag with range"] = function()
+  local rs = t.setup_test("tags/remove_range", child, { 6, 1 })
+  child.cmd ".,+2GoTagRm asdf"
+  child.cmd "write"
+
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
+end
+
 return T
