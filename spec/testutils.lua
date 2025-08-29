@@ -78,6 +78,8 @@ end
 ---@param pos? number[]
 ---@return gopher.TestUtilsSetup
 function testutils.setup_test(fixture, child, pos)
+  vim.validate("pos", pos, "table", true)
+
   local tmp = testutils.tmpfile()
   local fixtures = testutils.get_fixtures(fixture)
 
@@ -86,6 +88,8 @@ function testutils.setup_test(fixture, child, pos)
 
   local bufnr = child.fn.bufnr(tmp)
   if pos then
+    assert(#pos == 2, "invalid cursor position")
+
     child.fn.setpos(".", { bufnr, unpack(pos) })
   end
 
