@@ -64,19 +64,13 @@ local function handle_tags(fpath, bufnr, range, user_args)
     "-w",
   }
 
-  -- since `-strut` and `-line` cannot be combined together set set them only
-  -- if user doesn't do ranges
-  if range ~= nil then
+  -- `-struct` and `-line` cannot be combined, setting them separately
+  if range or st.is_varstruct then
     table.insert(cmd, "-line")
-    table.insert(cmd, string.format("%d,%d", range.start, range.end_))
+    table.insert(cmd, string.format("%d,%d", (range or st).start, (range or st).end_))
   else
-    if st.is_varstruct then
-      table.insert(cmd, "-line")
-      table.insert(cmd, string.format("%d,%d", st.start, st.end_))
-    else
-      table.insert(cmd, "-struct")
-      table.insert(cmd, st.name)
-    end
+    table.insert(cmd, "-struct")
+    table.insert(cmd, st.name)
   end
 
   for _, v in ipairs(user_args) do
@@ -111,7 +105,7 @@ end
 ---@param args string[]
 ---@return string
 ---@dochide
-local function handler_user_args(args)
+local function handler_user_tags(args)
   if #args == 0 then
     return c.gotag.default_tag
   end
@@ -128,7 +122,7 @@ function struct_tags.add(opts)
   local fpath = vim.fn.expand "%"
   local bufnr = vim.api.nvim_get_current_buf()
 
-  local user_tags = handler_user_args(opts.tags)
+  local user_tags = handler_user_tags(opts.tags)
   handle_tags(fpath, bufnr, opts.range, { "-add-tags", user_tags })
 end
 
@@ -142,7 +136,7 @@ function struct_tags.remove(opts)
   local fpath = vim.fn.expand "%"
   local bufnr = vim.api.nvim_get_current_buf()
 
-  local user_tags = handler_user_args(opts.tags)
+  local user_tags = handler_user_tags(opts.tags)
   handle_tags(fpath, bufnr, opts.range, { "-remove-tags", user_tags })
 end
 
