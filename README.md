@@ -4,17 +4,17 @@
 
 Minimalistic plugin for Go development in Neovim written in Lua.
 
-It's **NOT** an LSP tool, the main goal of this plugin is to add go tooling support in Neovim.
+It's **NOT** an LSP tool, the goal of this plugin is to add go tooling support in Neovim.
 
-> If you want to use new and maybe undocumented, and unstable features you might use [develop](https://github.com/olexsmir/gopher.nvim/tree/develop) branch.
+> All development of new and maybe undocumented, and unstable features is happening on [develop](https://github.com/olexsmir/gopher.nvim/tree/develop) branch.
 
 ## Install (using [lazy.nvim](https://github.com/folke/lazy.nvim))
 
 Requirements:
 
 - **Neovim 0.10** or later
-- Treesitter `go` parser(`:TSInstall go` if you use [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter))
-- [Go](https://github.com/golang/go) installed (tested on 1.23)
+- Treesitter parser for `go`(`:TSInstall go` if you use [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter))
+- [Go](https://github.com/golang/go) installed
 
 ```lua
 -- NOTE: this plugin is already lazy-loaded, it adds only about 1ms of load
