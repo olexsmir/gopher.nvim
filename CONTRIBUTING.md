@@ -25,11 +25,15 @@ task lint
 
 ### Documentation
 Here we're using [mini.doc](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-doc.md)
-for generating help files based on [LuaCats](https://luals.github.io/wiki/annotations/) annotations in comments.
+for generating vimhelp files based on [LuaCats](https://luals.github.io/wiki/annotations/) annotations in comments.
+
+For demo gifs in [readme](./README.md) we're using [vhs](https://github.com/charmbracelet/vhs).
+All files related to demos live in [/vhs](./vhs) dir.
 
 You can generate docs with:
 ```bash
-task docgen
+task docgen       # generates vimhelp
+task vhs:generate # generates demo gifs
 ```
 
 ### Commit messages
