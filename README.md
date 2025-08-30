@@ -17,6 +17,8 @@ Requirements:
 - [Go](https://github.com/golang/go) installed (tested on 1.23)
 
 ```lua
+-- NOTE: this plugin is already lazy-loaded, it adds only about 1ms of load
+-- time to your config
 {
   "olexsmir/gopher.nvim",
   ft = "go",
@@ -25,6 +27,7 @@ Requirements:
   build = function()
     vim.cmd.GoInstallDeps()
   end,
+  ---@module "gopher"
   ---@type gopher.Config
   opts = {},
 }
