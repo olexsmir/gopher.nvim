@@ -23,6 +23,7 @@ end
 install_plug "nvim-lua/plenary.nvim"
 install_plug "nvim-treesitter/nvim-treesitter"
 install_plug "echasnovski/mini.doc" -- used for docs generation
+install_plug "folke/tokyonight.nvim" -- theme for generating demos
 install_plug "echasnovski/mini.test"
 
 vim.env.XDG_CONFIG_HOME = root ".tests/config"
@@ -32,6 +33,8 @@ vim.env.XDG_CACHE_HOME = root ".tests/cache"
 
 vim.opt.runtimepath:append(root())
 vim.opt.packpath:append(root ".tests/site")
+vim.o.swapfile = false
+vim.o.writebackup = false
 vim.notify = vim.print
 
 -- install go treesitter parse
@@ -51,6 +54,13 @@ if #vim.api.nvim_list_uis() == 0 then
       end,
     },
   }
+end
+
+-- set colorscheme only when running ui
+if #vim.api.nvim_list_uis() == 1 then
+  vim.cmd.colorscheme "tokyonight-night"
+  vim.o.cursorline = true
+  vim.o.number = true
 end
 
 -- needed for tests, i dont know the reason why, but on start
