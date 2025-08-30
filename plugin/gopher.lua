@@ -11,13 +11,10 @@ end
 ---@param name string
 ---@param fn fun(args: table)
 ---@param nargs? number|"*"|"?"
----@param range? boolean
 ---@private
-local function cmd(name, fn, nargs, range)
-  vim.api.nvim_create_user_command(name, fn, {
-    nargs = nargs or 0,
-    range = range or false,
-  })
+local function cmd(name, fn, nargs)
+  nargs = nargs or 0
+  vim.api.nvim_create_user_command(name, fn, { nargs = nargs })
 end
 
 cmd("GopherLog", function()
@@ -47,24 +44,12 @@ end)
 
 -- :GoTag
 cmd("GoTagAdd", function(opts)
-  require("gopher").tags.add {
-    tags = opts.fargs,
-    range = (opts.count ~= -1) and {
-      start = opts.line1,
-      end_ = opts.line2,
-    } or nil,
-  }
-end, "*", true)
+  require("gopher").tags.add(unpack(opts.fargs))
+end, "*")
 
 cmd("GoTagRm", function(opts)
-  require("gopher").tags.rm {
-    tags = opts.fargs,
-    range = (opts.count ~= -1) and {
-      start = opts.line1,
-      end_ = opts.line2,
-    } or nil,
-  }
-end, "*", true)
+  require("gopher").tags.rm(unpack(opts.fargs))
+end, "*")
 
 cmd("GoTagClear", function()
   require("gopher").tags.clear()

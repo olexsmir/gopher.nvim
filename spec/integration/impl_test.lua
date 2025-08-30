@@ -1,7 +1,7 @@
 local t = require "spec.testutils"
-local child, T, impl = t.setup "impl"
+local child, T = t.setup "impl"
 
-impl["should do impl with 'w io.Writer'"] = function()
+T["impl"]["should do impl with 'w io.Writer'"] = function()
   local rs = t.setup_test("impl/writer", child, { 3, 0 })
   child.cmd "GoImpl w io.Writer"
   child.cmd "write"
@@ -12,7 +12,7 @@ impl["should do impl with 'w io.Writer'"] = function()
   t.cleanup(rs)
 end
 
-impl["should work with full input, 'r Read io.Reader'"] = function()
+T["impl"]["should work with full input, 'r Read io.Reader'"] = function()
   local rs = t.setup_test("impl/reader", child)
   child.cmd "GoImpl r Read io.Reader"
   child.cmd "write"
@@ -22,7 +22,7 @@ impl["should work with full input, 'r Read io.Reader'"] = function()
   t.cleanup(rs)
 end
 
-impl["should work with minimal input 'io.Closer'"] = function()
+T["impl"]["should work with minimal input 'io.Closer'"] = function()
   local rs = t.setup_test("impl/closer", child, { 3, 6 })
   child.cmd "GoImpl io.Closer"
   child.cmd "write"

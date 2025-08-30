@@ -65,8 +65,8 @@ end
 
 ---@class gopher.TsResult
 ---@field name string
----@field start integer
----@field end_ integer
+---@field start_line integer
+---@field end_line integer
 ---@field is_varstruct boolean
 
 ---@param bufnr integer
@@ -95,8 +95,8 @@ local function do_stuff(bufnr, parent_type, query)
   assert(res.name ~= nil, "No capture name found")
 
   local start_row, _, end_row, _ = parent_node:range()
-  res["start"] = start_row + 1
-  res["end_"] = end_row + 1
+  res["start_line"] = start_row + 1
+  res["end_line"] = end_row + 1
 
   return res
 end

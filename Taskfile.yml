@@ -1,26 +1,28 @@
 version: "3"
-
-includes:
-  vhs:
-    taskfile: ./vhs/Taskfile.yml
-    dir: ./vhs
-
 tasks:
   lint:
+    desc: runs all linters
     cmds:
-      - selene .
+      - task: selene
       - stylua --check .
 
-  format:
-    cmd: stylua .
+  selene:
+    desc: runs lua linter(selene)
+    cmds:
+      - selene .
 
-  test:
+  stylua:
+    desc: runs lua formatter
+    cmds:
+      - stylua .
+
+  tests:
+    desc: run all tests
     cmds:
       - |
         nvim --clean --headless \
              -u ./scripts/minimal_init.lua \
-             -c "lua MiniTest.run()" \
-             -c ":qa!"
+             -c "lua MiniTest.run()"
 
   docgen:
     desc: generate vimhelp
@@ -30,11 +32,3 @@ tasks:
              -u "./scripts/minimal_init.lua" \
              -c "luafile ./scripts/docgen.lua" \
              -c ":qa!"
-
-  install-deps:
-    desc: installs go bin (used in CI)
-    cmds:
-      - |
-        nvim --clean --headless \
-             -u "./scripts/minimal_init.lua" \
-             +GoInstallDepsSync +qa

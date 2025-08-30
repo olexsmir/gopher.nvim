@@ -1,5 +1,5 @@
 local t = require "spec.testutils"
-local child, T, comment = t.setup "comment"
+local child, T = t.setup "comment"
 
 local function do_the_test(fixture, pos)
   local rs = t.setup_test("comment/" .. fixture, child, pos)
@@ -10,27 +10,27 @@ local function do_the_test(fixture, pos)
   t.cleanup(rs)
 end
 
-comment["should add comment to package"] = function()
+T["comment"]["should add comment to package"] = function()
   do_the_test("package", { 1, 1 })
 end
 
-comment["should add comment to struct"] = function()
+T["comment"]["should add comment to struct"] = function()
   do_the_test("struct", { 4, 1 })
 end
 
-comment["should add comment to function"] = function()
+T["comment"]["should add comment to function"] = function()
   do_the_test("func", { 3, 1 })
 end
 
-comment["should add comment to method"] = function()
+T["comment"]["should add comment to method"] = function()
   do_the_test("method", { 5, 1 })
 end
 
-comment["should add comment to interface"] = function()
+T["comment"]["should add comment to interface"] = function()
   do_the_test("interface", { 3, 6 })
 end
 
-comment["otherwise should add // above cursor"] = function()
+T["comment"]["otherwise should add // above cursor"] = function()
   do_the_test("empty", { 1, 1 })
 end
 

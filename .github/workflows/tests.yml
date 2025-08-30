@@ -15,12 +15,6 @@ jobs:
         version:
           - stable
           - nightly
-          - v0.10.0
-          - v0.10.4
-          - v0.11.0
-          - v0.11.1
-          - v0.11.2
-          - v0.11.3
     runs-on: ${{ matrix.os }}
     steps:
       - name: Install Task
@@ -53,9 +47,14 @@ jobs:
           key: ${{ runner.os }}-tests-${{ hashFiles('${{ github.workspace }}/.tests') }}
 
       - name: Install Go bins
-        run: task install-deps
+        run: |
+          # TODO: install with :GoInstallDeps
+          go install github.com/fatih/gomodifytags@latest
+          go install github.com/josharian/impl@latest
+          go install github.com/cweill/gotests/...@latest
+          go install github.com/koron/iferr@latest
 
       - name: Run Tests
         run: |
           nvim --version
-          task test
+          task tests
