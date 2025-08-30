@@ -1,4 +1,10 @@
 version: "3"
+
+includes:
+  vhs:
+    taskfile: ./vhs/Taskfile.yml
+    dir: ./vhs
+
 tasks:
   lint:
     cmds:

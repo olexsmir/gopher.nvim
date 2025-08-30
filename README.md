@@ -99,6 +99,8 @@ require("gopher").setup {
     <b>Add and remove tags for structs via <a href="https://github.com/fatih/gomodifytags">gomodifytags</a></b>
   </summary>
 
+  ![Add tags demo](./vhs/tags.gif)
+
   By default `json` tag will be added/removed, if not set:
 
   ```vim
@@ -176,6 +178,8 @@ require("gopher").setup {
     <b>Interface implementation via <a href="https://github.com/josharian/impl">impl<a></b>
   </summary>
 
+  ![Auto interface implementation demo](./vhs/impl.gif)
+
   Syntax of the command:
   ```vim
   :GoImpl [receiver] [interface]
@@ -199,6 +203,8 @@ require("gopher").setup {
     <b>Generate boilerplate for doc comments</b>
   </summary>
 
+  ![Generate comments](./vhs/comment.gif)
+
   First set a cursor on **public** package/function/interface/struct and execute:
 
   ```vim
@@ -211,6 +217,8 @@ require("gopher").setup {
   <summary>
     <b>Generate <code>if err != nil {</code> via <a href="https://github.com/koron/iferr">iferr</a></b>
   </summary>
+
+  ![Generate if err != nil {](./vhs/iferr.gif)
 
   Set the cursor on the line with `err` and execute
 
