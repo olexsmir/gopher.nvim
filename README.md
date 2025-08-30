@@ -4,19 +4,21 @@
 
 Minimalistic plugin for Go development in Neovim written in Lua.
 
-It's **NOT** an LSP tool, the main goal of this plugin is to add go tooling support in Neovim.
+It's **NOT** an LSP tool, the goal of this plugin is to add go tooling support in Neovim.
 
-> If you want to use new and maybe undocumented, and unstable features you might use [develop](https://github.com/olexsmir/gopher.nvim/tree/develop) branch.
+> All development of new and maybe undocumented, and unstable features is happening on [develop](https://github.com/olexsmir/gopher.nvim/tree/develop) branch.
 
 ## Install (using [lazy.nvim](https://github.com/folke/lazy.nvim))
 
 Requirements:
 
 - **Neovim 0.10** or later
-- Treesitter `go` parser(`:TSInstall go` if you use [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter))
-- [Go](https://github.com/golang/go) installed (tested on 1.23)
+- Treesitter parser for `go`(`:TSInstall go` if you use [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter))
+- [Go](https://github.com/golang/go) installed
 
 ```lua
+-- NOTE: this plugin is already lazy-loaded, it adds only about 1ms of load
+-- time to your config
 {
   "olexsmir/gopher.nvim",
   ft = "go",
@@ -25,57 +27,13 @@ Requirements:
   build = function()
     vim.cmd.GoInstallDeps()
   end,
+  ---@module "gopher"
   ---@type gopher.Config
   opts = {},
 }
 ```
 
-## Configuration
-
-> [!IMPORTANT]
->
-> If you need more info look `:h gopher.nvim`
-
-**Take a look at default options (might be a bit outdated, look `:h gopher.nvim-config`)**
-
-```lua
-require("gopher").setup {
-  -- log level, you might consider using DEBUG or TRACE for debugging the plugin
-  log_level = vim.log.levels.INFO,
-
-  -- timeout for running internal commands
-  timeout = 2000,
-
-  commands = {
-    go = "go",
-    gomodifytags = "gomodifytags",
-    gotests = "gotests",
-    impl = "impl",
-    iferr = "iferr",
-  },
-  gotests = {
-    -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
-    template = "default",
-    -- path to a directory containing custom test code templates
-    template_dir = nil,
-    -- switch table tests from using slice to map (with test name for the key)
-    named = false,
-  },
-  gotag = {
-    transform = "snakecase",
-    -- default tags to add to struct fields
-    default_tag = "json",
-  },
-  iferr = {
-    -- choose a custom error message
-    message = nil,
-  },
-}
-```
-
 ## Features
-
-<!-- markdownlint-disable -->
 
 <details>
   <summary>
@@ -98,6 +56,8 @@ require("gopher").setup {
   <summary>
     <b>Add and remove tags for structs via <a href="https://github.com/fatih/gomodifytags">gomodifytags</a></b>
   </summary>
+
+  ![Add tags demo](./vhs/tags.gif)
 
   By default `json` tag will be added/removed, if not set:
 
@@ -176,6 +136,8 @@ require("gopher").setup {
     <b>Interface implementation via <a href="https://github.com/josharian/impl">impl<a></b>
   </summary>
 
+  ![Auto interface implementation demo](./vhs/impl.gif)
+
   Syntax of the command:
   ```vim
   :GoImpl [receiver] [interface]
@@ -199,6 +161,8 @@ require("gopher").setup {
     <b>Generate boilerplate for doc comments</b>
   </summary>
 
+  ![Generate comments](./vhs/comment.gif)
+
   First set a cursor on **public** package/function/interface/struct and execute:
 
   ```vim
@@ -212,6 +176,8 @@ require("gopher").setup {
     <b>Generate <code>if err != nil {</code> via <a href="https://github.com/koron/iferr">iferr</a></b>
   </summary>
 
+  ![Generate if err != nil {](./vhs/iferr.gif)
+
   Set the cursor on the line with `err` and execute
 
   ```vim
@@ -219,11 +185,49 @@ require("gopher").setup {
   ```
 </details>
 
+## Configuration
+
+> [!IMPORTANT]
+>
+> If you need more info look `:h gopher.nvim`
+
+**Take a look at default options (might be a bit outdated, look `:h gopher.nvim-config`)**
+
+```lua
+require("gopher").setup {
+  -- log level, you might consider using DEBUG or TRACE for debugging the plugin
+  log_level = vim.log.levels.INFO,
+
+  -- timeout for running internal commands
+  timeout = 2000,
+
+  commands = {
+    go = "go",
+    gomodifytags = "gomodifytags",
+    gotests = "gotests",
+    impl = "impl",
+    iferr = "iferr",
+  },
+  gotests = {
+    -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
+    template = "default",
+    -- path to a directory containing custom test code templates
+    template_dir = nil,
+    -- switch table tests from using slice to map (with test name for the key)
+    named = false,
+  },
+  gotag = {
+    transform = "snakecase",
+    -- default tags to add to struct fields
+    default_tag = "json",
+  },
+  iferr = {
+    -- choose a custom error message
+    message = nil,
+  },
+}
+```
+
 ## Contributing
 
 PRs are always welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md)
-
-## Thanks
-
-- [go.nvim](https://github.com/ray-x/go.nvim)
-- [iferr](https://github.com/koron/iferr)
