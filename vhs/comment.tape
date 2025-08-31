@@ -9,26 +9,21 @@ Set Shell "bash"
 Set Theme "tokyonight"
 Set TypingSpeed 250ms
 
-Hide
-Type@0ms "alias nvim='./nvim.sh'" Enter
-Type@0ms "clear" Enter
-Show
-
-Type "nvim comment.go" Sleep 150ms Enter
+Hide Type@0ms "./nvim.sh comment.go" Enter Show
 
 # package
 Type ":GoCmt" Enter Sleep 500ms Escape Sleep 700ms
 
 # func
-Type "3j"
+Type@400ms "jjj"
 Type ":GoCmt" Enter Sleep 500ms Escape Sleep 700ms
 
 # struct
-Type "3j"
+Type@400ms "jjj"
 Type ":GoCmt" Enter Sleep 500ms Escape Sleep 700ms
 
 # interface
-Type "3j"
+Type@400ms "jjj"
 Type ":GoCmt" Enter Sleep 500ms Escape Sleep 700ms
 
 Sleep 5s

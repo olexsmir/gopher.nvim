@@ -1,6 +1,6 @@
 Output impl.gif
 Require nvim
-Require iferr
+Require impl
 
 Set FontFamily "JetBrains Mono"
 Set Height 800
@@ -10,14 +10,9 @@ Set Shell "bash"
 Set Theme "tokyonight"
 Set TypingSpeed 250ms
 
-Hide
-Type@0ms "alias nvim='./nvim.sh'" Enter
-Type@0ms "clear" Enter
-Show
-
-Type "nvim impl.go" Sleep 150ms Enter
+Hide Type@0ms "./nvim.sh impl.go" Enter Show
 
 Type "2j"
-Type ":GoImpl io.Reader" Sleep 500ms Enter
+Type ":GoImpl c io.Reader" Sleep 700ms Enter
 
 Sleep 5s

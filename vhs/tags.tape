@@ -10,27 +10,22 @@ Set Shell "bash"
 Set Theme "tokyonight"
 Set TypingSpeed 250ms
 
-Hide
-Type@0ms "alias nvim='./nvim.sh'" Enter
-Type@0ms "clear" Enter
-Show
+Hide Type@0ms "./nvim.sh tags.go" Enter Show
 
-Type "nvim tags.go" Sleep 150ms Enter
-
-Type "3j"
+Type@400ms "jjj"
 Type ":GoTagAdd json yaml" Sleep 500ms Enter
 Type@120ms ":w" Enter
 Sleep 1s
 
 Type ":GoTagRm json" Sleep 500ms Enter
-Type@120ms ":w" Enter
+Type ":w" Enter
 Sleep 1s
 
 Type ":GoTagClear" Sleep 500ms Enter
-Type@120ms ":w" Enter
+Type ":w" Enter
 Sleep 1s
 
-Type "jV2j"
+Type@400ms "jVjj"
 Type ":GoTagAdd xml" Sleep 500ms Enter
 
 Sleep 5s
