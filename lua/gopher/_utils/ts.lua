@@ -13,7 +13,8 @@ local queries = {
   ]],
   func = [[
     [(function_declaration name: (identifier)       @_name)
-     (method_declaration   name: (field_identifier) @_name)]
+     (method_declaration   name: (field_identifier) @_name)
+     (method_elem          name: (field_identifier) @_name)]
   ]],
   package = [[
     (package_identifier) @_name
@@ -67,6 +68,7 @@ end
 ---@field name string
 ---@field start integer
 ---@field end_ integer
+---@field indent integer
 ---@field is_varstruct boolean
 
 ---@param bufnr integer
@@ -94,7 +96,8 @@ local function do_stuff(bufnr, parent_type, query)
   local res = get_captures(q, parent_node, bufnr)
   assert(res.name ~= nil, "No capture name found")
 
-  local start_row, _, end_row, _ = parent_node:range()
+  local start_row, start_col, end_row, _ = parent_node:range()
+  res["indent"] = start_col
   res["start"] = start_row + 1
   res["end_"] = end_row + 1
 
@@ -120,7 +123,11 @@ end
 ---@param bufnr integer
 function ts.get_func_under_cursor(bufnr)
   --- since this handles both and funcs and methods we should check for both parent nodes
-  return do_stuff(bufnr, { "function_declaration", "method_declaration" }, queries.func)
+  return do_stuff(bufnr, {
+    "method_elem",
+    "function_declaration",
+    "method_declaration",
+  }, queries.func)
 end
 
 ---@param bufnr integer
