@@ -10,6 +10,9 @@ local log = require "gopher._utils.log"
 local u = require "gopher._utils"
 local comment = {}
 
+--- NOTE: The order of functions executed inside this function is IMPORTANT.
+--- This function is extremely fragile; run tests after making any changes.
+---
 ---@param bufnr integer
 ---@param line string
 ---@return string
