@@ -37,7 +37,7 @@ local queries = {
 ---@param parent_type string[]
 ---@param node TSNode
 ---@return TSNode?
-local function get_parrent_node(parent_type, node)
+local function get_parent_node(parent_type, node)
   ---@type TSNode?
   local current = node
   while current do
@@ -93,7 +93,7 @@ local function do_stuff(bufnr, parent_type, query)
     error "No nodes found under the cursor"
   end
 
-  local parent_node = get_parrent_node(parent_type, node)
+  local parent_node = get_parent_node(parent_type, node)
   if not parent_node then
     error "No parent node found under the cursor"
   end
