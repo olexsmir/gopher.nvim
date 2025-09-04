@@ -9,30 +9,23 @@ local ts = require "gopher._utils.ts"
 local log = require "gopher._utils.log"
 local comment = {}
 
----@param name string
----@return string
----@dochide
-local function template(name)
-  return "// " .. name .. " "
-end
-
 ---@param bufnr integer
 ---@return string
 ---@dochide
 local function generate(bufnr)
   local s_ok, s_res = pcall(ts.get_struct_under_cursor, bufnr)
   if s_ok then
-    return template(s_res.name)
+    return "// " .. s_res.name .. " "
   end
 
   local f_ok, f_res = pcall(ts.get_func_under_cursor, bufnr)
   if f_ok then
-    return template(f_res.name)
+    return "// " .. f_res.name .. " "
   end
 
   local i_ok, i_res = pcall(ts.get_interface_under_cursor, bufnr)
   if i_ok then
-    return template(i_res.name)
+    return "// " .. i_res.name .. " "
   end
 
   local p_ok, p_res = pcall(ts.get_package_under_cursor, bufnr)
