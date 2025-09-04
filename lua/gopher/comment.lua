@@ -25,6 +25,11 @@ local function generate(bufnr, line)
     return u.indent(line, s_res.indent) .. "// " .. s_res.name .. " "
   end
 
+  local v_ok, v_res = pcall(ts.get_variable_under_cursor, bufnr)
+  if v_ok then
+    return u.indent(line, v_res.indent) .. "// " .. v_res.name .. " "
+  end
+
   local f_ok, f_res = pcall(ts.get_func_under_cursor, bufnr)
   if f_ok then
     return u.indent(line, f_res.indent) .. "// " .. f_res.name .. " "

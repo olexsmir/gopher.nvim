@@ -50,6 +50,14 @@ comment["should add a comment on interface with many method"] = function()
   do_the_test("interface_many_method", { 5, 2 })
 end
 
+comment["should add a comment on a var"] = function()
+  do_the_test("var", { 4, 2 })
+end
+
+comment["should add a comment on a short declared var"] = function()
+  do_the_test("svar", { 4, 8 })
+end
+
 comment["otherwise should add // above cursor"] = function()
   do_the_test("empty", { 1, 1 })
 end

@@ -27,6 +27,11 @@ local queries = {
       name: (type_identifier) @_name
       type: (interface_type))
   ]],
+  var = [[
+    [(var_declaration (var_spec name: (identifier) @_name))
+     (short_var_declaration
+       left: (expression_list (identifier) @_name @_var))]
+  ]],
 }
 
 ---@param parent_type string[]
@@ -145,6 +150,11 @@ end
 ---@param bufnr integer
 function ts.get_interface_under_cursor(bufnr)
   return do_stuff(bufnr, { "type_declaration" }, queries.interface)
+end
+
+---@param bufnr integer
+function ts.get_variable_under_cursor(bufnr)
+  return do_stuff(bufnr, { "var_declaration", "short_var_declaration" }, queries.var)
 end
 
 return ts
