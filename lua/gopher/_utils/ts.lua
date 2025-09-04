@@ -73,11 +73,11 @@ local function get_captures(query, node, bufnr)
 end
 
 ---@class gopher.TsResult
----@field name string
----@field start integer
----@field end_ integer
----@field indent integer
----@field is_varstruct boolean
+---@field name string Name of the struct, function, etc
+---@field start integer Line number where the declaration starts
+---@field end_ integer Line number where the declaration ends
+---@field indent integer Number of spaces/tabs in the current cursor line
+---@field is_varstruct boolean Is struct declared as `var S struct{}` or `s := struct{}{}`
 
 ---@param bufnr integer
 ---@param parent_type string[]
