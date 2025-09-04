@@ -18,6 +18,18 @@ comment["should add comment to struct"] = function()
   do_the_test("struct", { 4, 1 })
 end
 
+comment["should add a comment on struct field"] = function()
+  do_the_test("struct_fields", { 5, 8 })
+end
+
+comment["should add a comment on var struct field"] = function()
+  do_the_test("var_struct_fields", { 6, 4 })
+end
+
+comment["should add a comment on one field of many structs"] = function()
+  do_the_test("many_structs_fields", { 10, 4 })
+end
+
 comment["should add comment to function"] = function()
   do_the_test("func", { 3, 1 })
 end

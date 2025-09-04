@@ -15,6 +15,11 @@ local comment = {}
 ---@return string
 ---@dochide
 local function generate(bufnr, line)
+  local sf_ok, sf_res = pcall(ts.get_struct_field_under_cursor, bufnr)
+  if sf_ok then
+    return u.indent(line, sf_res.indent) .. "// " .. sf_res.name .. " "
+  end
+
   local s_ok, s_res = pcall(ts.get_struct_under_cursor, bufnr)
   if s_ok then
     return u.indent(line, s_res.indent) .. "// " .. s_res.name .. " "

@@ -11,6 +11,9 @@ local queries = {
        right: (expression_list (composite_literal
                                  type: (struct_type))))]
   ]],
+  struct_field = [[
+    (field_declaration name: (field_identifier) @_name)
+  ]],
   func = [[
     [(function_declaration name: (identifier)       @_name)
      (method_declaration   name: (field_identifier) @_name)
@@ -80,16 +83,14 @@ local function do_stuff(bufnr, parent_type, query)
     error "No treesitter parser found for go"
   end
 
-  local node = vim.treesitter.get_node {
-    bufnr = bufnr,
-  }
+  local node = vim.treesitter.get_node { bufnr = bufnr }
   if not node then
-    error "No nodes found under cursor"
+    error "No nodes found under the cursor"
   end
 
   local parent_node = get_parrent_node(parent_type, node)
   if not parent_node then
-    error "No parent node found under cursor"
+    error "No parent node found under the cursor"
   end
 
   local q = vim.treesitter.query.parse("go", query)
@@ -107,17 +108,23 @@ end
 ---@param bufnr integer
 function ts.get_struct_under_cursor(bufnr)
   --- should be both type_spec and type_declaration
-  --- because in cases like `type ( T struct{}, U strict{} )`
-  --- i will be choosing always last struct in the list
+  --- because in cases like `type ( T struct{}, U struct{} )`
   ---
   --- var_declaration is for cases like `var x struct{}`
   --- short_var_declaration is for cases like `x := struct{}{}`
+  ---
+  --- it always chooses last struct type in the list
   return do_stuff(bufnr, {
     "type_spec",
     "type_declaration",
     "var_declaration",
     "short_var_declaration",
   }, queries.struct)
+end
+
+---@param bufnr integer
+function ts.get_struct_field_under_cursor(bufnr)
+  return do_stuff(bufnr, { "field_declaration" }, queries.struct_field)
 end
 
 ---@param bufnr integer
