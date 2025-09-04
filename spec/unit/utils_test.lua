@@ -22,4 +22,28 @@ utils["should .trimend()"] = function()
   t.eq(u.trimend "  hi   ", "  hi")
 end
 
+utils["should add .indent() spaces"] = function()
+  local u = require "gopher._utils"
+  local line = "    func Test() error {"
+  local indent = 4
+
+  t.eq("    ", u.indent(line, indent))
+end
+
+utils["should add .indent() a tab"] = function()
+  local u = require "gopher._utils"
+  local line = "\tfunc Test() error {"
+  local indent = 1
+
+  t.eq("\t", u.indent(line, indent))
+end
+
+utils["should add .indent() 2 tabs"] = function()
+  local u = require "gopher._utils"
+  local line = "\t\tfunc Test() error {"
+  local indent = 2
+
+  t.eq("\t\t", u.indent(line, indent))
+end
+
 return T

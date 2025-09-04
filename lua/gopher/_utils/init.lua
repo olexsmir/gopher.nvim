@@ -3,7 +3,7 @@ local log = require "gopher._utils.log"
 local utils = {}
 
 ---@param msg string
----@param lvl? number by default `vim.log.levels.INFO`
+---@param lvl? integer by default `vim.log.levels.INFO`
 function utils.notify(msg, lvl)
   lvl = lvl or vim.log.levels.INFO
   vim.notify(msg, lvl, {
@@ -36,6 +36,18 @@ end
 function utils.trimend(s)
   local r, _ = string.gsub(s, "%s+$", "")
   return r
+end
+
+-- Since indentation can be spaces or tabs, that's my hack around it
+---@param line string
+---@param indent integer
+---@return string
+function utils.indent(line, indent)
+  local char = string.sub(line, 1, 1)
+  if char ~= " " and char ~= "\t" then
+    char = " "
+  end
+  return string.rep(char, indent)
 end
 
 return utils
