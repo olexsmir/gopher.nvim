@@ -38,12 +38,15 @@ function utils.trimend(s)
   return r
 end
 
--- Since indentation can be spaces or tab, that's my hack around it
+-- Since indentation can be spaces or tabs, that's my hack around it
 ---@param line string
 ---@param indent integer
 ---@return string
 function utils.indent(line, indent)
   local char = string.sub(line, 1, 1)
+  if char ~= " " and char ~= "\t" then
+    char = " "
+  end
   return string.rep(char, indent)
 end
 
