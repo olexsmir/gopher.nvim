@@ -45,6 +45,12 @@ to install them synchronously pass `{sync = true}` as an argument.
 
 ==============================================================================
 ------------------------------------------------------------------------------
+                                                                        *config*
+                                    `config`
+Type ~
+`(gopher.Config)`
+
+------------------------------------------------------------------------------
                                                             *gopher.nvim-config*
                                 `default_config`
 >lua
@@ -57,8 +63,11 @@ to install them synchronously pass `{sync = true}` as an argument.
     ---@type number
     timeout = 2000,
 
-    --- timeout for running installer commands(e.g :GoDepsInstall, :GoDepsInstallSync)
+    -- timeout for running installer commands(e.g :GoDepsInstall, :GoDepsInstallSync)
     installer_timeout = 999999,
+
+    -- restart gopls server after commands like `:GoMod`, `:GoGet`, `:GoWork`
+    restart_lsp = false,
 
     -- user specified paths to binaries
     ---@class gopher.ConfigCommand
@@ -96,6 +105,8 @@ to install them synchronously pass `{sync = true}` as an argument.
 <
 Class ~
 {gopher.Config}
+Fields ~
+{setup} `(fun(user_config?: gopher.Config))`
 
 
 ==============================================================================

@@ -13,7 +13,7 @@
 local log = require "gopher._utils.log"
 local tags = require "gopher.struct_tags"
 local tests = require "gopher.gotests"
-local gocmd = require("gopher._utils.gocmd").run
+local go = require "gopher.go"
 local gopher = {}
 
 ---@toc_entry Setup
@@ -58,20 +58,9 @@ gopher.test = {
   all = tests.all_tests,
 }
 
-gopher.get = function(...)
-  gocmd("get", ...)
-end
-
-gopher.mod = function(...)
-  gocmd("mod", ...)
-end
-
-gopher.generate = function(...)
-  gocmd("generate", ...)
-end
-
-gopher.work = function(...)
-  gocmd("work", ...)
-end
+gopher.get = go.get
+gopher.mod = go.mod
+gopher.work = go.work
+gopher.generate = go.generate
 
 return gopher
