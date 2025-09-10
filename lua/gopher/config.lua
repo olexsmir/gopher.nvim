@@ -1,3 +1,6 @@
+---@type gopher.Config
+---@dochide
+---@diagnostic disable-next-line: missing-fields .setup() gets injected later
 local config = {}
 
 ---@tag gopher.nvim-config.ConfigGoTagTransform
@@ -16,6 +19,7 @@ local config = {}
 ---@tag gopher.nvim-config
 ---@eval return MiniDoc.afterlines_to_code(MiniDoc.current.eval_section)
 ---@class gopher.Config
+---@field setup fun(user_config?: gopher.Config)
 local default_config = {
   -- log level, you might consider using DEBUG or TRACE for debugging the plugin
   ---@type number
@@ -112,5 +116,4 @@ setmetatable(config, {
 })
 
 ---@dochide
----@return gopher.Config
-return config --[[ @as gopher.Config ]]
+return config
