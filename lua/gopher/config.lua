@@ -100,13 +100,13 @@ function config.setup(user_config)
   vim.validate("commands.iferr", _config.commands.iferr, "string")
   vim.validate("gotests", _config.gotests, "table")
   vim.validate("gotests.template", _config.gotests.template, "string")
-  vim.validate("gotests.template_dir", _config.gotests.template_dir, "string", true)
+  vim.validate("gotests.template_dir", _config.gotests.template_dir, { "string", "nil" })
   vim.validate("gotests.named", _config.gotests.named, "boolean")
   vim.validate("gotag", _config.gotag, "table")
   vim.validate("gotag.transform", _config.gotag.transform, "string")
   vim.validate("gotag.default_tag", _config.gotag.default_tag, "string")
   vim.validate("iferr", _config.iferr, "table")
-  vim.validate("iferr.message", _config.iferr.message, "string", true)
+  vim.validate("iferr.message", _config.iferr.message, { "string", "nil" })
 end
 
 setmetatable(config, {
