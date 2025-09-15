@@ -8,6 +8,13 @@ It's **NOT** an LSP tool, the goal of this plugin is to add go tooling support i
 
 > All development of new and maybe undocumented, and unstable features is happening on [develop](https://github.com/olexsmir/gopher.nvim/tree/develop) branch.
 
+## Table of content
+* [How to install](#install-using-lazynvim)
+* [Features](#features)
+* [Configuration](#configuration)
+* [Troubleshooting](#troubleshooting)
+* [Contributing](#contributing)
+
 ## Install (using [lazy.nvim](https://github.com/folke/lazy.nvim))
 
 Requirements:
@@ -233,6 +240,13 @@ require("gopher").setup {
   },
 }
 ```
+
+## Troubleshooting
+The most common issue with the plugin is missing dependencies.
+Run `:checkhealth gopher` to verify that the plugin is installed correctly.
+If any binaries are missing, install them using `:GoInstallDeps`.
+
+If the issue persists, feel free to [open a new issue](https://github.com/olexsmir/gopher.nvim/issues/new).
 
 ## Contributing
 
