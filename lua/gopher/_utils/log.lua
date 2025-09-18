@@ -3,7 +3,7 @@
 -- for the code i have stolen(or have inspected by idk)
 local c = require "gopher.config"
 
----@class Gopher.Logger
+---@class gopher.Logger
 ---@field get_outfile fun():string
 ---@field trace fun(...)
 ---@field fmt_trace fun(...)
@@ -44,7 +44,7 @@ local config = {
   float_precision = 0.01,
 }
 
----@type Gopher.Logger
+---@type gopher.Logger
 ---@diagnostic disable-next-line: missing-fields
 local log = {}
 
