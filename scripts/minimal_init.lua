@@ -20,7 +20,6 @@ local function install_plug(plugin)
   end
 end
 
-install_plug "nvim-lua/plenary.nvim"
 install_plug "nvim-treesitter/nvim-treesitter"
 install_plug "echasnovski/mini.doc" -- used for docs generation
 install_plug "folke/tokyonight.nvim" -- theme for generating demos
