@@ -1,6 +1,6 @@
 package demos
 
-func ifErr() {
+func ifErr() error {
 	out, err := doSomething()
 
 	_ = out
