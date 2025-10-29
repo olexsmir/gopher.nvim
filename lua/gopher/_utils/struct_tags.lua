@@ -1,3 +1,5 @@
+local u = require "gopher._utils"
+
 ---@param option string
 local function option_to_tag(option)
   return option:match "^(.-)="
@@ -32,12 +34,9 @@ function struct_tags.parse_args(args)
     end
   end
 
-  -- todo: it's incompatible with vim lower 0.12
-  tags = vim.list.unique(tags)
-  options = vim.list.unique(options)
   return {
-    tags = table.concat(tags, ","),
-    options = table.concat(options, ","),
+    tags = table.concat(u.list_unique(tags), ","),
+    options = table.concat(u.list_unique(options), ","),
   }
 end
 
