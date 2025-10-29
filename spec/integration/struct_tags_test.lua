@@ -96,4 +96,13 @@ struct_tags["should remove tag with range"] = function()
   t.cleanup(rs)
 end
 
+struct_tags["should add tags with option"] = function()
+  local rs = t.setup_test("tags/with_option", child, { 3, 6 })
+  child.cmd "GoTagAdd json=omitempty"
+  child.cmd "write"
+
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
+end
+
 return T
