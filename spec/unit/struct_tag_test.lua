@@ -2,14 +2,14 @@ local t = require "spec.testutils"
 local _, T, st = t.setup "struct_tags"
 
 st["should parse tags"] = function()
-  local out = require("gopher._utils.struct_tags").parse_args { "json", "yaml", "etc" }
+  local out = require("gopher.struct_tags").parse_args { "json", "yaml", "etc" }
 
   t.eq(out.tags, "json,yaml,etc")
   t.eq(out.options, "")
 end
 
 st["should parse tags separated by commas"] = function()
-  local out = require("gopher._utils.struct_tags").parse_args { "json,yaml,etc" }
+  local out = require("gopher.struct_tags").parse_args { "json,yaml,etc" }
 
   t.eq(out.tags, "json,yaml,etc")
   t.eq(out.options, "")
@@ -27,7 +27,7 @@ st["should parse tags separated by command and spaces"] = function()
 end
 
 st["should parse tag with an option"] = function()
-  local out = require("gopher._utils.struct_tags").parse_args {
+  local out = require("gopher.struct_tags").parse_args {
     "json=omitempty",
     "xml",
     "xml=theoption",
@@ -38,28 +38,28 @@ st["should parse tag with an option"] = function()
 end
 
 st["should parse tags with an option"] = function()
-  local out = require("gopher._utils.struct_tags").parse_args { "json=omitempty", "yaml" }
+  local out = require("gopher.struct_tags").parse_args { "json=omitempty", "yaml" }
 
   t.eq(out.tags, "json,yaml")
   t.eq(out.options, "json=omitempty")
 end
 
 st["should parse tags with an option separated with comma"] = function()
-  local out = require("gopher._utils.struct_tags").parse_args { "json=omitempty,yaml" }
+  local out = require("gopher.struct_tags").parse_args { "json=omitempty,yaml" }
 
   t.eq(out.tags, "json,yaml")
   t.eq(out.options, "json=omitempty")
 end
 
 st["should parse tags with options specified separately"] = function()
-  local out = require("gopher._utils.struct_tags").parse_args { "json", "yaml", "json=omitempty" }
+  local out = require("gopher.struct_tags").parse_args { "json", "yaml", "json=omitempty" }
 
   t.eq(out.tags, "json,yaml")
   t.eq(out.options, "json=omitempty")
 end
 
 st["should parse tags with options specified separately and separated by comma"] = function()
-  local out = require("gopher._utils.struct_tags").parse_args { "json,yaml,json=omitempty" }
+  local out = require("gopher.struct_tags").parse_args { "json,yaml,json=omitempty" }
 
   t.eq(out.tags, "json,yaml")
   t.eq(out.options, "json=omitempty")

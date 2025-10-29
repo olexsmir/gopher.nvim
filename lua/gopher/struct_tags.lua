@@ -38,7 +38,6 @@ local r = require "gopher._utils.runner"
 local c = require "gopher.config"
 local u = require "gopher._utils"
 local log = require "gopher._utils.log"
-local st = require "gopher._utils.struct_tags"
 local struct_tags = {}
 
 ---@dochide
@@ -106,6 +105,51 @@ local function handle_tags(fpath, bufnr, range, user_args)
   )
 end
 
+---@dochide
+---@param option string
+local function option_to_tag(option)
+  return option:match "^(.-)="
+end
+
+---@dochide
+---@param args string[]
+local function unwrap_if_needed(args)
+  local out = {}
+  for _, v in pairs(args) do
+    for _, p in pairs(vim.split(v, ",")) do
+      table.insert(out, p)
+    end
+  end
+  return out
+end
+
+---@dochide
+---@class gopher.StructTagsArgs
+---@field tags string
+---@field options string
+
+---@dochide
+---@param args string[]
+---@return gopher.StructTagsArgs
+function struct_tags.parse_args(args)
+  args = unwrap_if_needed(args)
+
+  local tags, options = {}, {}
+  for _, v in pairs(args) do
+    if string.find(v, "=") then
+      table.insert(options, v)
+      table.insert(tags, option_to_tag(v))
+    else
+      table.insert(tags, v)
+    end
+  end
+
+  return {
+    tags = table.concat(u.list_unique(tags), ","),
+    options = table.concat(u.list_unique(options), ","),
+  }
+end
+
 -- Adds tags to a struct under the cursor
 -- See `:h gopher.nvim-struct-tags`
 ---@param opts gopher.StructTagInput
@@ -116,7 +160,7 @@ function struct_tags.add(opts)
   local fpath = vim.fn.expand "%"
   local bufnr = vim.api.nvim_get_current_buf()
 
-  local user_args = st.parse_args(opts.input)
+  local user_args = struct_tags.parse_args(opts.input)
   local a = {
     "-add-tags",
     (user_args.tags ~= "") and user_args.tags or c.gotag.default_tag,
@@ -137,7 +181,7 @@ function struct_tags.remove(opts)
   local fpath = vim.fn.expand "%"
   local bufnr = vim.api.nvim_get_current_buf()
 
-  local user_args = st.parse_args(opts.input)
+  local user_args = struct_tags.parse_args(opts.input)
   handle_tags(fpath, bufnr, opts.range, {
     "-remove-tags",
     (user_args.tags ~= "") and user_args.tags or c.gotag.default_tag,
