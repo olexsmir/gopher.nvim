@@ -9,6 +9,9 @@
 --- 2. Run `:GoTagAdd json` to add json tags to struct fields
 --- 3. Run `:GoTagRm json` to remove json tags to struct fields
 ---
+--- If you want to add/remove tag with options, you can use `json=omitempty` (where json is tag, and omitempty is its option).
+--- Example: `:GoTagAdd xml json=omitempty`
+---
 --- To clear all tags from struct run: `:GoTagClear`
 ---
 --- NOTE: if you dont specify the tag it will use `json` as default
@@ -104,7 +107,7 @@ local function handle_tags(fpath, bufnr, range, user_args)
 end
 
 -- Adds tags to a struct under the cursor
--- See |gopher.nvim-struct-tags|
+-- See `:h gopher.nvim-struct-tags`
 ---@param opts gopher.StructTagInput
 ---@dochide
 function struct_tags.add(opts)
@@ -114,12 +117,14 @@ function struct_tags.add(opts)
   local bufnr = vim.api.nvim_get_current_buf()
 
   local user_args = st.parse_args(opts.input)
-  handle_tags(fpath, bufnr, opts.range, {
+  local a = {
     "-add-tags",
     (user_args.tags ~= "") and user_args.tags or c.gotag.default_tag,
-    (#user_args.options ~= 0) and "-add-options" or nil,
-    (#user_args.options ~= 0) and user_args.options or nil,
-  })
+    (user_args.options ~= "" or c.gotag.option) and "-add-options" or nil,
+    (user_args.options ~= "") and user_args.options or c.gotag.option,
+  }
+
+  handle_tags(fpath, bufnr, opts.range, a)
 end
 
 -- Removes tags from a struct under the cursor
@@ -136,8 +141,8 @@ function struct_tags.remove(opts)
   handle_tags(fpath, bufnr, opts.range, {
     "-remove-tags",
     (user_args.tags ~= "") and user_args.tags or c.gotag.default_tag,
-    (#user_args.options ~= 0) and "-remove-options" or nil,
-    (#user_args.options ~= 0) and user_args.options or nil,
+    (user_args.options ~= "" or c.gotag.option ~= nil) and "-remove-options" or nil,
+    (user_args.options ~= "") and user_args.options or c.gotag.option,
   })
 end
 

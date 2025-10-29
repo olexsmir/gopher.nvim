@@ -72,6 +72,9 @@ Requirements:
   " add json tag
   :GoTagAdd json
 
+  " add json tag with omitempty option
+  :GoTagAdd json=omitempty
+
   " remove yaml tag
   :GoTagRm yaml
   ```
@@ -233,6 +236,8 @@ require("gopher").setup {
     transform = "snakecase",
     -- default tags to add to struct fields
     default_tag = "json",
+    -- default tag option added struct fields, set to nil to disable
+    option = nil,
   },
   iferr = {
     -- choose a custom error message

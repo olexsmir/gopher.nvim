@@ -105,4 +105,43 @@ struct_tags["should add tags with option"] = function()
   t.cleanup(rs)
 end
 
+struct_tags["should add tags with default option"] = function()
+  child.lua [[
+    require("gopher").setup {
+      gotag = { option = "xml=theoption" },
+    }
+  ]]
+
+  local rs = t.setup_test("tags/with_default_option", child, { 3, 6 })
+  child.cmd "GoTagAdd xml"
+  child.cmd "write"
+
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
+end
+
+struct_tags["should add tags and overwrite default option"] = function()
+  child.lua [[
+    require("gopher").setup {
+      gotag = { option = "xml=theoption" },
+    }
+  ]]
+
+  local rs = t.setup_test("tags/overwrite_default_option", child, { 3, 6 })
+  child.cmd "GoTagAdd xml=otheroption"
+  child.cmd "write"
+
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
+end
+
+struct_tags["should remove tag with specified option"] = function()
+  local rs = t.setup_test("tags/remove_with_option", child, { 3, 6 })
+  child.cmd "GoTagRm json=omitempty"
+  child.cmd "write"
+
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
+end
+
 return T
