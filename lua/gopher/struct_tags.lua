@@ -40,7 +40,7 @@ local struct_tags = {}
 
 ---@dochide
 ---@class gopher.StructTagInput
----@field tags string[] User provided tags
+---@field input string[] User provided tags
 ---@field range? gopher.StructTagRange  (optional)
 
 ---@dochide
@@ -113,7 +113,7 @@ function struct_tags.add(opts)
   local fpath = vim.fn.expand "%"
   local bufnr = vim.api.nvim_get_current_buf()
 
-  local user_args = st.parse_args(opts.tags)
+  local user_args = st.parse_args(opts.input)
   handle_tags(fpath, bufnr, opts.range, {
     "-add-tags",
     (user_args.tags ~= "") and user_args.tags or c.gotag.default_tag,
@@ -132,7 +132,7 @@ function struct_tags.remove(opts)
   local fpath = vim.fn.expand "%"
   local bufnr = vim.api.nvim_get_current_buf()
 
-  local user_args = st.parse_args(opts.tags)
+  local user_args = st.parse_args(opts.input)
   handle_tags(fpath, bufnr, opts.range, {
     "-remove-tags",
     (user_args.tags ~= "") and user_args.tags or c.gotag.default_tag,
