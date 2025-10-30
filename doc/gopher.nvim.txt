@@ -89,6 +89,10 @@ to install them synchronously pass `{sync = true}` as an argument.
 
       -- default tags to add to struct fields
       default_tag = "json",
+
+      -- default tag option added struct fields, set to nil to disable
+      ---@type string|nil
+      option = nil,
     },
     iferr = {
       -- choose a custom error message
@@ -123,6 +127,9 @@ How to add/remove tags to struct fields:
 1. Place cursor on the struct
 2. Run `:GoTagAdd json` to add json tags to struct fields
 3. Run `:GoTagRm json` to remove json tags to struct fields
+
+If you want to add/remove tag with options, you can use `json=omitempty` (where json is tag, and omitempty is its option).
+Example: `:GoTagAdd xml json=omitempty`
 
 To clear all tags from struct run: `:GoTagClear`
 

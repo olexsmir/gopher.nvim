@@ -50,4 +50,23 @@ function utils.indent(line, indent)
   return string.rep(char, indent)
 end
 
+---@generic T
+---@param tbl T[]
+---@return T[]
+function utils.list_unique(tbl)
+  if vim.fn.has "nvim-0.12" == 1 then
+    return vim.list.unique(tbl)
+  end
+
+  for i = #tbl, 1, -1 do
+    for j = 1, i - 1 do
+      if tbl[i] == tbl[j] then
+        table.remove(tbl, i)
+        break
+      end
+    end
+  end
+  return tbl
+end
+
 return utils

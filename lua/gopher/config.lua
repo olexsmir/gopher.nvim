@@ -61,6 +61,10 @@ local default_config = {
 
     -- default tags to add to struct fields
     default_tag = "json",
+
+    -- default tag option added struct fields, set to nil to disable
+    ---@type string|nil
+    option = nil,
   },
   iferr = {
     -- choose a custom error message
@@ -105,6 +109,7 @@ function config.setup(user_config)
   vim.validate("gotag", _config.gotag, "table")
   vim.validate("gotag.transform", _config.gotag.transform, "string")
   vim.validate("gotag.default_tag", _config.gotag.default_tag, "string")
+  vim.validate("gotag.option", _config.gotag.option, { "string", "nil" })
   vim.validate("iferr", _config.iferr, "table")
   vim.validate("iferr.message", _config.iferr.message, { "string", "nil" })
 end

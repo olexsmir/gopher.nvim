@@ -46,4 +46,14 @@ utils["should add .indent() 2 tabs"] = function()
   t.eq("\t\t", u.indent(line, indent))
 end
 
+utils["should .list_unique on list with duplicates"] = function()
+  local u = require "gopher._utils"
+  t.eq({ "json", "xml" }, u.list_unique { "json", "xml", "json" })
+end
+
+utils["should .list_unique on list with no duplicates"] = function()
+  local u = require "gopher._utils"
+  t.eq({ "json", "xml" }, u.list_unique { "json", "xml" })
+end
+
 return T
