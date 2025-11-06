@@ -36,11 +36,11 @@ Parameters ~
 ------------------------------------------------------------------------------
                                                       *gopher.nvim-dependencies*
                              `gopher.install_deps`
-Gopher.nvim implements most of its features using third-party tools.
-To install these tools, you can run `:GoInstallDeps` command
-or call `require("gopher").install_deps()` if you want to use lua api.
-By default dependencies will be installed asynchronously,
-to install them synchronously pass `{sync = true}` as an argument.
+
+Gopher.nvim implements most of its features using third-party tools. To
+install plugin's dependencies, you can run:
+`:GoInstallDeps` or `:GoInstallDepsSync`
+or use `require("gopher").install_deps()` if you prefer lua api.
 
 
 ==============================================================================
@@ -58,6 +58,7 @@ to install them synchronously pass `{sync = true}` as an argument.
     timeout = 2000,
 
     -- timeout for running installer commands(e.g :GoDepsInstall, :GoDepsInstallSync)
+    ---@type number
     installer_timeout = 999999,
 
     -- restart gopls server after commands like `:GoMod`, `:GoGet`, `:GoWork`
@@ -74,12 +75,15 @@ to install them synchronously pass `{sync = true}` as an argument.
     },
     ---@class gopher.ConfigGotests
     gotests = {
-      -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
+      -- a default template that gotess will use.
+      -- gotets doesn't have template named `default`, we use it to represent absence of the provided template.
       template = "default",
+
       -- path to a directory containing custom test code templates
       ---@type string|nil
       template_dir = nil,
-      -- switch table tests from using slice to map (with test name for the key)
+
+      -- use named tests(map with test name as key) in table tests(slice of structs by default)
       named = false,
     },
     ---@class gopher.ConfigGoTag
@@ -91,11 +95,13 @@ to install them synchronously pass `{sync = true}` as an argument.
       default_tag = "json",
 
       -- default tag option added struct fields, set to nil to disable
+      -- e.g: `option = "json=omitempty,xml=omitempty`
       ---@type string|nil
       option = nil,
     },
     iferr = {
-      -- choose a custom error message
+      -- choose a custom error message, nil to use default
+      -- e.g: `message = 'fmt.Errorf("failed to %w", err)'`
       ---@type string|nil
       message = nil,
     },
@@ -119,19 +125,21 @@ you can set `vim.g.gopher_register_commands` to `false`, before loading the plug
 ------------------------------------------------------------------------------
                                                        *gopher.nvim-struct-tags*
 
-`struct_tags` is utilizing the `gomodifytags` tool to add or remove tags to struct fields.
+`struct_tags` is utilizing the `gomodifytags` tool to add or remove tags to
+struct fields.
 
 Usage ~
 
-How to add/remove tags to struct fields:
+How to add/remove/clear tags to struct fields:
 1. Place cursor on the struct
 2. Run `:GoTagAdd json` to add json tags to struct fields
 3. Run `:GoTagRm json` to remove json tags to struct fields
+4. Run `:GoTagClear` to clear all tags from struct fields
 
-If you want to add/remove tag with options, you can use `json=omitempty` (where json is tag, and omitempty is its option).
+If you want to add/remove tag with options, you can use `json=omitempty`
+(where json is tag, and omitempty is its option).
 Example: `:GoTagAdd xml json=omitempty`
 
-To clear all tags from struct run: `:GoTagClear`
 
 NOTE: if you dont specify the tag it will use `json` as default
 
@@ -159,23 +167,24 @@ Example:
 Integration of `impl` tool to generate method stubs for interfaces.
 
 Usage ~
+
 1. Automatically implement an interface for a struct:
-   - Place your cursor on the struct where you want to implement the interface.
-   - Run `:GoImpl io.Reader`
-   - This will automatically determine the receiver and implement the `io.Reader` interface.
+ - Place your cursor on the struct where you want to implement the interface.
+ - Run `:GoImpl io.Reader`
+ - This will automatically determine the receiver and implement the `io.Reader` interface.
 
 2. Specify a custom receiver:
-   - Place your cursor on the struct
-   - Run `:GoImpl w io.Writer`, where:
-     - `w` is the receiver.
-     - `io.Writer` is the interface to implement.
+ - Place your cursor on the struct
+ - Run `:GoImpl w io.Writer`, where:
+  - `w` is the receiver.
+  - `io.Writer` is the interface to implement.
 
 3. Explicitly specify the receiver, struct, and interface:
-   - No need to place the cursor on the struct if all arguments are provided.
-   - Run `:GoImpl r RequestReader io.Reader`, where:
-     - `r` is the receiver.
-     - `RequestReader` is the struct.
-     - `io.Reader` is the interface to implement.
+ - No need to place the cursor on the struct if all arguments are provided.
+ - Run `:GoImpl r RequestReader io.Reader`, where:
+  - `r` is the receiver.
+  - `RequestReader` is the struct.
+  - `io.Reader` is the interface to implement.
 
 Example:
 >go
@@ -196,17 +205,18 @@ gotests is utilizing the `gotests` tool to generate unit tests boilerplate.
 Usage ~
 
 - Generate unit test for specific function/method:
-  1. Place your cursor on the desired function/method.
-  2. Run `:GoTestAdd`
+ 1. Place your cursor on the desired function/method.
+ 2. Run `:GoTestAdd`
 
 - Generate unit tests for *all* functions/methods in current file:
-  - run `:GoTestsAll`
+ - run `:GoTestsAll`
 
 - Generate unit tests *only* for *exported(public)* functions/methods:
-  - run `:GoTestsExp`
+ - run `:GoTestsExp`
 
-You can also specify the template to use for generating the tests. See |gopher.nvim-config|
-More details about templates can be found at: https://github.com/cweill/gotests
+You can also specify the template to use for generating the tests.
+See |gopher.nvim-config|.
+More details about templates: https://github.com/cweill/gotests
 
 If you prefer named tests, you can enable them in |gopher.nvim-config|.
 
@@ -229,7 +239,9 @@ Execute `:GoIfErr` near any `err` variable to insert the check
 This module provides a way to generate comments for Go code.
 
 Usage ~
-Set cursor on line with function/method/struct/etc and run `:GoCmt` to generate a comment.
+
+Set cursor on line with function/method/struct/etc and
+run `:GoCmt` to generate a comment.
 
 
  vim:tw=78:ts=8:noet:ft=help:norl:

@@ -3,17 +3,18 @@
 ---@text gotests is utilizing the `gotests` tool to generate unit tests boilerplate.
 ---@usage
 --- - Generate unit test for specific function/method:
----   1. Place your cursor on the desired function/method.
----   2. Run `:GoTestAdd`
+---  1. Place your cursor on the desired function/method.
+---  2. Run `:GoTestAdd`
 ---
 --- - Generate unit tests for *all* functions/methods in current file:
----   - run `:GoTestsAll`
+---  - run `:GoTestsAll`
 ---
 --- - Generate unit tests *only* for *exported(public)* functions/methods:
----   - run `:GoTestsExp`
+---  - run `:GoTestsExp`
 ---
---- You can also specify the template to use for generating the tests. See |gopher.nvim-config|
---- More details about templates can be found at: https://github.com/cweill/gotests
+--- You can also specify the template to use for generating the tests.
+--- See |gopher.nvim-config|.
+--- More details about templates: https://github.com/cweill/gotests
 ---
 --- If you prefer named tests, you can enable them in |gopher.nvim-config|.
 

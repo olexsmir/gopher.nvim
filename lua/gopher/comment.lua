@@ -3,7 +3,9 @@
 ---@text
 --- This module provides a way to generate comments for Go code.
 ---
----@usage Set cursor on line with function/method/struct/etc and run `:GoCmt` to generate a comment.
+---@usage
+--- Set cursor on line with function/method/struct/etc and
+--- run `:GoCmt` to generate a comment.
 
 local ts = require "gopher._utils.ts"
 local log = require "gopher._utils.log"

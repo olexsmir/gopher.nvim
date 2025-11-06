@@ -3,23 +3,24 @@
 ---@text
 --- Integration of `impl` tool to generate method stubs for interfaces.
 ---
----@usage 1. Automatically implement an interface for a struct:
----    - Place your cursor on the struct where you want to implement the interface.
----    - Run `:GoImpl io.Reader`
----    - This will automatically determine the receiver and implement the `io.Reader` interface.
+---@usage
+--- 1. Automatically implement an interface for a struct:
+---  - Place your cursor on the struct where you want to implement the interface.
+---  - Run `:GoImpl io.Reader`
+---  - This will automatically determine the receiver and implement the `io.Reader` interface.
 ---
 --- 2. Specify a custom receiver:
----    - Place your cursor on the struct
----    - Run `:GoImpl w io.Writer`, where:
----      - `w` is the receiver.
----      - `io.Writer` is the interface to implement.
+---  - Place your cursor on the struct
+---  - Run `:GoImpl w io.Writer`, where:
+---   - `w` is the receiver.
+---   - `io.Writer` is the interface to implement.
 ---
 --- 3. Explicitly specify the receiver, struct, and interface:
----    - No need to place the cursor on the struct if all arguments are provided.
----    - Run `:GoImpl r RequestReader io.Reader`, where:
----      - `r` is the receiver.
----      - `RequestReader` is the struct.
----      - `io.Reader` is the interface to implement.
+---  - No need to place the cursor on the struct if all arguments are provided.
+---  - Run `:GoImpl r RequestReader io.Reader`, where:
+---   - `r` is the receiver.
+---   - `RequestReader` is the struct.
+---   - `io.Reader` is the interface to implement.
 ---
 --- Example:
 --- >go

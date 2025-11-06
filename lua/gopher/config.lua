@@ -30,6 +30,7 @@ local default_config = {
   timeout = 2000,
 
   -- timeout for running installer commands(e.g :GoDepsInstall, :GoDepsInstallSync)
+  ---@type number
   installer_timeout = 999999,
 
   -- restart gopls server after commands like `:GoMod`, `:GoGet`, `:GoWork`
@@ -46,12 +47,15 @@ local default_config = {
   },
   ---@class gopher.ConfigGotests
   gotests = {
-    -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
+    -- a default template that gotess will use.
+    -- gotets doesn't have template named `default`, we use it to represent absence of the provided template.
     template = "default",
+
     -- path to a directory containing custom test code templates
     ---@type string|nil
     template_dir = nil,
-    -- switch table tests from using slice to map (with test name for the key)
+
+    -- use named tests(map with test name as key) in table tests(slice of structs by default)
     named = false,
   },
   ---@class gopher.ConfigGoTag
@@ -63,11 +67,13 @@ local default_config = {
     default_tag = "json",
 
     -- default tag option added struct fields, set to nil to disable
+    -- e.g: `option = "json=omitempty,xml=omitempty`
     ---@type string|nil
     option = nil,
   },
   iferr = {
-    -- choose a custom error message
+    -- choose a custom error message, nil to use default
+    -- e.g: `message = 'fmt.Errorf("failed to %w", err)'`
     ---@type string|nil
     message = nil,
   },

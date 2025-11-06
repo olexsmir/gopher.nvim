@@ -1,18 +1,20 @@
 ---@toc_entry Modify struct tags
 ---@tag gopher.nvim-struct-tags
 ---@text
---- `struct_tags` is utilizing the `gomodifytags` tool to add or remove tags to struct fields.
+--- `struct_tags` is utilizing the `gomodifytags` tool to add or remove tags to
+--- struct fields.
 ---
 ---@usage
---- How to add/remove tags to struct fields:
+--- How to add/remove/clear tags to struct fields:
 --- 1. Place cursor on the struct
 --- 2. Run `:GoTagAdd json` to add json tags to struct fields
 --- 3. Run `:GoTagRm json` to remove json tags to struct fields
+--- 4. Run `:GoTagClear` to clear all tags from struct fields
 ---
---- If you want to add/remove tag with options, you can use `json=omitempty` (where json is tag, and omitempty is its option).
+--- If you want to add/remove tag with options, you can use `json=omitempty`
+--- (where json is tag, and omitempty is its option).
 --- Example: `:GoTagAdd xml json=omitempty`
 ---
---- To clear all tags from struct run: `:GoTagClear`
 ---
 --- NOTE: if you dont specify the tag it will use `json` as default
 ---
@@ -150,8 +152,7 @@ function struct_tags.parse_args(args)
   }
 end
 
--- Adds tags to a struct under the cursor
--- See `:h gopher.nvim-struct-tags`
+-- Adds tags to a struct under the cursor. See `:h gopher.nvim-struct-tags`.
 ---@param opts gopher.StructTagInput
 ---@dochide
 function struct_tags.add(opts)
@@ -169,8 +170,7 @@ function struct_tags.add(opts)
   })
 end
 
--- Removes tags from a struct under the cursor
--- See `:h gopher.nvim-struct-tags`
+-- Removes tags from a struct under the cursor. See `:h gopher.nvim-struct-tags`.
 ---@dochide
 ---@param opts gopher.StructTagInput
 function struct_tags.remove(opts)
@@ -188,8 +188,8 @@ function struct_tags.remove(opts)
   })
 end
 
--- Removes all tags from a struct under the cursor
--- See `:h gopher.nvim-struct-tags`
+-- Removes all tags from a struct under the cursor.
+-- See `:h gopher.nvim-struct-tags`.
 ---@dochide
 function struct_tags.clear()
   local fpath = vim.fn.expand "%"

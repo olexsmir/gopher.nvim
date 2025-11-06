@@ -24,8 +24,8 @@ Requirements:
 - [Go](https://github.com/golang/go) installed
 
 ```lua
--- NOTE: this plugin is already lazy-loaded, it adds only about 1ms of load
--- time to your config
+-- NOTE: the plugin is already lazy-loaded
+-- it adds ~1ms to startup time
 {
   "olexsmir/gopher.nvim",
   ft = "go",
@@ -217,6 +217,7 @@ require("gopher").setup {
   -- restart gopls server after commands like `:GoMod`, `:GoGet`, `:GoWork`
   restart_lsp = false,
 
+  -- user specified paths to binaries
   commands = {
     go = "go",
     gomodifytags = "gomodifytags",
@@ -225,22 +226,29 @@ require("gopher").setup {
     iferr = "iferr",
   },
   gotests = {
-    -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
+    -- a default template that gotess will use.
+    -- gotets doesn't have template named `default`, we use it to represent absence of the provided template.
     template = "default",
+
     -- path to a directory containing custom test code templates
     template_dir = nil,
-    -- switch table tests from using slice to map (with test name for the key)
+
+    -- use named tests(map with test name as key) in table tests(slice of structs by default)
     named = false,
   },
   gotag = {
     transform = "snakecase",
+
     -- default tags to add to struct fields
     default_tag = "json",
+
     -- default tag option added struct fields, set to nil to disable
+    -- e.g: `option = "json=omitempty,xml=omitempty`
     option = nil,
   },
   iferr = {
-    -- choose a custom error message
+    -- choose a custom error message, nil to use default
+    -- e.g: `message = 'fmt.Errorf("failed to %w", err)'`
     message = nil,
   },
 }
