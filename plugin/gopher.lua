@@ -98,5 +98,5 @@ cmd("GoWork", function(opts)
 end, "*")
 
 cmd("GoGenerate", function(opts)
-  require("gopher").generate(opts.fargs or "")
+  require("gopher").generate(opts.fargs or { "" })
 end, "?")
