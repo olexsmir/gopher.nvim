@@ -23,14 +23,19 @@ Requirements:
 - Treesitter parser for `go`(`:TSInstall go` if you use [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter))
 - [Go](https://github.com/golang/go) installed
 
+> [!IMPORTANT]
+> If you prefer using other forges, this repository is also mirrored at:
+> - [tangled.org](https://tangled.org): [`https://tangled.org/olexsmir.xyz/gopher.nvim`](https://tangled.org/olexsmir.xyz/gopher.nvim)
+> - [codeberg.org](https://codeberg.org): [`https://codeberg.org/olexsmir/gopher.nvim`](https://codeberg.org/olexsmir/gopher.nvim)
+
 ```lua
--- NOTE: the plugin is already lazy-loaded
--- it adds ~1ms to startup time
+-- NOTE: this plugin is already lazy-loaded and adds only about 1ms
+-- of load time to your config
 {
   "olexsmir/gopher.nvim",
   ft = "go",
   -- branch = "develop"
-  -- (optional) will update plugin's deps on every update
+  -- (optional) updates the plugin's dependencies on each update
   build = function()
     vim.cmd.GoInstallDeps()
   end,
