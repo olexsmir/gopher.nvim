@@ -1,0 +1,13 @@
+{
+    "diagnostics.libraryFiles": "Disable",
+    "runtime.version": "LuaJIT",
+    "workspace.checkThirdParty": "Disable",
+    "workspace.library": [
+        "$VIMRUNTIME/lua",
+        "lua",
+        ".tests/site/pack/deps/start/mini.doc/lua",
+        ".tests/site/pack/deps/start/mini.test/lua",
+        ".tests/site/pack/deps/start/nvim-treesitter/lua",
+        ".tests/site/pack/deps/start/tokyonight.nvim/lua"
+    ]
+}

@@ -21,8 +21,13 @@ tasks:
              -u ./scripts/minimal_init.lua \
              -c "lua MiniTest.run()" \
              -c ":qa!"
-  nvim:
-    cmd: nvim --clean -u "./scripts/minimal_init.lua" {{ .CLI_ARGS }}
+
+  llscheck:
+    desc: run type checking
+    cmd: |
+        VIMRUNTIME="`nvim --clean --headless +'lua io.write(vim.env.VIMRUNTIME)' +q`" \
+          llscheck --configpath=.github/workflows/luarc.json\
+                   --checklevel Error
 
   docgen:
     desc: generate vimhelp

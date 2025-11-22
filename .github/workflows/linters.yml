@@ -24,6 +24,35 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: .
 
+  llscheck:
+    name: llscheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Task
+        uses: arduino/setup-task@v1
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install NeoVim
+        uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: stable
+
+      - uses: leafo/gh-actions-lua@v12
+      - uses: leafo/gh-actions-luarocks@v4
+
+      - name: Install llscheck
+        run: |
+          luarocks install lua-language-server
+          luarocks install llscheck
+
+      - name: llscheck
+        run: task llscheck
+
   docs:
     name: Docs
     runs-on: ubuntu-latest
