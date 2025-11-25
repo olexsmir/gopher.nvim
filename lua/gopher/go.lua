@@ -1,6 +1,5 @@
 local c = require "gopher.config"
 local u = require "gopher._utils"
-local lsp = require "gopher._utils.lsp"
 local r = require "gopher._utils.runner"
 local go = {}
 
@@ -14,12 +13,6 @@ local function run(subcmd, args)
   return rs.stdout
 end
 
-local function restart_lsp()
-  if c.restart_lsp then
-    lsp.restart()
-  end
-end
-
 ---@param args string[]
 function go.get(args)
   for i, arg in ipairs(args) do
@@ -29,13 +22,11 @@ function go.get(args)
   end
 
   run("get", args)
-  restart_lsp()
 end
 
 ---@param args string[]
 function go.mod(args)
   run("mod", args)
-  restart_lsp()
 end
 
 ---@param args string[]
@@ -43,7 +34,6 @@ function go.work(args)
   -- TODO: use `gopls.tidy`
 
   run("work", args)
-  restart_lsp()
 end
 
 ---Executes `go generate`

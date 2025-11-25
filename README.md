@@ -219,9 +219,6 @@ require("gopher").setup {
   -- timeout for running installer commands(e.g :GoDepsInstall, :GoDepsInstallSync)
   installer_timeout = 999999,
 
-  -- restart gopls server after commands like `:GoMod`, `:GoGet`, `:GoWork`
-  restart_lsp = false,
-
   -- user specified paths to binaries
   commands = {
     go = "go",

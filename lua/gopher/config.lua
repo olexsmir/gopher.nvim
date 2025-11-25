@@ -33,9 +33,6 @@ local default_config = {
   ---@type number
   installer_timeout = 999999,
 
-  -- restart gopls server after commands like `:GoMod`, `:GoGet`, `:GoWork`
-  restart_lsp = false,
-
   -- user specified paths to binaries
   ---@class gopher.ConfigCommand
   commands = {
@@ -101,7 +98,6 @@ function config.setup(user_config)
   vim.validate("log_level", _config.log_level, "number")
   vim.validate("timeout", _config.timeout, "number")
   vim.validate("installer_timeout", _config.timeout, "number")
-  vim.validate("restart_lsp", _config.restart_lsp, "boolean")
   vim.validate("commands", _config.commands, "table")
   vim.validate("commands.go", _config.commands.go, "string")
   vim.validate("commands.gomodifytags", _config.commands.gomodifytags, "string")

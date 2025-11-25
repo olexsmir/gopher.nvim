@@ -61,9 +61,6 @@ or use `require("gopher").install_deps()` if you prefer lua api.
     ---@type number
     installer_timeout = 999999,
 
-    -- restart gopls server after commands like `:GoMod`, `:GoGet`, `:GoWork`
-    restart_lsp = false,
-
     -- user specified paths to binaries
     ---@class gopher.ConfigCommand
     commands = {
