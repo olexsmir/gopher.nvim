@@ -1,62 +1,58 @@
+local c = require("gopher.config").commands
 local health = {}
-local cmd = require("gopher.config").commands
 
 local deps = {
+  vim_version = "nvim-0.10",
   bin = {
     {
-      bin = cmd.go,
+      bin = c.go,
       msg = "required for `:GoGet`, `:GoMod`, `:GoGenerate`, `:GoWork`, `:GoInstallDeps`, `:GoInstallDepsSync`",
-      optional = false,
     },
-    { bin = cmd.gomodifytags, msg = "required for `:GoTagAdd`, `:GoTagRm`", optional = true },
-    { bin = cmd.impl, msg = "required for `:GoImpl`", optional = true },
-    { bin = cmd.iferr, msg = "required for `:GoIfErr`", optional = true },
-    {
-      bin = cmd.gotests,
-      msg = "required for `:GoTestAdd`, `:GoTestsAll`, `:GoTestsExp`",
-      optional = true,
-    },
+    { bin = c.gomodifytags, msg = "required for `:GoTagAdd`, `:GoTagRm`" },
+    { bin = c.impl, msg = "required for `:GoImpl`" },
+    { bin = c.iferr, msg = "required for `:GoIfErr`" },
+    { bin = c.gotests, msg = "required for `:GoTestAdd`, `:GoTestsAll`, `:GoTestsExp`" },
   },
   treesitter = {
     { parser = "go", msg = "required for most of the parts of `gopher.nvim`" },
   },
 }
 
----@param bin string
----@return boolean
-local function is_binary_found(bin)
-  return vim.fn.executable(bin) == 1
+---@param bin {bin:string, msg:string, optional:boolean}
+local function check_binary(bin)
+  if vim.fn.executable(bin.bin) == 1 then
+    vim.health.ok(bin.bin .. " is found oh PATH: `" .. vim.fn.exepath(bin.bin) .. "`")
+  else
+    vim.health.error(bin.bin .. " not found on PATH, " .. bin.msg)
+  end
 end
 
----@param ft string
----@return boolean
-local function is_treesitter_parser_available(ft)
-  local ok, parser = pcall(vim.treesitter.get_parser, 0, ft)
-  return ok and parser ~= nil
+---@param ts {parser:string, msg:string}
+local function check_treesitter(ts)
+  local ok, parser = pcall(vim.treesitter.get_parser, 0, ts.parser)
+  if ok and parser ~= nil then
+    vim.health.ok("`" .. ts.parser .. "` parser is installed")
+  else
+    vim.health.error("`" .. ts.parser .. "` parser not found")
+  end
 end
 
 function health.check()
-  vim.health.start "required binaries"
-  vim.health.info "all those binaries can be installed by `:GoInstallDeps`"
-  for _, bin in ipairs(deps.bin) do
-    if is_binary_found(bin.bin) then
-      vim.health.ok(bin.bin .. " installed")
-    else
-      if bin.optional then
-        vim.health.warn(bin.bin .. " not found, " .. bin.msg)
-      else
-        vim.health.error(bin.bin .. " not found, " .. bin.msg)
-      end
-    end
+  vim.health.start "Neovim version"
+  if vim.fn.has(deps.vim_version) == 1 then
+    vim.health.ok "Neovim version is compatible"
+  else
+    vim.health.error(deps.vim_version .. " or newer is required")
   end
 
-  vim.health.start "required treesitter parsers"
+  vim.health.start "Required binaries (those can be installed with `:GoInstallDeps`)"
+  for _, bin in ipairs(deps.bin) do
+    check_binary(bin)
+  end
+
+  vim.health.start "Treesitter"
   for _, parser in ipairs(deps.treesitter) do
-    if is_treesitter_parser_available(parser.parser) then
-      vim.health.ok(parser.parser .. " parser installed")
-    else
-      vim.health.error(parser.parser .. " parser not found, " .. parser.msg)
-    end
+    check_treesitter(parser)
   end
 end
 

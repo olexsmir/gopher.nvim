@@ -21,6 +21,8 @@ tasks:
              -u ./scripts/minimal_init.lua \
              -c "lua MiniTest.run()" \
              -c ":qa!"
+  nvim:
+    cmd: nvim --clean -u "./scripts/minimal_init.lua" {{ .CLI_ARGS }}
 
   docgen:
     desc: generate vimhelp

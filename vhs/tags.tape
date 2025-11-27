@@ -26,6 +26,6 @@ Type ":w" Enter
 Sleep 1s
 
 Type@400ms "jVjj"
-Type ":GoTagAdd xml" Sleep 500ms Enter
+Type ":GoTagAdd json=omitempty" Sleep 500ms Enter
 
 Sleep 5s

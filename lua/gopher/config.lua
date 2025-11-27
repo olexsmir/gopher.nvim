@@ -1,3 +1,6 @@
+---@type gopher.Config
+---@dochide
+---@diagnostic disable-next-line: missing-fields .setup() gets injected later
 local config = {}
 
 ---@tag gopher.nvim-config.ConfigGoTagTransform
@@ -16,6 +19,7 @@ local config = {}
 ---@tag gopher.nvim-config
 ---@eval return MiniDoc.afterlines_to_code(MiniDoc.current.eval_section)
 ---@class gopher.Config
+---@field setup fun(user_config?: gopher.Config)
 local default_config = {
   -- log level, you might consider using DEBUG or TRACE for debugging the plugin
   ---@type number
@@ -25,7 +29,8 @@ local default_config = {
   ---@type number
   timeout = 2000,
 
-  --- timeout for running installer commands(e.g :GoDepsInstall, :GoDepsInstallSync)
+  -- timeout for running installer commands(e.g :GoDepsInstall, :GoDepsInstallSync)
+  ---@type number
   installer_timeout = 999999,
 
   -- user specified paths to binaries
@@ -39,12 +44,15 @@ local default_config = {
   },
   ---@class gopher.ConfigGotests
   gotests = {
-    -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
+    -- a default template that gotess will use.
+    -- gotets doesn't have template named `default`, we use it to represent absence of the provided template.
     template = "default",
+
     -- path to a directory containing custom test code templates
     ---@type string|nil
     template_dir = nil,
-    -- switch table tests from using slice to map (with test name for the key)
+
+    -- use named tests(map with test name as key) in table tests(slice of structs by default)
     named = false,
   },
   ---@class gopher.ConfigGoTag
@@ -54,9 +62,15 @@ local default_config = {
 
     -- default tags to add to struct fields
     default_tag = "json",
+
+    -- default tag option added struct fields, set to nil to disable
+    -- e.g: `option = "json=omitempty,xml=omitempty`
+    ---@type string|nil
+    option = nil,
   },
   iferr = {
-    -- choose a custom error message
+    -- choose a custom error message, nil to use default
+    -- e.g: `message = 'fmt.Errorf("failed to %w", err)'`
     ---@type string|nil
     message = nil,
   },
@@ -92,13 +106,14 @@ function config.setup(user_config)
   vim.validate("commands.iferr", _config.commands.iferr, "string")
   vim.validate("gotests", _config.gotests, "table")
   vim.validate("gotests.template", _config.gotests.template, "string")
-  vim.validate("gotests.template_dir", _config.gotests.template_dir, "string", true)
+  vim.validate("gotests.template_dir", _config.gotests.template_dir, { "string", "nil" })
   vim.validate("gotests.named", _config.gotests.named, "boolean")
   vim.validate("gotag", _config.gotag, "table")
   vim.validate("gotag.transform", _config.gotag.transform, "string")
   vim.validate("gotag.default_tag", _config.gotag.default_tag, "string")
+  vim.validate("gotag.option", _config.gotag.option, { "string", "nil" })
   vim.validate("iferr", _config.iferr, "table")
-  vim.validate("iferr.message", _config.iferr.message, "string", true)
+  vim.validate("iferr.message", _config.iferr.message, { "string", "nil" })
 end
 
 setmetatable(config, {
@@ -108,5 +123,4 @@ setmetatable(config, {
 })
 
 ---@dochide
----@return gopher.Config
-return config --[[ @as gopher.Config ]]
+return config

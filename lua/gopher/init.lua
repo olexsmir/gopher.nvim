@@ -13,7 +13,7 @@
 local log = require "gopher._utils.log"
 local tags = require "gopher.struct_tags"
 local tests = require "gopher.gotests"
-local gocmd = require("gopher._utils.gocmd").run
+local go = require "gopher.go"
 local gopher = {}
 
 ---@toc_entry Setup
@@ -35,11 +35,11 @@ end
 
 ---@toc_entry Install dependencies
 ---@tag gopher.nvim-dependencies
----@text Gopher.nvim implements most of its features using third-party tools.
---- To install these tools, you can run `:GoInstallDeps` command
---- or call `require("gopher").install_deps()` if you want to use lua api.
---- By default dependencies will be installed asynchronously,
---- to install them synchronously pass `{sync = true}` as an argument.
+---@text
+--- Gopher.nvim implements most of its features using third-party tools. To
+--- install plugin's dependencies, you can run:
+--- `:GoInstallDeps` or `:GoInstallDepsSync`
+--- or use `require("gopher").install_deps()` if you prefer lua api.
 gopher.install_deps = require("gopher.installer").install_deps
 
 gopher.impl = require("gopher.impl").impl
@@ -58,20 +58,9 @@ gopher.test = {
   all = tests.all_tests,
 }
 
-gopher.get = function(...)
-  gocmd("get", ...)
-end
-
-gopher.mod = function(...)
-  gocmd("mod", ...)
-end
-
-gopher.generate = function(...)
-  gocmd("generate", ...)
-end
-
-gopher.work = function(...)
-  gocmd("work", ...)
-end
+gopher.get = go.get
+gopher.mod = go.mod
+gopher.work = go.work
+gopher.generate = go.generate
 
 return gopher

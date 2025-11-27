@@ -48,7 +48,7 @@ end)
 -- :GoTag
 cmd("GoTagAdd", function(opts)
   require("gopher").tags.add {
-    tags = opts.fargs,
+    input = opts.fargs,
     range = (opts.count ~= -1) and {
       start = opts.line1,
       end_ = opts.line2,
@@ -58,7 +58,7 @@ end, "*", true)
 
 cmd("GoTagRm", function(opts)
   require("gopher").tags.rm {
-    tags = opts.fargs,
+    input = opts.fargs,
     range = (opts.count ~= -1) and {
       start = opts.line1,
       end_ = opts.line2,
@@ -98,5 +98,5 @@ cmd("GoWork", function(opts)
 end, "*")
 
 cmd("GoGenerate", function(opts)
-  require("gopher").generate(opts.fargs or "")
+  require("gopher").generate(opts.fargs or { "" })
 end, "?")

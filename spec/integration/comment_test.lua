@@ -18,6 +18,18 @@ comment["should add comment to struct"] = function()
   do_the_test("struct", { 4, 1 })
 end
 
+comment["should add a comment on struct field"] = function()
+  do_the_test("struct_fields", { 5, 8 })
+end
+
+comment["should add a comment on var struct field"] = function()
+  do_the_test("var_struct_fields", { 6, 4 })
+end
+
+comment["should add a comment on one field of many structs"] = function()
+  do_the_test("many_structs_fields", { 10, 4 })
+end
+
 comment["should add comment to function"] = function()
   do_the_test("func", { 3, 1 })
 end
@@ -28,6 +40,22 @@ end
 
 comment["should add comment to interface"] = function()
   do_the_test("interface", { 3, 6 })
+end
+
+comment["should add comment on interface method"] = function()
+  do_the_test("interface_method", { 4, 2 })
+end
+
+comment["should add a comment on interface with many method"] = function()
+  do_the_test("interface_many_method", { 5, 2 })
+end
+
+comment["should add a comment on a var"] = function()
+  do_the_test("var", { 4, 2 })
+end
+
+comment["should add a comment on a short declared var"] = function()
+  do_the_test("svar", { 4, 8 })
 end
 
 comment["otherwise should add // above cursor"] = function()

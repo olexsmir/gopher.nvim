@@ -8,6 +8,13 @@ It's **NOT** an LSP tool, the goal of this plugin is to add go tooling support i
 
 > All development of new and maybe undocumented, and unstable features is happening on [develop](https://github.com/olexsmir/gopher.nvim/tree/develop) branch.
 
+## Table of content
+* [How to install](#install-using-lazynvim)
+* [Features](#features)
+* [Configuration](#configuration)
+* [Troubleshooting](#troubleshooting)
+* [Contributing](#contributing)
+
 ## Install (using [lazy.nvim](https://github.com/folke/lazy.nvim))
 
 Requirements:
@@ -16,14 +23,19 @@ Requirements:
 - Treesitter parser for `go`(`:TSInstall go` if you use [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter))
 - [Go](https://github.com/golang/go) installed
 
+> [!IMPORTANT]
+> If you prefer using other forges, this repository is also mirrored at:
+> - [tangled.org](https://tangled.org): [`https://tangled.org/olexsmir.xyz/gopher.nvim`](https://tangled.org/olexsmir.xyz/gopher.nvim)
+> - [codeberg.org](https://codeberg.org): [`https://codeberg.org/olexsmir/gopher.nvim`](https://codeberg.org/olexsmir/gopher.nvim)
+
 ```lua
--- NOTE: this plugin is already lazy-loaded, it adds only about 1ms of load
--- time to your config
+-- NOTE: this plugin is already lazy-loaded and adds only about 1ms
+-- of load time to your config
 {
   "olexsmir/gopher.nvim",
   ft = "go",
   -- branch = "develop"
-  -- (optional) will update plugin's deps on every update
+  -- (optional) updates the plugin's dependencies on each update
   build = function()
     vim.cmd.GoInstallDeps()
   end,
@@ -64,6 +76,9 @@ Requirements:
   ```vim
   " add json tag
   :GoTagAdd json
+
+  " add json tag with omitempty option
+  :GoTagAdd json=omitempty
 
   " remove yaml tag
   :GoTagRm yaml
@@ -201,6 +216,10 @@ require("gopher").setup {
   -- timeout for running internal commands
   timeout = 2000,
 
+  -- timeout for running installer commands(e.g :GoDepsInstall, :GoDepsInstallSync)
+  installer_timeout = 999999,
+
+  -- user specified paths to binaries
   commands = {
     go = "go",
     gomodifytags = "gomodifytags",
@@ -209,24 +228,40 @@ require("gopher").setup {
     iferr = "iferr",
   },
   gotests = {
-    -- gotests doesn't have template named "default" so this plugin uses "default" to set the default template
+    -- a default template that gotess will use.
+    -- gotets doesn't have template named `default`, we use it to represent absence of the provided template.
     template = "default",
+
     -- path to a directory containing custom test code templates
     template_dir = nil,
-    -- switch table tests from using slice to map (with test name for the key)
+
+    -- use named tests(map with test name as key) in table tests(slice of structs by default)
     named = false,
   },
   gotag = {
     transform = "snakecase",
+
     -- default tags to add to struct fields
     default_tag = "json",
+
+    -- default tag option added struct fields, set to nil to disable
+    -- e.g: `option = "json=omitempty,xml=omitempty`
+    option = nil,
   },
   iferr = {
-    -- choose a custom error message
+    -- choose a custom error message, nil to use default
+    -- e.g: `message = 'fmt.Errorf("failed to %w", err)'`
     message = nil,
   },
 }
 ```
+
+## Troubleshooting
+The most common issue with the plugin is missing dependencies.
+Run `:checkhealth gopher` to verify that the plugin is installed correctly.
+If any binaries are missing, install them using `:GoInstallDeps`.
+
+If the issue persists, feel free to [open a new issue](https://github.com/olexsmir/gopher.nvim/issues/new).
 
 ## Contributing
 

@@ -3,36 +3,46 @@
 ---@text
 --- This module provides a way to generate comments for Go code.
 ---
----@usage Set cursor on line with function/method/struct/etc and run `:GoCmt` to generate a comment.
+---@usage
+--- Set cursor on line with function/method/struct/etc and
+--- run `:GoCmt` to generate a comment.
 
 local ts = require "gopher._utils.ts"
 local log = require "gopher._utils.log"
+local u = require "gopher._utils"
 local comment = {}
 
----@param name string
----@return string
----@dochide
-local function template(name)
-  return "// " .. name .. " "
-end
-
+--- NOTE: The order of functions executed inside this function is IMPORTANT.
+--- This function is extremely fragile; run tests after making any changes.
+---
 ---@param bufnr integer
+---@param line string
 ---@return string
 ---@dochide
-local function generate(bufnr)
+local function generate(bufnr, line)
+  local sf_ok, sf_res = pcall(ts.get_struct_field_under_cursor, bufnr)
+  if sf_ok then
+    return u.indent(line, sf_res.indent) .. "// " .. sf_res.name .. " "
+  end
+
   local s_ok, s_res = pcall(ts.get_struct_under_cursor, bufnr)
   if s_ok then
-    return template(s_res.name)
+    return u.indent(line, s_res.indent) .. "// " .. s_res.name .. " "
+  end
+
+  local v_ok, v_res = pcall(ts.get_variable_under_cursor, bufnr)
+  if v_ok then
+    return u.indent(line, v_res.indent) .. "// " .. v_res.name .. " "
   end
 
   local f_ok, f_res = pcall(ts.get_func_under_cursor, bufnr)
   if f_ok then
-    return template(f_res.name)
+    return u.indent(line, f_res.indent) .. "// " .. f_res.name .. " "
   end
 
   local i_ok, i_res = pcall(ts.get_interface_under_cursor, bufnr)
   if i_ok then
-    return template(i_res.name)
+    return u.indent(line, i_res.indent) .. "// " .. i_res.name .. " "
   end
 
   local p_ok, p_res = pcall(ts.get_package_under_cursor, bufnr)
@@ -45,12 +55,16 @@ end
 
 function comment.comment()
   local bufnr = vim.api.nvim_get_current_buf()
-  local cmt = generate(bufnr)
-  log.debug("generated comment: " .. cmt)
+  local lnum = vim.fn.getcurpos()[2]
+  local line = vim.fn.getline(lnum)
+  local cmt = generate(bufnr, line)
+  log.debug("generated comment:", {
+    comment = cmt,
+    line = line,
+  })
 
-  local pos = vim.fn.getcurpos()[2]
-  vim.fn.append(pos - 1, cmt)
-  vim.fn.setpos(".", { 0, pos, #cmt })
+  vim.fn.append(lnum - 1, cmt)
+  vim.fn.setpos(".", { bufnr, lnum, #cmt })
   vim.cmd "startinsert!"
 end
 
