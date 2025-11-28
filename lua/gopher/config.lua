@@ -41,6 +41,7 @@ local default_config = {
     gotests = "gotests",
     impl = "impl",
     iferr = "iferr",
+    json2go = "json2go",
   },
   ---@class gopher.ConfigGotests
   gotests = {
