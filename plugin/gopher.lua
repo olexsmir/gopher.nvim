@@ -70,6 +70,12 @@ cmd("GoTagClear", function()
   require("gopher").tags.clear()
 end)
 
+-- :GoJson
+cmd("GoJson", function(opts)
+  local inp = ((opts.args ~= "" and opts.args) or nil)
+  require("gopher.json2go").json2go(inp)
+end, "*")
+
 -- :GoTest
 cmd("GoTestAdd", function()
   require("gopher").test.add()
@@ -89,7 +95,6 @@ cmd("GoMod", function(opts)
 end, "*")
 
 cmd("GoGet", function(opts)
-  vim.print(opts)
   require("gopher").get(opts.fargs)
 end, "*")
 

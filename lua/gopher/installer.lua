@@ -9,6 +9,7 @@ local urls = {
   impl = "github.com/josharian/impl@latest",
   gotests = "github.com/cweill/gotests/...@develop",
   iferr = "github.com/koron/iferr@latest",
+  json2go = "olexsmir.xyz/json2go/cmd/json2go@latest",
 }
 
 ---@param opt vim.SystemCompleted
