@@ -18,3 +18,6 @@ tasks:
 
   impl:
     cmd: vhs impl.tape
+
+  json2go:
+    cmd: vhs json2go.tape
