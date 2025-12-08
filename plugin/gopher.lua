@@ -72,8 +72,9 @@ end)
 
 -- :GoJson
 cmd("GoJson", function(opts)
-  require("gopher.json2go").json2go(opts.fargs[1])
-end, "?")
+  local inp = ((opts.args ~= "" and opts.args) or nil)
+  require("gopher.json2go").json2go(inp)
+end, "*")
 
 -- :GoTest
 cmd("GoTestAdd", function()

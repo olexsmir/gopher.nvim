@@ -14,6 +14,12 @@ json2go["should convert interativly"] = function()
 end
 
 json2go["should convert argument"] = function()
+  local rs = t.setup_test("json2go/manual", child, { 2, 0 })
+  child.cmd [[GoJson {"user": {"name": "user-ovic"}}]]
+  child.cmd "write"
+
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
 end
 
 return T
