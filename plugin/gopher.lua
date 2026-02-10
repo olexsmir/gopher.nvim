@@ -24,9 +24,9 @@ cmd("GopherLog", function()
   vim.cmd("tabnew " .. require("gopher._utils.log").get_outfile())
 end)
 
-cmd("GoIfErr", function()
-  require("gopher").iferr()
-end)
+cmd("GoIfErr", function(args)
+  require("gopher").iferr(unpack(args.fargs))
+end, "*")
 
 cmd("GoCmt", function()
   require("gopher").comment()

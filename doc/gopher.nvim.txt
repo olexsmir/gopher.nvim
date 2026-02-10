@@ -272,11 +272,32 @@ If you prefer named tests, you can enable them in |gopher.nvim-config|.
 ------------------------------------------------------------------------------
                                                              *gopher.nvim-iferr*
 
-`iferr` provides a way to way to automatically insert `if err != nil` check.
-If you want to change `-message` option of `iferr` tool, see |gopher.nvim-config|
+`iferr` provides a way to automatically insert `if err != nil` check.
+To configure a default `-message` option for the `iferr` tool, see |gopher.nvim-config|
 
 Usage ~
-Execute `:GoIfErr` near any `err` variable to insert the check
+
+1. Insert error check:
+ - Place your cursor near any `err` variable
+ - Run `:GoIfErr`
+
+2. Insert error check with custom `-message`:
+ - Place your cursor near any`err` variable
+ - Run `:GoIfErr fmt.Errorf("failed to %w", err)`
+
+Example:
+>go
+   func test() error {
+       err := doSomething()
+       //  ^ put your cursor here
+       // run `:GoIfErr` or `:GoIfErr log.Printf("error: %v", err)`
+   }
+
+------------------------------------------------------------------------------
+                                                                 *iferr.iferr()*
+                              `iferr.iferr`({...})
+Parameters ~
+{...} `(string)` Optional custom error message to use instead of config default
 
 
 ==============================================================================
