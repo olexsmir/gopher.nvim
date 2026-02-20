@@ -295,9 +295,9 @@ Example:
 
 ------------------------------------------------------------------------------
                                                                  *iferr.iferr()*
-                              `iferr.iferr`({...})
+                            `iferr.iferr`({message})
 Parameters ~
-{...} `(string)` Optional custom error message to use instead of config default
+{message} `(optional)` `(string)` Optional custom error message to use instead of config default
 
 
 ==============================================================================

@@ -30,10 +30,8 @@ local r = require "gopher._utils.runner"
 local log = require "gopher._utils.log"
 local iferr = {}
 
----@param ... string Optional custom error message to use instead of config default
-function iferr.iferr(...)
-  local args = { ... }
-  local message = #args > 0 and table.concat(args, " ") or nil
+---@param message? string Optional custom error message to use instead of config default
+function iferr.iferr(message)
 
   local curb = vim.fn.wordcount().cursor_bytes
   local pos = vim.fn.getcurpos()[2]

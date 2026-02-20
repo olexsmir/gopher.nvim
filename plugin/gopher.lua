@@ -24,8 +24,9 @@ cmd("GopherLog", function()
   vim.cmd("tabnew " .. require("gopher._utils.log").get_outfile())
 end)
 
-cmd("GoIfErr", function(args)
-  require("gopher").iferr(unpack(args.fargs))
+cmd("GoIfErr", function(opts)
+  local msg = ((opts.args ~= "" and opts.args) or nil)
+  require("gopher").iferr(msg)
 end, "*")
 
 cmd("GoCmt", function()
