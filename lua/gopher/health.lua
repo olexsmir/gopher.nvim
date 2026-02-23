@@ -12,6 +12,7 @@ local deps = {
     { bin = c.impl, msg = "required for `:GoImpl`" },
     { bin = c.iferr, msg = "required for `:GoIfErr`" },
     { bin = c.gotests, msg = "required for `:GoTestAdd`, `:GoTestsAll`, `:GoTestsExp`" },
+    { bin = c.json2go, msg = "required for `:GoJson`" },
   },
   treesitter = {
     { parser = "go", msg = "required for most of the parts of `gopher.nvim`" },
