@@ -3,10 +3,26 @@
 ---@toc_entry Iferr
 ---@tag gopher.nvim-iferr
 ---@text
---- `iferr` provides a way to way to automatically insert `if err != nil` check.
---- If you want to change `-message` option of `iferr` tool, see |gopher.nvim-config|
+--- `iferr` provides a way to automatically insert `if err != nil` check.
+--- To configure a default `-message` option for the `iferr` tool, see |gopher.nvim-config|
 ---
----@usage Execute `:GoIfErr` near any `err` variable to insert the check
+---@usage
+--- 1. Insert error check:
+---  - Place your cursor near any `err` variable
+---  - Run `:GoIfErr`
+---
+--- 2. Insert error check with custom `-message`:
+---  - Place your cursor near any`err` variable
+---  - Run `:GoIfErr fmt.Errorf("failed to %w", err)`
+---
+--- Example:
+--- >go
+---    func test() error {
+---        err := doSomething()
+---        //  ^ put your cursor here
+---        // run `:GoIfErr` or `:GoIfErr log.Printf("error: %v", err)`
+---    }
+---
 
 local c = require "gopher.config"
 local u = require "gopher._utils"
@@ -14,15 +30,17 @@ local r = require "gopher._utils.runner"
 local log = require "gopher._utils.log"
 local iferr = {}
 
-function iferr.iferr()
+---@param message? string Optional custom error message to use instead of config default
+function iferr.iferr(message)
   local curb = vim.fn.wordcount().cursor_bytes
   local pos = vim.fn.getcurpos()[2]
   local fpath = vim.fn.expand "%"
 
   local cmd = { c.commands.iferr, "-pos", curb }
-  if c.iferr.message ~= nil and type(c.iferr.message) == "string" then
+  local msg = message or c.iferr.message
+  if msg ~= nil and type(msg) == "string" then
     table.insert(cmd, "-message")
-    table.insert(cmd, c.iferr.message)
+    table.insert(cmd, msg)
   end
 
   local rs = r.sync(cmd, {

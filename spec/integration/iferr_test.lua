@@ -25,4 +25,13 @@ iferr["should add if err with custom message"] = function()
   t.cleanup(rs)
 end
 
+iferr["should add if err with message argument"] = function()
+  local rs = t.setup_test("iferr/message", child, { 6, 2 })
+  child.cmd [[GoIfErr fmt.Errorf("failed to %w", err)]]
+  child.cmd "write"
+
+  t.eq(t.readfile(rs.tmp), rs.fixtures.output)
+  t.cleanup(rs)
+end
+
 return T
