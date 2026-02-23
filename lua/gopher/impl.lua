@@ -34,7 +34,7 @@
 ---    }
 --- <
 
-local c = require("gopher.config").commands
+local c = require "gopher.config"
 local r = require "gopher._utils.runner"
 local ts_utils = require "gopher._utils.ts"
 local u = require "gopher._utils"
@@ -65,7 +65,7 @@ function impl.impl(...)
   assert(recv ~= "", "receiver not provided")
 
   local dir = vim.fn.fnameescape(vim.fn.expand "%:p:h")
-  local rs = r.sync { c.impl, "-dir", dir, recv, iface }
+  local rs = r.sync { c.commands.impl, "-dir", dir, recv, iface }
   if rs.code ~= 0 then
     error("failed to implement interface: " .. rs.stderr)
   end

@@ -1,18 +1,18 @@
-local c = require("gopher.config").commands
+local c = require "gopher.config"
 local health = {}
 
 local deps = {
   vim_version = "nvim-0.10",
   bin = {
     {
-      bin = c.go,
+      bin = c.commands.go,
       msg = "required for `:GoGet`, `:GoMod`, `:GoGenerate`, `:GoWork`, `:GoInstallDeps`, `:GoInstallDepsSync`",
     },
-    { bin = c.gomodifytags, msg = "required for `:GoTagAdd`, `:GoTagRm`" },
-    { bin = c.impl, msg = "required for `:GoImpl`" },
-    { bin = c.iferr, msg = "required for `:GoIfErr`" },
-    { bin = c.gotests, msg = "required for `:GoTestAdd`, `:GoTestsAll`, `:GoTestsExp`" },
-    { bin = c.json2go, msg = "required for `:GoJson`" },
+    { bin = c.commands.gomodifytags, msg = "required for `:GoTagAdd`, `:GoTagRm`" },
+    { bin = c.commands.impl, msg = "required for `:GoImpl`" },
+    { bin = c.commands.iferr, msg = "required for `:GoIfErr`" },
+    { bin = c.commands.gotests, msg = "required for `:GoTestAdd`, `:GoTestsAll`, `:GoTestsExp`" },
+    { bin = c.commands.json2go, msg = "required for `:GoJson`" },
   },
   treesitter = {
     { parser = "go", msg = "required for most of the parts of `gopher.nvim`" },
