@@ -32,4 +32,14 @@ impl["should work with minimal input 'io.Closer'"] = function()
   t.cleanup(rs)
 end
 
+impl["should append the implementation after struct declaration"] = function()
+  local rs = t.setup_test("impl/struct", child, { 3, 6 })
+  child.cmd "GoImpl s io.Writer"
+  child.cmd "write"
+
+  local rhs = rs.fixtures.output:gsub("Test2", "Test")
+  t.eq(t.readfile(rs.tmp), rhs)
+  t.cleanup(rs)
+end
+
 return T
