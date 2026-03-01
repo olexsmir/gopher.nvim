@@ -149,7 +149,7 @@ Requirements:
 
 <details>
   <summary>
-    <b>Interface implementation via <a href="https://github.com/josharian/impl">impl<a></b>
+    <b>Interface implementation via <a href="https://github.com/josharian/impl">impl</a></b>
   </summary>
 
   ![Auto interface implementation demo](./vhs/impl.gif)
