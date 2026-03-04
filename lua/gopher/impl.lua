@@ -45,6 +45,7 @@ function impl.impl(...)
   local iface, recv = "", ""
   local bufnr = vim.api.nvim_get_current_buf()
 
+  local append_after = nil
   if #args == 0 then
     u.notify("arguments not provided. usage: :GoImpl f *File io.Reader", vim.log.levels.ERROR)
     return
@@ -52,10 +53,12 @@ function impl.impl(...)
     local st = ts_utils.get_struct_under_cursor(bufnr)
     iface = args[1]
     recv = string.lower(st.name) .. " *" .. st.name
+    append_after = st.end_
   elseif #args == 2 then -- :GoImpl w io.Writer
     local st = ts_utils.get_struct_under_cursor(bufnr)
     iface = args[2]
     recv = args[1] .. " *" .. st.name
+    append_after = st.end_
   elseif #args == 3 then -- :GoImpl r Struct io.Reader
     recv = args[1] .. " *" .. args[2]
     iface = args[3]
@@ -70,7 +73,7 @@ function impl.impl(...)
     error("failed to implement interface: " .. rs.stderr)
   end
 
-  local pos = vim.fn.getcurpos()[2]
+  local pos = append_after or vim.fn.getcurpos()[2]
   local output = u.remove_empty_lines(vim.split(rs.stdout, "\n"))
 
   table.insert(output, 1, "")
