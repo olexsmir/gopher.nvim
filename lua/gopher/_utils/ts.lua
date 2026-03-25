@@ -2,7 +2,9 @@ local ts = {}
 local queries = {
   struct = [[
     [(type_spec name: (type_identifier) @_name
-                type: (struct_type))
+                type_parameters: (type_parameter_list)? @_tparam
+                type: (struct_type
+                        (field_declaration_list) @_fields))
      (var_declaration (var_spec
                         name: (identifier) @_name @_var
                         type: (struct_type)))
@@ -53,10 +55,15 @@ local function get_parent_node(parent_type, node)
   return current
 end
 
+---@class gopher.TsStructMeta
+---@field is_varstruct boolean
+---@field generics string List of type's type parameters
+---@field fields table<string, string>
+
 ---@param query vim.treesitter.Query
 ---@param node TSNode
 ---@param bufnr integer
----@return {name:string, is_varstruct:boolean}
+---@return {name:string, str: gopher.TsStructMeta}
 local function get_captures(query, node, bufnr)
   local res = {}
   for id, _node in query:iter_captures(node, bufnr) do
@@ -65,7 +72,20 @@ local function get_captures(query, node, bufnr)
     end
 
     if query.captures[id] == "_var" then
-      res["is_varstruct"] = true
+      res["struct"] = res["struct"] or {}
+      res["struct"]["is_varstruct"] = true
+    end
+
+    if query.captures[id] == "_tparam" then
+      res["struct"] = res["struct"] or {}
+      res["struct"]["tparam"] = vim.treesitter.get_node_text(_node, bufnr)
+      vim.print("T PARAM", res["struct"]["tparam"])
+    end
+
+    if query.captures[id] == "_fields" then
+      res["struct"] = res["struct"] or {}
+      res["struct"]["fields"] = vim.treesitter.get_node_text(_node, bufnr)
+      vim.print("FIELDS", res["struct"]["fields"])
     end
   end
 
@@ -74,10 +94,10 @@ end
 
 ---@class gopher.TsResult
 ---@field name string Name of the struct, function, etc
+---@field struct gopher.TsStructMeta|nil Struct info
 ---@field start integer Line number where the declaration starts
 ---@field end_ integer Line number where the declaration ends
 ---@field indent integer Number of spaces/tabs in the current cursor line
----@field is_varstruct boolean Is struct declared as `var S struct{}` or `s := struct{}{}`
 
 ---@param bufnr integer
 ---@param parent_type string[]
