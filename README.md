@@ -2,30 +2,30 @@
 
 [![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-single.svg)](https://stand-with-ukraine.pp.ua)
 
-Minimalistic plugin for Go development in Neovim written in Lua.
+A minimalistic plugin for Go development in Neovim, written in Lua.
 
-It's **NOT** an LSP tool, the goal of this plugin is to add go tooling support in Neovim.
+It's **NOT** an LSP tool. The goal of this plugin is to add Go tooling support in Neovim.
 
-> All development of new and maybe undocumented, and unstable features is happening on [develop](https://github.com/olexsmir/gopher.nvim/tree/develop) branch.
+> All development of new -- and maybe undocumented or unstable features happens on the [develop](https://github.com/olexsmir/gopher.nvim/tree/develop) branch.
 
-## Table of content
-* [How to install](#install-using-lazynvim)
+## Table of contents
+* [How to install](#install)
 * [Features](#features)
 * [Configuration](#configuration)
 * [Troubleshooting](#troubleshooting)
 * [Contributing](#contributing)
 
-## Install (using [lazy.nvim](https://github.com/folke/lazy.nvim))
+## Install
 
 Requirements:
 
 - **Neovim 0.10** or later
 - Treesitter parser for `go`(`:TSInstall go` if you use [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter))
-- [Go](https://github.com/golang/go) installed
+- [go](https://github.com/golang/go) installed.
 
 > [!IMPORTANT]
 > If you prefer using other forges, this repository is also mirrored at:
-> - [tangled.org](https://tangled.org): [`https://tangled.org/olexsmir.xyz/gopher.nvim`](https://tangled.org/olexsmir.xyz/gopher.nvim)
+> - [tangled.org](https://tangled.org): [`https://tangled.org/olexsmir.xyz/gopher.nvim`](https://tangled.org/did:plc:slhnamqkslwa5e5e5hrznbxr/gopher.nvim)
 > - [codeberg.org](https://codeberg.org): [`https://codeberg.org/olexsmir/gopher.nvim`](https://codeberg.org/olexsmir/gopher.nvim)
 
 ```lua
@@ -49,7 +49,7 @@ Requirements:
 
 <details>
   <summary>
-    <b>Install plugin's go deps</b>
+    <b>Install the plugin's Go dependencies</b>
   </summary>
 
   ```vim
@@ -72,13 +72,13 @@ Requirements:
 
   ![Add tags demo](./vhs/tags.gif)
 
-  By default `json` tag will be added/removed, if not set:
+  By default `json` tag will be added/removed, if none provided:
 
   ```vim
   " add json tag
   :GoTagAdd json
 
-  " add json tag with omitempty option
+  " add json tag with the omitempty option
   :GoTagAdd json=omitempty
 
   " remove yaml tag
@@ -98,13 +98,13 @@ Requirements:
   </summary>
 
   ```vim
-  " Generate one test for a specific function/method(one under cursor)
+  " Generate one test for a specific function/method(the one under the cursor)
   :GoTestAdd
 
-  " Generate all tests for all functions/methods in the current file
+  " Generate all tests for functions/methods in the current file
   :GoTestsAll
 
-  " Generate tests for only  exported functions/methods in the current file
+  " Generate tests only for exported functions/methods in the current file
   :GoTestsExp
   ```
 
@@ -126,7 +126,7 @@ Requirements:
   ```vim
   :GoGet github.com/gorilla/mux
 
-  " Link can have an `http` or `https` prefix.
+  " Links can have an `http` or `https` prefix.
   :GoGet https://github.com/lib/pq
 
   " You can provide more than one package url
@@ -139,10 +139,10 @@ Requirements:
   " go work commands
   :GoWork sync
 
-  " run go generate in cwd
+  " run go generate in the cwd
   :GoGenerate
 
-  " run go generate for the current file
+  " run `go generate` for the current file
   :GoGenerate %
   ```
 </details>
@@ -158,7 +158,7 @@ Requirements:
   ```vim
   :GoImpl [receiver] [interface]
 
-  " also you can put a cursor on the struct and run
+  " you can also place the cursor on the struct and run
   :GoImpl [interface]
   ```
 
@@ -167,7 +167,7 @@ Requirements:
   :GoImpl r Read io.Reader
   :GoImpl Write io.Writer
 
-  " or you can simply put a cursor on the struct and run
+  " or place the cursor on the struct and run
   :GoImpl io.Reader
   ```
 </details>
@@ -179,7 +179,7 @@ Requirements:
 
   ![Generate comments](./vhs/comment.gif)
 
-  First set a cursor on **public** package/function/interface/struct and execute:
+  Place the cursor on a **public** package, function, interface, or struct and execute:
 
   ```vim
   :GoCmt
@@ -194,14 +194,14 @@ Requirements:
   ![Convert JSON to Go types](./vhs/json2go.gif)
 
   `:GoJson` opens a temporary buffer where you can paste or write JSON.
-  Saving the buffer (`:w` or `:wq`) automatically closes it and inserts the generated Go struct into the original buffer at the cursor position.
+  Saving the buffer (`:w` or `:wq`) closes it and inserts the generated Go struct into the original buffer at the cursor position.
 
   Alternatively, you can pass JSON directly as an argument:
   ```vim
   :GoJson {"name": "Alice", "age": 30}
   ```
 
-  Additionally, `gopher.json2go` provides lua api, see `:h gopher.nvim-json2go` for details.
+  Additionally, `gopher.json2go` provides a Lua API; see `:h gopher.nvim-json2go` for details.
 </details>
 
 
@@ -277,7 +277,7 @@ require("gopher").setup {
     -- e.g: `split`, `botright split`, `tabnew`
     interactive_cmd = "vsplit",
 
-    -- name of autogenerated struct
+    -- name of autogenerated struct, if nil none, will the default one of json2go("AutoGenerated")
     -- e.g: "MySuperCoolName"
     type_name = nil,
   },
@@ -285,8 +285,8 @@ require("gopher").setup {
 ```
 
 ## Troubleshooting
-The most common issue with the plugin is missing dependencies.
-Run `:checkhealth gopher` to verify that the plugin is installed correctly.
+The most common issue people have with this plugin is missing dependencies.
+Run `:checkhealth gopher` to verify the plugin is installed correctly.
 If any binaries are missing, install them using `:GoInstallDeps`.
 
 If the issue persists, feel free to [open a new issue](https://github.com/olexsmir/gopher.nvim/issues/new).
