@@ -29,20 +29,20 @@ Requirements:
 > - [codeberg.org](https://codeberg.org): [`https://codeberg.org/olexsmir/gopher.nvim`](https://codeberg.org/olexsmir/gopher.nvim)
 
 ```lua
--- NOTE: this plugin is already lazy-loaded and adds only about 1ms
--- of load time to your config
-{
-  "olexsmir/gopher.nvim",
-  ft = "go",
-  -- branch = "develop"
-  -- (optional) updates the plugin's dependencies on each update
-  build = function()
-    vim.cmd.GoInstallDeps()
-  end,
-  ---@module "gopher"
-  ---@type gopher.Config
-  opts = {},
-}
+vim.pack.add { "https://github.com/olexsmir/gopher.nvim" }
+
+-- NOTE: .setup() is completely optional; only required if you want to change plugin options
+require("gopher").setup {}
+
+-- (optional) update the plugin's dependencies on updates
+vim.api.nvim_create_autocmd("PackChanged", {
+  pattern = "*",
+  callback = function(ev)
+    if ev.data.spec.name == "gopher.nvim" and vim.tbl_contains({ "install", "update" }, ev.data.kind) then
+      vim.cmd.GoInstallDeps()
+    end
+  end
+})
 ```
 
 ## Features
