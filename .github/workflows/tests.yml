@@ -51,7 +51,7 @@ jobs:
             ${{ github.workspace }}/.tests
             ~/.cache/go-build
             ~/go/pkg/mod
-          key: ${{ runner.os }}-tests-${{ hashFiles('${{ github.workspace }}/.tests') }}
+          key: ${{ runner.os }}-tests-${{ matrix.version }}-${{ hashFiles('scripts/minimal_init.lua', 'Taskfile.yml') }}
 
       - name: Install Go bins
         run: task install-deps

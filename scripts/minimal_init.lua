@@ -3,27 +3,32 @@ local function root(p)
   return vim.fn.fnamemodify(f, ":p:h:h") .. "/" .. (p or "")
 end
 
-local function install_plug(plugin)
+local function install_plug(plugin, branch)
   local name = plugin:match ".*/(.*)"
   local package_root = root ".tests/site/pack/deps/start/"
   if not vim.uv.fs_stat(package_root .. name) then
+    local cmd = { "git", "clone", "--depth" }
+    if branch then
+      table.insert(cmd, "--branch")
+      table.insert(cmd, branch)
+    end
+    table.insert(cmd, "https://github.com/" .. plugin .. ".git")
+    table.insert(cmd, package_root .. "/" .. name)
+
     print("Installing " .. plugin)
-    vim
-      .system({
-        "git",
-        "clone",
-        "--depth=1",
-        "https://github.com/" .. plugin .. ".git",
-        package_root .. "/" .. name,
-      })
-      :wait()
+    vim.system(cmd):wait()
   end
 end
 
-install_plug "nvim-treesitter/nvim-treesitter"
 install_plug "echasnovski/mini.doc" -- used for docs generation
 install_plug "folke/tokyonight.nvim" -- theme for generating demos
 install_plug "echasnovski/mini.test"
+
+if vim.fn.has "nvim-0.12" == 1 then
+  install_plug("nvim-treesitter/nvim-treesitter", "main")
+else
+  install_plug("nvim-treesitter/nvim-treesitter", "master")
+end
 
 vim.env.XDG_CONFIG_HOME = root ".tests/config"
 vim.env.XDG_DATA_HOME = root ".tests/data"
@@ -37,7 +42,12 @@ vim.o.writebackup = false
 vim.notify = vim.print
 
 -- install go treesitter parse
-require("nvim-treesitter.install").ensure_installed_sync "go"
+if vim.fn.has "nvim-0.12" == 1 then
+  require("nvim-treesitter").setup { install_dir = vim.fs.joinpath(vim.fn.stdpath "data", "site") }
+  require("nvim-treesitter").install({ "go" }):wait()
+else
+  require("nvim-treesitter.install").ensure_installed_sync "go"
+end
 
 require("gopher").setup {
   log_level = vim.log.levels.OFF,
