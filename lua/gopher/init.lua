@@ -10,7 +10,6 @@
 --- Table of Contents
 ---@toc
 
-local log = require "gopher._utils.log"
 local tags = require "gopher.struct_tags"
 local tests = require "gopher.gotests"
 local go = require "gopher.go"
@@ -28,9 +27,7 @@ local gopher = {}
 --- <
 ---@param user_config gopher.Config See |gopher.nvim-config|
 gopher.setup = function(user_config)
-  log.debug "setting up config"
   require("gopher.config").setup(user_config)
-  log.debug(vim.inspect(user_config))
 end
 
 ---@toc_entry Install dependencies
