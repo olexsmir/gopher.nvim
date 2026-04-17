@@ -1,10 +1,11 @@
-local c = require "gopher.config"
-local log = require "gopher._utils.log"
 local utils = {}
 
 ---@param msg string
 ---@param lvl? integer by default `vim.log.levels.INFO`
 function utils.notify(msg, lvl)
+  local c = require "gopher.config"
+  local log = require "gopher._utils.log"
+
   lvl = lvl or vim.log.levels.INFO
   vim.notify(msg, lvl, {
     ---@diagnostic disable-next-line:undefined-field

@@ -1,9 +1,10 @@
-local c = require "gopher.config"
-local u = require "gopher._utils"
-local r = require "gopher._utils.runner"
 local go = {}
 
 local function run(subcmd, args)
+  local c = require "gopher.config"
+  local u = require "gopher._utils"
+  local r = require "gopher._utils.runner"
+
   local rs = r.sync { c.commands.go, subcmd, unpack(args) }
   if rs.code ~= 0 then
     error("go " .. subcmd .. " failed: " .. rs.stderr)

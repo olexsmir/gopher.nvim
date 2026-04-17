@@ -13,10 +13,6 @@
 ---    :GoJson {"name": "Alice", "age": 30}
 --- <
 
-local c = require "gopher.config"
-local log = require "gopher._utils.log"
-local u = require "gopher._utils"
-local r = require "gopher._utils.runner"
 local json2go = {}
 
 ---@dochide
@@ -24,6 +20,7 @@ local json2go = {}
 ---@param cpos integer
 ---@param type_ string
 local function apply(bufnr, cpos, type_)
+  local u = require "gopher._utils"
   local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
   local input_lines = u.remove_empty_lines(vim.split(type_, "\n"))
   for i, line in pairs(input_lines) do
@@ -37,6 +34,11 @@ end
 ---@param json_str string Json string that is going to be converted to go type.
 ---@return string? Go type, or nil if failed.
 function json2go.transform(json_str)
+  local c = require "gopher.config"
+  local log = require "gopher._utils.log"
+  local u = require "gopher._utils"
+  local r = require "gopher._utils.runner"
+
   local cmd = { c.commands.json2go }
   if c.json2go.type_name then
     table.insert(cmd, "-type", c.json2go.type_name)
@@ -54,6 +56,8 @@ end
 ---@dochide
 ---@param ocpos integer
 local function interactive(ocpos)
+  local c = require "gopher.config"
+
   local obuf = vim.api.nvim_get_current_buf()
   local owin = vim.api.nvim_get_current_win()
 

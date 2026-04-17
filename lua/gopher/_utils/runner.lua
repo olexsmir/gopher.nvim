@@ -1,4 +1,3 @@
-local c = require "gopher.config"
 local runner = {}
 
 ---@class gopher.RunnerOpts
@@ -12,6 +11,7 @@ local runner = {}
 ---@param opts? gopher.RunnerOpts
 ---@return vim.SystemObj
 function runner.async(cmd, on_exit, opts)
+  local c = require "gopher.config"
   opts = opts or {}
   return vim.system(cmd, {
     cwd = opts.cwd or nil,
@@ -25,6 +25,7 @@ end
 ---@param opts? gopher.RunnerOpts
 ---@return vim.SystemCompleted
 function runner.sync(cmd, opts)
+  local c = require "gopher.config"
   opts = opts or {}
   return vim
     .system(cmd, {

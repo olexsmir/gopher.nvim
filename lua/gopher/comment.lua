@@ -7,9 +7,6 @@
 --- Set cursor on line with function/method/struct/etc and
 --- run `:GoCmt` to generate a comment.
 
-local ts = require "gopher._utils.ts"
-local log = require "gopher._utils.log"
-local u = require "gopher._utils"
 local comment = {}
 
 --- NOTE: The order of functions executed inside this function is IMPORTANT.
@@ -20,6 +17,9 @@ local comment = {}
 ---@return string
 ---@dochide
 local function generate(bufnr, line)
+  local ts = require "gopher._utils.ts"
+  local u = require "gopher._utils"
+
   local sf_ok, sf_res = pcall(ts.get_struct_field_under_cursor, bufnr)
   if sf_ok then
     return u.indent(line, sf_res.indent) .. "// " .. sf_res.name .. " "
@@ -54,6 +54,8 @@ local function generate(bufnr, line)
 end
 
 function comment.comment()
+  local log = require "gopher._utils.log"
+
   local bufnr = vim.api.nvim_get_current_buf()
   local lnum = vim.fn.getcurpos()[2]
   local line = vim.fn.getline(lnum)
