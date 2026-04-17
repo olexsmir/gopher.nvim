@@ -41,7 +41,8 @@ function json2go.transform(json_str)
 
   local cmd = { c.commands.json2go }
   if c.json2go.type_name then
-    table.insert(cmd, "-type", c.json2go.type_name)
+    table.insert(cmd, "-type")
+    table.insert(cmd, c.json2go.type_name)
   end
 
   local rs = r.sync(cmd, { stdin = json_str })
