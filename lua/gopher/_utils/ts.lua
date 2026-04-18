@@ -2,7 +2,9 @@ local ts = {}
 local queries = {
   struct = [[
     [(type_spec name: (type_identifier) @_name
-                type_parameters: (type_parameter_list)? @_tparam
+                type_parameters: (type_parameter_list
+                                   (type_parameter_declaration
+                                     (identifier) @_targ)*)? @_tparam
                 type: (struct_type
                         (field_declaration_list) @_fields))
      (var_declaration (var_spec
@@ -67,6 +69,7 @@ end
 ---@class gopher.TsStructMeta
 ---@field is_varstruct boolean
 ---@field tparam? string
+---@field type_args? string[]
 ---@field fields gopher.TsStructField[]
 
 ---@class gopher.TsStructField
@@ -92,6 +95,12 @@ local function get_captures(query, node, bufnr)
     if query.captures[id] == "_tparam" then
       res["struct"] = res["struct"] or {}
       res["struct"]["tparam"] = vim.treesitter.get_node_text(_node, bufnr)
+    end
+
+    if query.captures[id] == "_targ" then
+      res["struct"] = res["struct"] or {}
+      res["struct"]["type_args"] = res["struct"]["type_args"] or {}
+      table.insert(res["struct"]["type_args"], vim.treesitter.get_node_text(_node, bufnr))
     end
 
     if query.captures[id] == "_fields" then
@@ -176,15 +185,18 @@ function ts.get_struct_under_cursor(bufnr)
 end
 
 ---@param bufnr integer
----@param opts? {from_struct:boolean}
-function ts.get_struct_field_under_cursor(bufnr, opts)
-  -- AI: this should be removed , all those ts.get_something functions are tin wrappers, and should not have any logic
-  -- in this case we can add ts.get_struct_fields_under_cursor
-  if opts and opts.from_struct then
-    return ts.get_struct_under_cursor(bufnr)
-  end
-
+function ts.get_struct_field_under_cursor(bufnr)
   return do_stuff(bufnr, { "field_declaration" }, queries.struct_field)
+end
+
+---@param bufnr integer
+function ts.get_struct_fields_under_cursor(bufnr)
+  return do_stuff(bufnr, {
+    "type_spec",
+    "type_declaration",
+    "var_declaration",
+    "short_var_declaration",
+  }, queries.struct)
 end
 
 ---@param bufnr integer
