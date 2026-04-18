@@ -15,6 +15,7 @@ local files = {
   "lua/gopher/json2go.lua",
   "lua/gopher/impl.lua",
   "lua/gopher/gotests.lua",
+  "lua/gopher/new.lua",
   "lua/gopher/iferr.lua",
   "lua/gopher/comment.lua",
 }

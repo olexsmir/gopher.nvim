@@ -1,15 +1,25 @@
 local ts = {}
 local queries = {
   struct = [[
-    [(type_spec name: (type_identifier) @_name
-                type: (struct_type))
-     (var_declaration (var_spec
+    [(type_spec
+       name: (type_identifier) @_name
+       type_parameters: (type_parameter_list
+                          (type_parameter_declaration (identifier) @_targ)*)? @_tparam
+       type: (struct_type))
+      (var_declaration (var_spec
                         name: (identifier) @_name @_var
                         type: (struct_type)))
-     (short_var_declaration
-       left:  (expression_list (identifier) @_name @_var)
-       right: (expression_list (composite_literal
-                                 type: (struct_type))))]
+      (var_declaration (var_spec
+                        (identifier) @_name @_var
+                        (expression_list (composite_literal
+                                          type: (struct_type)))))
+      (short_var_declaration
+        left:  (expression_list (identifier) @_name @_var)
+        right: (expression_list (composite_literal
+                                 type: (struct_type))))
+      (field_declaration
+        name: (field_identifier) @_field_name
+        type: (_) @_field_type)]
   ]],
   struct_field = [[
     (field_declaration name: (field_identifier) @_name)
@@ -56,9 +66,10 @@ end
 ---@param query vim.treesitter.Query
 ---@param node TSNode
 ---@param bufnr integer
----@return {name:string, is_varstruct:boolean}
+---@return gopher.TsResult
 local function get_captures(query, node, bufnr)
   local res = {}
+  local field_names, field_types = {}, {}
   for id, _node in query:iter_captures(node, bufnr) do
     if query.captures[id] == "_name" then
       res["name"] = vim.treesitter.get_node_text(_node, bufnr)
@@ -67,6 +78,29 @@ local function get_captures(query, node, bufnr)
     if query.captures[id] == "_var" then
       res["is_varstruct"] = true
     end
+
+    if query.captures[id] == "_tparam" then
+      res["tparams"] = res["tparams"] or { decl = nil, args = {} }
+      res["tparams"]["decl"] = vim.treesitter.get_node_text(_node, bufnr)
+    end
+
+    if query.captures[id] == "_targ" then
+      res["tparams"] = res["tparams"] or { decl = nil, args = {} }
+      table.insert(res["tparams"]["args"], vim.treesitter.get_node_text(_node, bufnr))
+    end
+
+    if query.captures[id] == "_field_name" then
+      table.insert(field_names, vim.treesitter.get_node_text(_node, bufnr))
+    end
+
+    if query.captures[id] == "_field_type" then
+      table.insert(field_types, vim.treesitter.get_node_text(_node, bufnr))
+    end
+  end
+
+  res["fields"] = {}
+  for i, name in ipairs(field_names) do
+    res["fields"][i] = { name, field_types[i] }
   end
 
   return res
@@ -77,7 +111,9 @@ end
 ---@field start integer Line number where the declaration starts
 ---@field end_ integer Line number where the declaration ends
 ---@field indent integer Number of spaces/tabs in the current cursor line
----@field is_varstruct boolean Is struct declared as `var S struct{}` or `s := struct{}{}`
+---@field is_varstruct? boolean `true` for inline/var structs (`var x struct{}` / `x := struct{}{}`)
+---@field tparams? {decl:string?, args:string[]} Struct generic metadata (`decl` and identifier `args`)
+---@field fields table[] Parsed named struct fields as `{ {name, type}, ... }`
 
 ---@param bufnr integer
 ---@param parent_type string[]

@@ -59,6 +59,10 @@ gopher.comment = function()
 end
 
 ---@dochide
+gopher.new = function()
+  return require("gopher.new").new()
+end
+
 gopher.tags = {
   ---@param opts gopher.StructTagInput
   add = function(opts)

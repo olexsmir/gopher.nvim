@@ -204,6 +204,23 @@ vim.api.nvim_create_autocmd("PackChanged", {
   Additionally, `gopher.json2go` provides a Lua API; see `:h gopher.nvim-json2go` for details.
 </details>
 
+<details>
+  <summary>
+    <b>Generate constructors for structs</b>
+  </summary>
+
+  ![Generate constructors for structs](./vhs/new.gif)
+
+  Place the cursor on a struct and run:
+
+  ```vim
+  :GoNew
+  ```
+
+  This inserts a `NewTypeName(...)` constructor after the struct declaration.
+  See `:h gopher.nvim-new` for details.
+</details>
+
 
 <details>
   <summary>

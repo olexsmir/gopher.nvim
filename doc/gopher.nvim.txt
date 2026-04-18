@@ -16,6 +16,7 @@ Table of Contents
   json2go .............................................. |gopher.nvim-json2go|
   Auto implementation of interface methods ................ |gopher.nvim-impl|
   Generating unit tests boilerplate .................... |gopher.nvim-gotests|
+  Generate constructors for structs ........................ |gopher.nvim-new|
   Iferr .................................................. |gopher.nvim-iferr|
   Generate comments ................................... |gopher.nvim-comments|
 
@@ -272,6 +273,18 @@ See |gopher.nvim-config|.
 More details about templates: https://github.com/cweill/gotests
 
 If you prefer named tests, you can enable them in |gopher.nvim-config|.
+
+
+==============================================================================
+------------------------------------------------------------------------------
+                                                               *gopher.nvim-new*
+
+Generate constructors for structs
+
+Usage ~
+
+1. Place your cursor on struct name.
+2. Run `:GoNew` or `require("gopher.new").new()` if you prefer lua api.
 
 
 ==============================================================================

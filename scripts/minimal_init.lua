@@ -15,7 +15,7 @@ local function install_plug(plugin, branch)
     table.insert(cmd, "https://github.com/" .. plugin .. ".git")
     table.insert(cmd, package_root .. "/" .. name)
 
-    print("Installing " .. plugin)
+    vim.print("Installing " .. plugin)
     vim.system(cmd):wait()
   end
 end
