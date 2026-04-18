@@ -32,16 +32,22 @@ Usage ~
  require("gopher").setup {} -- use default config or replace {} with your own
 <
 Parameters ~
-{user_config} `(gopher.Config)` See |gopher.nvim-config|
+{user_config} `(optional)` `(gopher.Config)` See |gopher.nvim-config|
 
 ------------------------------------------------------------------------------
                                                       *gopher.nvim-dependencies*
-                             `gopher.install_deps`
+                         `gopher.install_deps`({opts})
 
-Gopher.nvim implements most of its features using third-party tools. To
-install plugin's dependencies, you can run:
+Gopher.nvim implements most of its features using third-party tools.
+
+Usage ~
+
+To install plugin's dependencies, you can run:
 `:GoInstallDeps` or `:GoInstallDepsSync`
 or use `require("gopher").install_deps()` if you prefer lua api.
+
+Parameters ~
+{opts} `(optional)` `({sync:boolean})`
 
 
 ==============================================================================

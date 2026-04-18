@@ -30,28 +30,35 @@ end
 ---@toc_entry Install dependencies
 ---@tag gopher.nvim-dependencies
 ---@text
---- Gopher.nvim implements most of its features using third-party tools. To
---- install plugin's dependencies, you can run:
+--- Gopher.nvim implements most of its features using third-party tools.
+---
+---@usage
+--- To install plugin's dependencies, you can run:
 --- `:GoInstallDeps` or `:GoInstallDepsSync`
 --- or use `require("gopher").install_deps()` if you prefer lua api.
+---
 ---@param opts? {sync:boolean}
 gopher.install_deps = function(opts)
   return require("gopher.installer").install_deps(opts)
 end
 
+---@dochide
 gopher.impl = function(...)
   return require("gopher.impl").impl(...)
 end
 
+---@dochide
 ---@param message? string Optional custom error message to use instead of config default
 gopher.iferr = function(message)
   return require("gopher.iferr").iferr(message)
 end
 
+---@dochide
 gopher.comment = function()
   return require("gopher.comment").comment()
 end
 
+---@dochide
 gopher.tags = {
   ---@param opts gopher.StructTagInput
   add = function(opts)
@@ -66,6 +73,7 @@ gopher.tags = {
   end,
 }
 
+---@dochide
 gopher.test = {
   add = function()
     return require("gopher.gotests").func_test()
@@ -78,21 +86,25 @@ gopher.test = {
   end,
 }
 
+---@dochide
 ---@param args string[]
 gopher.get = function(args)
   return require("gopher.go").get(args)
 end
 
+---@dochide
 ---@param args string[]
 gopher.mod = function(args)
   return require("gopher.go").mod(args)
 end
 
+---@dochide
 ---@param args string[]
 gopher.work = function(args)
   return require("gopher.go").work(args)
 end
 
+---@dochide
 ---@param args string[]
 gopher.generate = function(args)
   return require("gopher.go").generate(args)
