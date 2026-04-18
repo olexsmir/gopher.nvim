@@ -1,31 +1,28 @@
 local ts = {}
 local queries = {
   struct = [[
-    [(type_spec name: (type_identifier) @_name
-                type_parameters: (type_parameter_list
-                                   (type_parameter_declaration
-                                     (identifier) @_targ)*)? @_tparam
-                type: (struct_type
-                        (field_declaration_list) @_fields))
-     (var_declaration (var_spec
+    [(type_spec
+       name: (type_identifier) @_name
+       type_parameters: (type_parameter_list
+                          (type_parameter_declaration (identifier) @_targ)*)? @_tparam
+       type: (struct_type))
+      (var_declaration (var_spec
                         name: (identifier) @_name @_var
                         type: (struct_type)))
-     (var_declaration (var_spec
+      (var_declaration (var_spec
                         (identifier) @_name @_var
                         (expression_list (composite_literal
                                           type: (struct_type)))))
-     (short_var_declaration
+      (short_var_declaration
         left:  (expression_list (identifier) @_name @_var)
         right: (expression_list (composite_literal
-                                 type: (struct_type))))]
+                                 type: (struct_type))))
+      (field_declaration
+        name: (field_identifier) @_field_name
+        type: (_) @_field_type)]
   ]],
   struct_field = [[
     (field_declaration name: (field_identifier) @_name)
-  ]],
-  struct_fields = [[
-    (field_declaration
-      name: (field_identifier) @_field_name
-      type: (_) @_field_type)
   ]],
   func = [[
     [(function_declaration name: (identifier)       @_name)
@@ -66,64 +63,44 @@ local function get_parent_node(parent_type, node)
   return current
 end
 
----@class gopher.TsStructMeta
----@field is_varstruct boolean
----@field tparam? string
----@field type_args? string[]
----@field fields gopher.TsStructField[]
-
----@class gopher.TsStructField
----@field name string
----@field type string
-
 ---@param query vim.treesitter.Query
 ---@param node TSNode
 ---@param bufnr integer
----@return {name:string, str: gopher.TsStructMeta}
+---@return gopher.TsResult
 local function get_captures(query, node, bufnr)
   local res = {}
+  local field_names, field_types = {}, {}
   for id, _node in query:iter_captures(node, bufnr) do
     if query.captures[id] == "_name" then
       res["name"] = vim.treesitter.get_node_text(_node, bufnr)
     end
 
     if query.captures[id] == "_var" then
-      res["struct"] = res["struct"] or {}
-      res["struct"]["is_varstruct"] = true
+      res["is_varstruct"] = true
     end
 
     if query.captures[id] == "_tparam" then
-      res["struct"] = res["struct"] or {}
-      res["struct"]["tparam"] = vim.treesitter.get_node_text(_node, bufnr)
+      res["tparams"] = res["tparams"] or { decl = nil, args = {} }
+      res["tparams"]["decl"] = vim.treesitter.get_node_text(_node, bufnr)
     end
 
     if query.captures[id] == "_targ" then
-      res["struct"] = res["struct"] or {}
-      res["struct"]["type_args"] = res["struct"]["type_args"] or {}
-      table.insert(res["struct"]["type_args"], vim.treesitter.get_node_text(_node, bufnr))
+      res["tparams"] = res["tparams"] or { decl = nil, args = {} }
+      table.insert(res["tparams"]["args"], vim.treesitter.get_node_text(_node, bufnr))
     end
 
-    if query.captures[id] == "_fields" then
-      res["struct"] = res["struct"] or {}
-      res["struct"]["fields"] = {}
-
-      local struct_fields_q = vim.treesitter.query.parse("go", queries.struct_fields)
-      for _, match in struct_fields_q:iter_matches(_node, bufnr) do
-        local name, type_ = nil, nil
-        for field_id, _field_node in pairs(match) do
-          local field_node = type(_field_node) == "table" and _field_node[1] or _field_node
-          if struct_fields_q.captures[field_id] == "_field_name" then
-            name = vim.treesitter.get_node_text(field_node, bufnr)
-          elseif struct_fields_q.captures[field_id] == "_field_type" then
-            type_ = vim.treesitter.get_node_text(field_node, bufnr)
-          end
-        end
-
-        if name and type_ then
-          table.insert(res["struct"]["fields"], { name = name, type = type_ })
-        end
-      end
+    if query.captures[id] == "_field_name" then
+      table.insert(field_names, vim.treesitter.get_node_text(_node, bufnr))
     end
+
+    if query.captures[id] == "_field_type" then
+      table.insert(field_types, vim.treesitter.get_node_text(_node, bufnr))
+    end
+  end
+
+  res["fields"] = {}
+  for i, name in ipairs(field_names) do
+    res["fields"][i] = { name, field_types[i] }
   end
 
   return res
@@ -131,10 +108,12 @@ end
 
 ---@class gopher.TsResult
 ---@field name string Name of the struct, function, etc
----@field struct gopher.TsStructMeta|nil Struct info
 ---@field start integer Line number where the declaration starts
 ---@field end_ integer Line number where the declaration ends
 ---@field indent integer Number of spaces/tabs in the current cursor line
+---@field is_varstruct? boolean `true` for inline/var structs (`var x struct{}` / `x := struct{}{}`)
+---@field tparams? {decl:string?, args:string[]} Struct generic metadata (`decl` and identifier `args`)
+---@field fields table[] Parsed named struct fields as `{ {name, type}, ... }`
 
 ---@param bufnr integer
 ---@param parent_type string[]
@@ -187,16 +166,6 @@ end
 ---@param bufnr integer
 function ts.get_struct_field_under_cursor(bufnr)
   return do_stuff(bufnr, { "field_declaration" }, queries.struct_field)
-end
-
----@param bufnr integer
-function ts.get_struct_fields_under_cursor(bufnr)
-  return do_stuff(bufnr, {
-    "type_spec",
-    "type_declaration",
-    "var_declaration",
-    "short_var_declaration",
-  }, queries.struct)
 end
 
 ---@param bufnr integer

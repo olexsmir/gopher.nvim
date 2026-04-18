@@ -71,7 +71,7 @@ local function handle_tags(fpath, bufnr, range, user_args)
   }
 
   -- `-struct` and `-line` cannot be combined, setting them separately
-  if range or st.struct.is_varstruct then
+  if range or st.is_varstruct then
     table.insert(cmd, "-line")
     table.insert(cmd, string.format("%d,%d", (range or st).start, (range or st).end_))
   else
