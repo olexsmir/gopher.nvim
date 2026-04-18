@@ -8,13 +8,22 @@ local queries = {
      (var_declaration (var_spec
                         name: (identifier) @_name @_var
                         type: (struct_type)))
+     (var_declaration (var_spec
+                        (identifier) @_name @_var
+                        (expression_list (composite_literal
+                                          type: (struct_type)))))
      (short_var_declaration
-       left:  (expression_list (identifier) @_name @_var)
-       right: (expression_list (composite_literal
+        left:  (expression_list (identifier) @_name @_var)
+        right: (expression_list (composite_literal
                                  type: (struct_type))))]
   ]],
   struct_field = [[
     (field_declaration name: (field_identifier) @_name)
+  ]],
+  struct_fields = [[
+    (field_declaration
+      name: (field_identifier) @_field_name
+      type: (_) @_field_type)
   ]],
   func = [[
     [(function_declaration name: (identifier)       @_name)
@@ -57,8 +66,12 @@ end
 
 ---@class gopher.TsStructMeta
 ---@field is_varstruct boolean
----@field generics string List of type's type parameters
----@field fields table<string, string>
+---@field tparam? string
+---@field fields gopher.TsStructField[]
+
+---@class gopher.TsStructField
+---@field name string
+---@field type string
 
 ---@param query vim.treesitter.Query
 ---@param node TSNode
@@ -79,13 +92,28 @@ local function get_captures(query, node, bufnr)
     if query.captures[id] == "_tparam" then
       res["struct"] = res["struct"] or {}
       res["struct"]["tparam"] = vim.treesitter.get_node_text(_node, bufnr)
-      vim.print("T PARAM", res["struct"]["tparam"])
     end
 
     if query.captures[id] == "_fields" then
       res["struct"] = res["struct"] or {}
-      res["struct"]["fields"] = vim.treesitter.get_node_text(_node, bufnr)
-      vim.print("FIELDS", res["struct"]["fields"])
+      res["struct"]["fields"] = {}
+
+      local struct_fields_q = vim.treesitter.query.parse("go", queries.struct_fields)
+      for _, match in struct_fields_q:iter_matches(_node, bufnr) do
+        local name, type_ = nil, nil
+        for field_id, _field_node in pairs(match) do
+          local field_node = type(_field_node) == "table" and _field_node[1] or _field_node
+          if struct_fields_q.captures[field_id] == "_field_name" then
+            name = vim.treesitter.get_node_text(field_node, bufnr)
+          elseif struct_fields_q.captures[field_id] == "_field_type" then
+            type_ = vim.treesitter.get_node_text(field_node, bufnr)
+          end
+        end
+
+        if name and type_ then
+          table.insert(res["struct"]["fields"], { name = name, type = type_ })
+        end
+      end
     end
   end
 
@@ -148,7 +176,14 @@ function ts.get_struct_under_cursor(bufnr)
 end
 
 ---@param bufnr integer
-function ts.get_struct_field_under_cursor(bufnr)
+---@param opts? {from_struct:boolean}
+function ts.get_struct_field_under_cursor(bufnr, opts)
+  -- AI: this should be removed , all those ts.get_something functions are tin wrappers, and should not have any logic
+  -- in this case we can add ts.get_struct_fields_under_cursor
+  if opts and opts.from_struct then
+    return ts.get_struct_under_cursor(bufnr)
+  end
+
   return do_stuff(bufnr, { "field_declaration" }, queries.struct_field)
 end
 
