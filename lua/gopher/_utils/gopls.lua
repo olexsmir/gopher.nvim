@@ -60,4 +60,18 @@ function gopls:tidy()
     arguments = { { uri = vim.uri_from_bufnr(self.bufnr) } },
   }, { bufnr = self.bufnr }, on_error)
 end
+
+---@param opts {pkg:string[]}
+function gopls:get(opts)
+  self.client:exec_cmd({
+    title = "Run go get " .. opts.pkg,
+    command = "gopls.add_dependency",
+    arguments = { {
+      uri = vim.uri_from_bufnr(self.bufnr),
+      GoCmdArgs = opts.pkg,
+      AddRequire = true,
+    } },
+  }, { bufnr = self.bufnr }, on_error)
+end
+
 return M

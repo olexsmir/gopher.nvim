@@ -22,6 +22,12 @@ function go.get(args)
     table.insert(args, i, m)
   end
 
+  local gopls = require("gopher._utils.gopls").get_current()
+  if gopls then
+    gopls:get { pkg = args }
+    return
+  end
+
   run("get", args)
 end
 
