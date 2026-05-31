@@ -27,7 +27,11 @@ end
 
 ---@param args string[]
 function go.mod(args)
-  -- TODO: use `gopls.tidy`
+  local gopls = require("gopher._utils.gopls").get_current()
+  if gopls and args[1] == "tidy" then
+    gopls:tidy()
+    return
+  end
 
   run("mod", args)
 end

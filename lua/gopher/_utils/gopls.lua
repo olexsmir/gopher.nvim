@@ -53,4 +53,11 @@ function gopls:generate(opts)
   }, { bufnr = self.bufnr }, on_error)
 end
 
+function gopls:tidy()
+  self.client:exec_cmd({
+    title = "Run go mod tidy",
+    command = "gopls.tidy",
+    arguments = { { uri = vim.uri_from_bufnr(self.bufnr) } },
+  }, { bufnr = self.bufnr }, on_error)
+end
 return M
