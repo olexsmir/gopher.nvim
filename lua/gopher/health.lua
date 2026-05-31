@@ -2,7 +2,7 @@ local c = require "gopher.config"
 local health = {}
 
 local deps = {
-  vim_version = "nvim-0.10",
+  vim_version = "nvim-0.11",
   bin = {
     {
       bin = c.commands.go,
