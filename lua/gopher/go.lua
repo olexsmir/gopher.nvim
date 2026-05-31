@@ -27,31 +27,31 @@ end
 
 ---@param args string[]
 function go.mod(args)
+  -- TODO: use `gopls.tidy`
+
   run("mod", args)
 end
 
 ---@param args string[]
 function go.work(args)
-  -- TODO: use `gopls.tidy`
-
   run("work", args)
 end
 
----Executes `go generate`
----If only argument is `%` it's going to be equivalent to `go generate <path to current file>`
+-- Executes `go generate`.
+-- If no arguments provided, go generate will be run in cwd of current buffer.
+-- To run `go generate` recursively pass `./...` as it's argument.
 ---@param args string[]
 function go.generate(args)
-  -- TODO: use `gopls.generate`
+  local recursive = (#args == 1 and args[1] == "./...")
 
-  if #args == 0 then
-    error "please provide arguments"
+  local gopls = require("gopher._utils.gopls").get_current()
+  if gopls then
+    gopls:generate { recursive = recursive }
+    return
   end
 
-  if #args == 1 and args[1] == "%" then
-    args[1] = vim.fn.expand "%"
-  end
-
-  run("generate", args)
+  -- fallback to `go generate`
+  run("generate", recursive and "./..." or vim.fn.expand "%:p:h")
 end
 
 return go
