@@ -1,7 +1,3 @@
-local c = require "gopher.config"
-local r = require "gopher._utils.runner"
-local u = require "gopher._utils"
-local log = require "gopher._utils.log"
 local installer = {}
 
 local urls = {
@@ -15,6 +11,9 @@ local urls = {
 ---@param opt vim.SystemCompleted
 ---@param url string
 local function handle_intall_exit(opt, url)
+  local u = require "gopher._utils"
+  local log = require "gopher._utils.log"
+
   if opt.code ~= 0 then
     vim.schedule(function()
       u.notify("go install failed: " .. url)
@@ -31,6 +30,10 @@ end
 
 ---@param url string
 local function install(url)
+  local c = require "gopher.config"
+  local r = require "gopher._utils.runner"
+  local u = require "gopher._utils"
+
   vim.schedule(function()
     u.notify("go install-ing: " .. url)
   end)
@@ -42,6 +45,10 @@ end
 
 ---@param url string
 local function install_sync(url)
+  local c = require "gopher.config"
+  local r = require "gopher._utils.runner"
+  local u = require "gopher._utils"
+
   vim.schedule(function()
     u.notify("go install-ing: " .. url)
   end)

@@ -21,3 +21,6 @@ tasks:
 
   json2go:
     cmd: vhs json2go.tape
+
+  new:
+    cmd: vhs new.tape

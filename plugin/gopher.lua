@@ -33,6 +33,10 @@ cmd("GoCmt", function()
   require("gopher").comment()
 end)
 
+cmd("GoNew", function()
+  require("gopher").new()
+end)
+
 cmd("GoImpl", function(args)
   require("gopher").impl(unpack(args.fargs))
 end, "*")

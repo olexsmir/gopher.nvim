@@ -18,16 +18,16 @@
 ---
 --- If you prefer named tests, you can enable them in |gopher.nvim-config|.
 
-local c = require "gopher.config"
-local ts_utils = require "gopher._utils.ts"
-local r = require "gopher._utils.runner"
-local u = require "gopher._utils"
-local log = require "gopher._utils.log"
 local gotests = {}
 
 ---@param args table
 ---@dochide
 local function add_test(args)
+  local c = require "gopher.config"
+  local r = require "gopher._utils.runner"
+  local u = require "gopher._utils"
+  local log = require "gopher._utils.log"
+
   if c.gotests.named then
     table.insert(args, "-named")
   end
@@ -57,8 +57,10 @@ end
 
 -- generate unit test for one function
 function gotests.func_test()
+  local ts = require "gopher._utils.ts"
+
   local bufnr = vim.api.nvim_get_current_buf()
-  local func = ts_utils.get_func_under_cursor(bufnr)
+  local func = ts.get_func_under_cursor(bufnr)
 
   add_test { "-only", func.name }
 end

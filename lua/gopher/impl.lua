@@ -34,13 +34,14 @@
 ---    }
 --- <
 
-local c = require "gopher.config"
-local r = require "gopher._utils.runner"
-local ts_utils = require "gopher._utils.ts"
-local u = require "gopher._utils"
 local impl = {}
 
 function impl.impl(...)
+  local c = require "gopher.config"
+  local r = require "gopher._utils.runner"
+  local ts = require "gopher._utils.ts"
+  local u = require "gopher._utils"
+
   local args = { ... }
   local iface, recv = "", ""
   local bufnr = vim.api.nvim_get_current_buf()
@@ -50,12 +51,12 @@ function impl.impl(...)
     u.notify("arguments not provided. usage: :GoImpl f *File io.Reader", vim.log.levels.ERROR)
     return
   elseif #args == 1 then -- :GoImpl io.Reader
-    local st = ts_utils.get_struct_under_cursor(bufnr)
+    local st = ts.get_struct_under_cursor(bufnr)
     iface = args[1]
     recv = string.lower(st.name) .. " *" .. st.name
     append_after = st.end_
   elseif #args == 2 then -- :GoImpl w io.Writer
-    local st = ts_utils.get_struct_under_cursor(bufnr)
+    local st = ts.get_struct_under_cursor(bufnr)
     iface = args[2]
     recv = args[1] .. " *" .. st.name
     append_after = st.end_

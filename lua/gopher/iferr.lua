@@ -24,14 +24,15 @@
 ---    }
 ---
 
-local c = require "gopher.config"
-local u = require "gopher._utils"
-local r = require "gopher._utils.runner"
-local log = require "gopher._utils.log"
 local iferr = {}
 
 ---@param message? string Optional custom error message to use instead of config default
 function iferr.iferr(message)
+  local c = require "gopher.config"
+  local u = require "gopher._utils"
+  local r = require "gopher._utils.runner"
+  local log = require "gopher._utils.log"
+
   local curb = vim.fn.wordcount().cursor_bytes
   local pos = vim.fn.getcurpos()[2]
   local fpath = vim.fn.expand "%"

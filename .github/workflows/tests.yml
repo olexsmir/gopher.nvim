@@ -22,6 +22,12 @@ jobs:
           - v0.11.2
           - v0.11.3
           - v0.11.4
+          - v0.12.0
+          - v0.12.1
+          - v0.12.2
+          - v0.12.3
+          - v0.12.4
+          - v0.12.5
     runs-on: ${{ matrix.os }}
     steps:
       - name: Install Task
@@ -51,7 +57,7 @@ jobs:
             ${{ github.workspace }}/.tests
             ~/.cache/go-build
             ~/go/pkg/mod
-          key: ${{ runner.os }}-tests-${{ hashFiles('${{ github.workspace }}/.tests') }}
+          key: ${{ runner.os }}-tests-${{ matrix.version }}-${{ hashFiles('scripts/minimal_init.lua', 'Taskfile.yml') }}
 
       - name: Install Go bins
         run: task install-deps

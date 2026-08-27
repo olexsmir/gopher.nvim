@@ -35,11 +35,6 @@
 ---    }
 --- <
 
-local ts = require "gopher._utils.ts"
-local r = require "gopher._utils.runner"
-local c = require "gopher.config"
-local u = require "gopher._utils"
-local log = require "gopher._utils.log"
 local struct_tags = {}
 
 ---@dochide
@@ -58,6 +53,12 @@ local struct_tags = {}
 ---@param user_args string[]
 ---@dochide
 local function handle_tags(fpath, bufnr, range, user_args)
+  local c = require "gopher.config"
+  local u = require "gopher._utils"
+  local log = require "gopher._utils.log"
+  local r = require "gopher._utils.runner"
+  local ts = require "gopher._utils.ts"
+
   local st = ts.get_struct_under_cursor(bufnr)
 
   -- stylua: ignore
@@ -134,6 +135,8 @@ end
 ---@param args string[]
 ---@return gopher.StructTagsArgs
 function struct_tags.parse_args(args)
+  local u = require "gopher._utils"
+
   args = unwrap_if_needed(args)
 
   local tags, options = {}, {}
@@ -156,6 +159,9 @@ end
 ---@param opts gopher.StructTagInput
 ---@dochide
 function struct_tags.add(opts)
+  local c = require "gopher.config"
+  local log = require "gopher._utils.log"
+
   log.debug("adding tags", opts)
 
   local fpath = vim.fn.expand "%"
@@ -174,6 +180,9 @@ end
 ---@dochide
 ---@param opts gopher.StructTagInput
 function struct_tags.remove(opts)
+  local c = require "gopher.config"
+  local log = require "gopher._utils.log"
+
   log.debug("removing tags", opts)
 
   local fpath = vim.fn.expand "%"
